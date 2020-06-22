@@ -15,7 +15,6 @@
     ResizeMode="NoResize"
     ShowInTaskbar="False"
     Visibility="Visible"
-    WindowState="Minimized"
     WindowStyle="None"
     mc:Ignorable="d">
     <Window.Resources>
