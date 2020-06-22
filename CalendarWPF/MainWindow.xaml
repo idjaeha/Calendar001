@@ -1,0 +1,168 @@
+﻿<Window
+    x:Class="CalendarWPF.MainWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:System="clr-namespace:System;assembly=mscorlib"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:CalendarWPF"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    Width="800"
+    Height="600"
+    AllowsTransparency="True"
+    Background="Transparent"
+    Loaded="Window_Loaded"
+    MouseLeftButtonDown="Window_MouseLeftDown"
+    ResizeMode="NoResize"
+    ShowInTaskbar="False"
+    Visibility="Visible"
+    WindowState="Minimized"
+    WindowStyle="None"
+    mc:Ignorable="d">
+    <Window.Resources>
+        <System:String x:Key="Label_Month">Month</System:String>
+        <System:String x:Key="TextBox_Monday">월</System:String>
+        <System:String x:Key="TextBox_Tueday">월</System:String>
+        <System:String x:Key="TextBox_WedDay">수</System:String>
+        <System:String x:Key="TextBox_TueDay">화</System:String>
+        <System:String x:Key="TextBox_MonDay">월</System:String>
+        <System:String x:Key="TextBox_ThuDay">목</System:String>
+        <System:String x:Key="TextBox_FriDay">금</System:String>
+        <System:String x:Key="TextBox_SatDay">토</System:String>
+        <System:String x:Key="TextBox_SunDay">일</System:String>
+    </Window.Resources>
+    <Canvas
+        Width="800"
+        Height="600"
+        HorizontalAlignment="Left"
+        VerticalAlignment="Top">
+        <Canvas Width="800" Height="100">
+            <Canvas
+                Canvas.Left="0"
+                Canvas.Top="0"
+                Width="790"
+                Height="90"
+                Margin="5"
+                Background="#7F000000">
+                <Label
+                    Canvas.Left="0"
+                    Canvas.Top="0"
+                    Margin="0"
+                    Content="{DynamicResource Label_Month}"
+                    Foreground="White" />
+            </Canvas>
+        </Canvas>
+        <Canvas
+            Canvas.Top="100"
+            Width="800"
+            Height="500">
+            <Canvas
+                Canvas.Left="0"
+                Canvas.Top="0"
+                Width="790"
+                Height="490"
+                Margin="5"
+                Background="#7F000000">
+                <Grid
+                    Canvas.Left="0"
+                    Canvas.Top="50"
+                    Width="790"
+                    Height="440">
+                    <Grid.RowDefinitions>
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                        <ColumnDefinition Focusable="True" ForceCursor="True" />
+                    </Grid.ColumnDefinitions>
+                </Grid>
+                <Grid
+                    Canvas.Left="0"
+                    Canvas.Top="0"
+                    Width="790"
+                    Height="50">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock
+                        Grid.Column="1"
+                        Margin="0"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Top"
+                        FontSize="20"
+                        Foreground="White"
+                        Text="{DynamicResource TextBox_MonDay}"
+                        TextWrapping="Wrap" />
+                    <TextBlock
+                        Grid.Column="2"
+                        Margin="0"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Top"
+                        FontSize="20"
+                        Foreground="White"
+                        Text="{DynamicResource TextBox_TueDay}"
+                        TextWrapping="Wrap" />
+                    <TextBlock
+                        Grid.Column="3"
+                        Margin="0"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Top"
+                        FontSize="20"
+                        Foreground="White"
+                        Text="{DynamicResource TextBox_WedDay}"
+                        TextWrapping="Wrap" />
+                    <TextBlock
+                        Grid.Column="4"
+                        Margin="0"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Top"
+                        FontSize="20"
+                        Foreground="White"
+                        Text="{DynamicResource TextBox_ThuDay}"
+                        TextWrapping="Wrap" />
+                    <TextBlock
+                        Grid.Column="5"
+                        Margin="0"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Top"
+                        FontSize="20"
+                        Foreground="White"
+                        Text="{DynamicResource TextBox_FriDay}"
+                        TextWrapping="Wrap" />
+                    <TextBlock
+                        Grid.Column="6"
+                        Margin="0"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Top"
+                        FontSize="20"
+                        Foreground="#FF0013A9"
+                        Text="{DynamicResource TextBox_SatDay}"
+                        TextWrapping="Wrap" />
+                    <TextBlock
+                        Grid.Column="0"
+                        Margin="0"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Top"
+                        FontSize="20"
+                        Foreground="#FFB10303"
+                        Text="{DynamicResource TextBox_SunDay}"
+                        TextWrapping="Wrap" />
+                </Grid>
+            </Canvas>
+        </Canvas>
+    </Canvas>
+</Window>
