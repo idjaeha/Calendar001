@@ -28,6 +28,7 @@
         <System:String x:Key="TextBox_FriDay">금</System:String>
         <System:String x:Key="TextBox_SatDay">토</System:String>
         <System:String x:Key="TextBox_SunDay">일</System:String>
+        <SolidColorBrush x:Key="BackgroundColor" Color="#7F000000"/>
     </Window.Resources>
     <Canvas
         Width="800"
@@ -41,13 +42,14 @@
                 Width="790"
                 Height="90"
                 Margin="5"
-                Background="#7F000000">
+                Background="{DynamicResource BackgroundColor}" Focusable="True">
                 <Label
                     Canvas.Left="0"
                     Canvas.Top="0"
                     Margin="0"
                     Content="{DynamicResource Label_Month}"
                     Foreground="White" />
+                <Button Content="Button" Canvas.Left="691" Canvas.Top="11" Width="75" Click="AddDay"/>
             </Canvas>
         </Canvas>
         <Canvas
@@ -60,12 +62,12 @@
                 Width="790"
                 Height="490"
                 Margin="5"
-                Background="#7F000000">
-                <Grid
+                Background="{DynamicResource BackgroundColor}" Focusable="True">
+                <Grid x:Name="Calendar_Days"
                     Canvas.Left="0"
                     Canvas.Top="50"
                     Width="790"
-                    Height="440">
+                    Height="440" Focusable="True">
                     <Grid.RowDefinitions>
                         <RowDefinition />
                         <RowDefinition />
@@ -161,6 +163,14 @@
                         Text="{DynamicResource TextBox_SunDay}"
                         TextWrapping="Wrap" />
                 </Grid>
+                <RichTextBox Height="100" Canvas.Left="375" Canvas.Top="228" Width="100">
+                    <FlowDocument>
+                        <Paragraph>
+                            <Run Text="RichTextBox"/>
+                        </Paragraph>
+                    </FlowDocument>
+                </RichTextBox>
+
             </Canvas>
         </Canvas>
     </Canvas>

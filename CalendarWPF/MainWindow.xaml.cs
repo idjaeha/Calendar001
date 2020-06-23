@@ -30,6 +30,7 @@ namespace CalendarWPF
         private System.Windows.Forms.ContextMenu menu;
         private bool canDrag;
         private List<MenuItemWithID> menuItems;
+        private int cnt;
 
         public MainWindow()
         {
@@ -39,6 +40,7 @@ namespace CalendarWPF
             canDrag = false;
             SelectCulture("ko-KR");
             menuItems = new List<MenuItemWithID>();
+            cnt = 0;
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
@@ -163,11 +165,81 @@ namespace CalendarWPF
             }
         }
 
-        public class MenuItemWithID : System.Windows.Forms.MenuItem
+        private class MenuItemWithID : System.Windows.Forms.MenuItem
         {
             public string ID { get; set; }
             public MenuItemWithID() : base() { }
         }
+
+        private class TempDaysItem : Canvas
+        {
+            private System.Windows.Controls.RichTextBox editBox;
+            private string innerText;
+            public TempDaysItem() : base()
+            {
+                //InitButton();
+                this.Width = 100;
+                this.Height = 100;
+                this.Background = new SolidColorBrush(Colors.Black);
+                this.Background.Opacity = 0;
+                this.MouseDown += Canvas_MouseDown;
+                editBox = new System.Windows.Controls.RichTextBox();
+                //editBox.Visibility = Visibility.Hidden;
+                editBox.Foreground = new SolidColorBrush(Colors.White);
+                editBox.Background = new SolidColorBrush(Colors.Black);
+                //editBox.Background.Opacity = 0;
+                editBox.BorderBrush = new SolidColorBrush(Colors.Black);
+                //editBox.BorderBrush.Opacity = 0;
+                this.Children.Add(editBox);
+            }
+
+            private void doubleClick()
+            {
+                editBox.Visibility = Visibility.Visible;
+                editBox.Focus();
+            }
+
+            private void InitButton()
+            {
+                //this.Foreground = new SolidColorBrush(Colors.White);
+                //this.Background = new SolidColorBrush(Colors.Black);
+                //this.Background.Opacity = 0;
+                //this.BorderBrush = new SolidColorBrush(Colors.Black);
+                //this.BorderBrush.Opacity = 0;
+            }
+
+            private void Canvas_MouseDown(object sender, MouseButtonEventArgs e)
+            {
+                if (e.ChangedButton == MouseButton.Left && e.ClickCount == 2)
+                {
+                    doubleClick();
+                }
+            }
+        }
+
+
+        private void AddDay(object sender, RoutedEventArgs e)
+        {
+            TempDaysItem tempDaysItem = new TempDaysItem();
+
+            Grid.SetColumnSpan(tempDaysItem, 1);
+            Grid.SetRow(tempDaysItem, cnt / 7);
+            Grid.SetColumn(tempDaysItem, cnt % 7);
+            cnt++;
+            Calendar_Days.Children.Add(tempDaysItem);
+        }
+
+        // 기능
+        // 1. 날짜를 클릭하면 메모를 할 수 있다.
+        // 2. 오늘 날짜를 하이라이팅한다,
+        // 3. 날짜를 확인할 수 있다.
+        // 4. 로컬 저장소에 메모를 저장한다.
+        // 5. 배경화면 색을 변경 할 수 있다.
+
+
+        // 메모 기능
+        // --> 더블 클릭을 하면 해당 박스가 켜진다.
+        // --> 
 
     }
 
