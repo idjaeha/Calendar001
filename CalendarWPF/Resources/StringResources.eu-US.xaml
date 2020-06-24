@@ -5,7 +5,7 @@
     xmlns:system="clr-namespace:System;assembly=mscorlib">
     <system:String x:Key="Greeting">Hello</system:String>
     <system:String x:Key="ProgramExit">Program Exit</system:String>
-    <system:String x:Key="ProgramSetting">Program Setting</system:String>
+    <system:String x:Key="ProgramHiding">Program Hide</system:String>
     <system:String x:Key="Dragging">Dragging</system:String>
     <system:String x:Key="noDragging">no Dragging</system:String>
     <system:String x:Key="ChangeKorean">Change Korean</system:String>

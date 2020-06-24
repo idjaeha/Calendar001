@@ -73,12 +73,19 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Controls\DailyMemo.xaml.cs">
+      <DependentUpon>DailyMemo.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Src\Calendar.cs" />
     <Compile Include="Src\Day.cs" />
     <Compile Include="Src\Memo.cs" />
     <Compile Include="TestPage.xaml.cs">
       <DependentUpon>TestPage.xaml</DependentUpon>
     </Compile>
+    <Page Include="Controls\DailyMemo.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
