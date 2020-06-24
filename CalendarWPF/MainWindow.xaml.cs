@@ -171,62 +171,15 @@ namespace CalendarWPF
             public MenuItemWithID() : base() { }
         }
 
-        private class TempDaysItem : Canvas
-        {
-            private System.Windows.Controls.RichTextBox editBox;
-            private string innerText;
-            public TempDaysItem() : base()
-            {
-                //InitButton();
-                this.Width = 100;
-                this.Height = 100;
-                this.Background = new SolidColorBrush(Colors.Black);
-                this.Background.Opacity = 0;
-                this.MouseDown += Canvas_MouseDown;
-                editBox = new System.Windows.Controls.RichTextBox();
-                //editBox.Visibility = Visibility.Hidden;
-                editBox.Foreground = new SolidColorBrush(Colors.White);
-                editBox.Background = new SolidColorBrush(Colors.Black);
-                //editBox.Background.Opacity = 0;
-                editBox.BorderBrush = new SolidColorBrush(Colors.Black);
-                //editBox.BorderBrush.Opacity = 0;
-                this.Children.Add(editBox);
-            }
-
-            private void doubleClick()
-            {
-                editBox.Visibility = Visibility.Visible;
-                editBox.Focus();
-            }
-
-            private void InitButton()
-            {
-                //this.Foreground = new SolidColorBrush(Colors.White);
-                //this.Background = new SolidColorBrush(Colors.Black);
-                //this.Background.Opacity = 0;
-                //this.BorderBrush = new SolidColorBrush(Colors.Black);
-                //this.BorderBrush.Opacity = 0;
-            }
-
-            private void Canvas_MouseDown(object sender, MouseButtonEventArgs e)
-            {
-                if (e.ChangedButton == MouseButton.Left && e.ClickCount == 2)
-                {
-                    doubleClick();
-                }
-            }
-        }
-
-
         private void AddDay(object sender, RoutedEventArgs e)
         {
-            TempDaysItem tempDaysItem = new TempDaysItem();
+            Days newDaysItem = new Days();
 
-            Grid.SetColumnSpan(tempDaysItem, 1);
-            Grid.SetRow(tempDaysItem, cnt / 7);
-            Grid.SetColumn(tempDaysItem, cnt % 7);
+            Grid.SetColumnSpan(newDaysItem, 1);
+            Grid.SetRow(newDaysItem, cnt / 7);
+            Grid.SetColumn(newDaysItem, cnt % 7);
             cnt++;
-            Calendar_Days.Children.Add(tempDaysItem);
+            Calendar_Days.Children.Add(newDaysItem);
         }
 
         // 기능
