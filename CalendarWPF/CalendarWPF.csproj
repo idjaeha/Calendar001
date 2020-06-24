@@ -73,8 +73,8 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Controls\Days.xaml.cs">
-      <DependentUpon>Days.xaml</DependentUpon>
+    <Compile Include="Controls\DailyMemo.xaml.cs">
+      <DependentUpon>DailyMemo.xaml</DependentUpon>
     </Compile>
     <Compile Include="Src\Calendar.cs" />
     <Compile Include="Src\Day.cs" />
@@ -82,7 +82,7 @@
     <Compile Include="TestPage.xaml.cs">
       <DependentUpon>TestPage.xaml</DependentUpon>
     </Compile>
-    <Page Include="Controls\Days.xaml">
+    <Page Include="Controls\DailyMemo.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -16,19 +16,26 @@ using System.Windows.Shapes;
 namespace CalendarWPF
 {
     /// <summary>
-    /// Days.xaml에 대한 상호 작용 논리
+    /// DailyMemo.xaml에 대한 상호 작용 논리
     /// </summary>
-    public partial class Days : UserControl
+    public partial class DailyMemo : UserControl
     {
-        public Days()
+        private DateTime date;
+        public DailyMemo()
         {
             InitializeComponent();
             ChangeShowMode();
         }
 
+        public DailyMemo(int year, int month, int day) : this()
+        {
+            date = new DateTime(year, month, day);
+            TextBlock_day.Text = day.ToString();
+        }
+
         private void doubleClick()
         {
-            textBox_EditText.Text = textBlock_ShowText.Text;
+            TextBox_EditText.Text = TextBlock_ShowText.Text;
             ChangeEditMode();
         }
 
@@ -48,21 +55,32 @@ namespace CalendarWPF
 
         private void SaveText()
         {
-            textBlock_ShowText.Text = textBox_EditText.Text;
+            TextBlock_ShowText.Text = TextBox_EditText.Text;
             ChangeShowMode();
         }
 
         private void ChangeEditMode()
         {
-            canvas_EditText.Visibility = Visibility.Visible;
-            canvas_ShowText.Visibility = Visibility.Hidden;
+            Canvas_EditText.Visibility = Visibility.Visible;
+            Canvas_ShowText.Visibility = Visibility.Hidden;
+            Canvas_EditText.Focus();
         }
 
         private void ChangeShowMode()
         {
-            canvas_EditText.Visibility = Visibility.Hidden;
-            canvas_ShowText.Visibility = Visibility.Visible;
+            Canvas_EditText.Visibility = Visibility.Hidden;
+            Canvas_ShowText.Visibility = Visibility.Visible;
         }
 
+        private void Canvas_MouseEnterMemo(object sender, MouseEventArgs e)
+        {
+            ((Canvas)sender).Background = new SolidColorBrush(Colors.AliceBlue);
+            ((Canvas)sender).Background.Opacity = 0.2;
+        }
+
+        private void Canvas_MouseLeaveMemo(object sender, MouseEventArgs e)
+        {
+            ((Canvas)sender).Background.Opacity = 0.0;
+        }
     }
 }

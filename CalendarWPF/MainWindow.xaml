@@ -8,12 +8,12 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     Width="800"
     Height="600"
-    AllowsTransparency="True"
     Background="Transparent"
     Loaded="Window_Loaded"
     MouseLeftButtonDown="Window_MouseLeftDown"
     ResizeMode="NoResize"
     ShowInTaskbar="False"
+    Topmost="True"
     Visibility="Visible"
     WindowStyle="None"
     mc:Ignorable="d">
@@ -28,7 +28,7 @@
         <System:String x:Key="TextBox_FriDay">금</System:String>
         <System:String x:Key="TextBox_SatDay">토</System:String>
         <System:String x:Key="TextBox_SunDay">일</System:String>
-        <SolidColorBrush x:Key="BackgroundColor" Color="#7F000000" />
+        <SolidColorBrush x:Key="BackgroundColor" Color="#CC000000" />
     </Window.Resources>
     <Canvas
         Width="800"
@@ -45,17 +45,46 @@
                 Background="{DynamicResource BackgroundColor}"
                 Focusable="True">
                 <Label
-                    Canvas.Left="0"
-                    Canvas.Top="0"
+                    x:Name="Label_Year"
+                    Canvas.Left="80"
+                    Canvas.Top="45"
                     Margin="0"
-                    Content="{DynamicResource Label_Month}"
+                    Content="2020"
+                    FontSize="14"
                     Foreground="White" />
                 <Button
-                    Canvas.Left="691"
+                    Canvas.Left="705"
+                    Canvas.Top="10"
+                    Width="75"
+                    Background="{x:Null}"
+                    Click="Button_ClickNextMonth"
+                    Content="Next"
+                    Foreground="White" />
+                <Button
+                    Canvas.Left="625"
                     Canvas.Top="11"
                     Width="75"
-                    Click="AddDay"
-                    Content="Button" />
+                    Background="{x:Null}"
+                    Click="Button_ClickPrevMonth"
+                    Content="Prev"
+                    Foreground="White" />
+                <Label
+                    x:Name="Label_Today"
+                    Canvas.Left="705"
+                    Canvas.Top="48"
+                    Width="75"
+                    Content="2020-00-00"
+                    Foreground="White" />
+                <Label
+                    x:Name="Label_Month"
+                    Canvas.Left="14"
+                    Canvas.Top="8"
+                    Width="61"
+                    Content="1"
+                    FlowDirection="RightToLeft"
+                    FontSize="48"
+                    FontWeight="Bold"
+                    Foreground="White" />
             </Canvas>
         </Canvas>
         <Canvas
@@ -91,7 +120,7 @@
                         <ColumnDefinition />
                         <ColumnDefinition />
                         <ColumnDefinition />
-                        <ColumnDefinition Focusable="True" ForceCursor="True" />
+                        <ColumnDefinition />
                     </Grid.ColumnDefinitions>
                 </Grid>
                 <Grid
@@ -110,7 +139,7 @@
                     </Grid.ColumnDefinitions>
                     <TextBlock
                         Grid.Column="1"
-                        Margin="0"
+                        Margin="10,10,0,0"
                         HorizontalAlignment="Left"
                         VerticalAlignment="Top"
                         FontSize="20"
@@ -119,7 +148,7 @@
                         TextWrapping="Wrap" />
                     <TextBlock
                         Grid.Column="2"
-                        Margin="0"
+                        Margin="10,10,0,0"
                         HorizontalAlignment="Left"
                         VerticalAlignment="Top"
                         FontSize="20"
@@ -128,7 +157,7 @@
                         TextWrapping="Wrap" />
                     <TextBlock
                         Grid.Column="3"
-                        Margin="0"
+                        Margin="10,10,0,0"
                         HorizontalAlignment="Left"
                         VerticalAlignment="Top"
                         FontSize="20"
@@ -137,7 +166,7 @@
                         TextWrapping="Wrap" />
                     <TextBlock
                         Grid.Column="4"
-                        Margin="0"
+                        Margin="10,10,0,0"
                         HorizontalAlignment="Left"
                         VerticalAlignment="Top"
                         FontSize="20"
@@ -146,7 +175,7 @@
                         TextWrapping="Wrap" />
                     <TextBlock
                         Grid.Column="5"
-                        Margin="0"
+                        Margin="10,10,0,0"
                         HorizontalAlignment="Left"
                         VerticalAlignment="Top"
                         FontSize="20"
@@ -155,16 +184,16 @@
                         TextWrapping="Wrap" />
                     <TextBlock
                         Grid.Column="6"
-                        Margin="0"
+                        Margin="10,10,0,0"
                         HorizontalAlignment="Left"
                         VerticalAlignment="Top"
                         FontSize="20"
-                        Foreground="#FF0013A9"
+                        Foreground="#FF001DFF"
                         Text="{DynamicResource TextBox_SatDay}"
                         TextWrapping="Wrap" />
                     <TextBlock
                         Grid.Column="0"
-                        Margin="0"
+                        Margin="10,10,0,0"
                         HorizontalAlignment="Left"
                         VerticalAlignment="Top"
                         FontSize="20"
