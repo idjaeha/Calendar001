@@ -18,6 +18,7 @@ using System.Diagnostics.Tracing;
 using System.ComponentModel;
 using System.Threading;
 using System.Globalization;
+using CalendarWPF.Src;
 
 namespace CalendarWPF
 {
@@ -31,7 +32,6 @@ namespace CalendarWPF
         private bool canDrag;
         private List<MenuItemWithID> menuItems;
         private List<DailyMemo> dayItems;
-        private int cnt;
         private DateTime now;
         private int selectedYear;
         private int selectedMonth;
@@ -39,27 +39,49 @@ namespace CalendarWPF
 
         public MainWindow()
         {
+            InitData();
             InitializeComponent();
-            InitWindow();
             LoadMonth(selectedYear, selectedMonth);
         }
 
-        private void InitWindow()
+        #region Initialized
+        private void InitData()
         {
-            canDrag = false;
             SelectCulture("ko-KR");
-            menuItems = new List<MenuItemWithID>();
-            dayItems = new List<DailyMemo>();
-            this.AllowsTransparency = true;
-            cnt = 0;
+            canDrag = false;
+
             now = DateTime.Now;
+
             selectedMonth = now.Month;
             selectedYear = now.Year;
-            numberOfDays = new int[13] {0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };
+
+            menuItems = new List<MenuItemWithID>();
+            dayItems = new List<DailyMemo>();
+
+            numberOfDays = new int[13] { 0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };
+        }
+
+        private void Window_Initialized(object sender, EventArgs e)
+        {
+            this.AllowsTransparency = true;
+        }
+
+        private void Label_Year_Initialized(object sender, EventArgs e)
+        {
             Label_Year.Content = $"{selectedYear}";
+        }
+
+        private void Label_Month_Initialized(object sender, EventArgs e)
+        {
             Label_Month.Content = $"{selectedMonth}";
+        }
+
+        private void Label_Today_Initialized(object sender, EventArgs e)
+        {
             Label_Today.Content = $"{now.Year}. {now.Month}. {now.Day}";
         }
+
+        #endregion
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
@@ -138,6 +160,8 @@ namespace CalendarWPF
             this.Show();
             this.WindowState = WindowState.Normal;
             this.Visibility = Visibility.Visible;
+            this.Topmost = true;
+            this.Topmost = false;
         }
 
         protected void HideProgram()
@@ -148,9 +172,9 @@ namespace CalendarWPF
 
         private void Window_MouseLeftDown(object sender, MouseButtonEventArgs e)
         {
+            //드래그가 가능할 때, 드래그 합니다.
             if (canDrag)
             {
-                //드래그가 가능할 때, 드래그 합니다.
                 this.DragMove();
             }
         }
@@ -198,14 +222,14 @@ namespace CalendarWPF
             public MenuItemWithID() : base() { }
         }
 
-        private void LoadDay(int day)
+        private void LoadDay(int day, int idx, string memo)
         {
             DailyMemo newDaysItem = new DailyMemo(selectedYear, selectedMonth, day);
+            newDaysItem.SetMemo(memo);
             dayItems.Add(newDaysItem);
             Grid.SetColumnSpan(newDaysItem, 1);
-            Grid.SetRow(newDaysItem, cnt / 7);
-            Grid.SetColumn(newDaysItem, cnt % 7);
-            cnt++;
+            Grid.SetRow(newDaysItem, idx / 7);
+            Grid.SetColumn(newDaysItem, idx % 7);
             Calendar_Days.Children.Add(newDaysItem);
         }
 
@@ -239,24 +263,38 @@ namespace CalendarWPF
 
         private void LoadMonth(int year, int month)
         {
-            DateTime firstDayOfMonth = new DateTime(selectedYear, selectedMonth, 1);
-            cnt = (int)firstDayOfMonth.DayOfWeek;
-            int countDays = numberOfDays[selectedMonth];
-            countDays += selectedMonth == 2 && selectedYear % 4 == 0 ? 1 : 0;
+            // 인자로 받은 년, 월에 맞게 달을 불러옵니다.
+            DateTime firstDayOfMonth = new DateTime(year, month, 1);
+            int idx = (int)firstDayOfMonth.DayOfWeek;
+            int countDays = numberOfDays[month];
+            Dictionary<DateTime, Memo> loadedMemos = MemoManager.Instance.GetMemos(year, month);
+
+            countDays += month == 2 && year % 4 == 0 ? 1 : 0;
+
             for(int day = 1; day <= countDays; day++)
             {
-                LoadDay(day);
+                string memo = "";
+                DateTime currentDate = new DateTime(year, month, day);
+                if (loadedMemos.ContainsKey(currentDate))
+                {
+                    memo = loadedMemos[currentDate].Content.ToString();
+                }
+                LoadDay(day, idx, memo);
+                idx++;
             }
         }
 
         private void CleanCalendar()
         {
+            // Calendar에 존재하는 날짜 관련 컨트롤을 삭제합니다.
             foreach(DailyMemo days in dayItems)
             {
                 Calendar_Days.Children.Remove(days);
             }
             dayItems.Clear();
         }
+
+
 
         // 해당 개발은 해야할 것들을 표기한 것이고, 순서는 의미가 없다.
         // 개발 1 : 로컬 저장소에 메모를 저장, 불러오기

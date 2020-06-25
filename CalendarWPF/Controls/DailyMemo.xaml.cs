@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CalendarWPF.Src;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -21,6 +22,7 @@ namespace CalendarWPF
     public partial class DailyMemo : UserControl
     {
         private DateTime date;
+        private string memo;
         public DailyMemo()
         {
             InitializeComponent();
@@ -33,9 +35,15 @@ namespace CalendarWPF
             TextBlock_day.Text = day.ToString();
         }
 
+        public void SetMemo(string text)
+        {
+            memo = text;
+            TextBlock_ShowText.Text = memo;
+        }
+
         private void doubleClick()
         {
-            TextBox_EditText.Text = TextBlock_ShowText.Text;
+            TextBox_EditText.Text = memo;
             ChangeEditMode();
         }
 
@@ -55,7 +63,9 @@ namespace CalendarWPF
 
         private void SaveText()
         {
-            TextBlock_ShowText.Text = TextBox_EditText.Text;
+            memo = TextBox_EditText.Text;
+            TextBlock_ShowText.Text = memo;
+            MemoManager.Instance.AddMemos(date, memo);
             ChangeShowMode();
         }
 
@@ -63,7 +73,7 @@ namespace CalendarWPF
         {
             Canvas_EditText.Visibility = Visibility.Visible;
             Canvas_ShowText.Visibility = Visibility.Hidden;
-            Canvas_EditText.Focus();
+            Panel.SetZIndex(TextBox_EditText, 10);
         }
 
         private void ChangeShowMode()
@@ -80,7 +90,13 @@ namespace CalendarWPF
 
         private void Canvas_MouseLeaveMemo(object sender, MouseEventArgs e)
         {
-            ((Canvas)sender).Background.Opacity = 0.0;
+            ((Canvas)sender).Background = new SolidColorBrush(Colors.Black);
+            ((Canvas)sender).Background.Opacity = 0.8;
+        }
+
+        private void TextBox_EditText_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
+        {
+            ((TextBox)sender).Focus();
         }
     }
 }

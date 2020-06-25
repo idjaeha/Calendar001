@@ -76,9 +76,8 @@
     <Compile Include="Controls\DailyMemo.xaml.cs">
       <DependentUpon>DailyMemo.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Src\Calendar.cs" />
-    <Compile Include="Src\Day.cs" />
-    <Compile Include="Src\Memo.cs" />
+    <Compile Include="Model\Memo.cs" />
+    <Compile Include="Controller\MemoManager.cs" />
     <Compile Include="TestPage.xaml.cs">
       <DependentUpon>TestPage.xaml</DependentUpon>
     </Compile>

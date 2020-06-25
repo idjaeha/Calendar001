@@ -7,28 +7,27 @@
     xmlns:local="clr-namespace:CalendarWPF"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     Width="800"
-    Height="600"
+    Height="800"
     Background="Transparent"
+    Initialized="Window_Initialized"
     Loaded="Window_Loaded"
     MouseLeftButtonDown="Window_MouseLeftDown"
     ResizeMode="NoResize"
     ShowInTaskbar="False"
-    Topmost="True"
     Visibility="Visible"
     WindowStyle="None"
     mc:Ignorable="d">
     <Window.Resources>
         <System:String x:Key="Label_Month">Month</System:String>
-        <System:String x:Key="TextBox_Monday">월</System:String>
-        <System:String x:Key="TextBox_Tueday">월</System:String>
-        <System:String x:Key="TextBox_WedDay">수</System:String>
-        <System:String x:Key="TextBox_TueDay">화</System:String>
         <System:String x:Key="TextBox_MonDay">월</System:String>
+        <System:String x:Key="TextBox_TueDay">화</System:String>
+        <System:String x:Key="TextBox_WedDay">수</System:String>
         <System:String x:Key="TextBox_ThuDay">목</System:String>
         <System:String x:Key="TextBox_FriDay">금</System:String>
         <System:String x:Key="TextBox_SatDay">토</System:String>
         <System:String x:Key="TextBox_SunDay">일</System:String>
         <SolidColorBrush x:Key="BackgroundColor" Color="#CC000000" />
+        <Thickness x:Key="GlobalThickness">2</Thickness>
     </Window.Resources>
     <Canvas
         Width="800"
@@ -39,9 +38,9 @@
             <Canvas
                 Canvas.Left="0"
                 Canvas.Top="0"
-                Width="790"
-                Height="90"
-                Margin="5"
+                Width="796"
+                Height="96"
+                Margin="{DynamicResource GlobalThickness}"
                 Background="{DynamicResource BackgroundColor}"
                 Focusable="True">
                 <Label
@@ -51,7 +50,8 @@
                     Margin="0"
                     Content="2020"
                     FontSize="14"
-                    Foreground="White" />
+                    Foreground="White"
+                    Initialized="Label_Year_Initialized" />
                 <Button
                     Canvas.Left="705"
                     Canvas.Top="10"
@@ -74,7 +74,8 @@
                     Canvas.Top="48"
                     Width="75"
                     Content="2020-00-00"
-                    Foreground="White" />
+                    Foreground="White"
+                    Initialized="Label_Today_Initialized" />
                 <Label
                     x:Name="Label_Month"
                     Canvas.Left="14"
@@ -84,29 +85,30 @@
                     FlowDirection="RightToLeft"
                     FontSize="48"
                     FontWeight="Bold"
-                    Foreground="White" />
+                    Foreground="White"
+                    Initialized="Label_Month_Initialized" />
             </Canvas>
         </Canvas>
         <Canvas
             Canvas.Top="100"
             Width="800"
-            Height="500">
+            Height="600">
             <Canvas
                 Canvas.Left="0"
                 Canvas.Top="0"
-                Width="790"
-                Height="490"
-                Margin="5"
-                Background="{DynamicResource BackgroundColor}"
+                Width="796"
+                Height="596"
+                Margin="{DynamicResource GlobalThickness}"
                 Focusable="True">
                 <Grid
                     x:Name="Calendar_Days"
                     Canvas.Left="0"
-                    Canvas.Top="50"
-                    Width="790"
-                    Height="440"
+                    Canvas.Top="54"
+                    Width="796"
+                    Height="540"
                     Focusable="True">
                     <Grid.RowDefinitions>
+                        <RowDefinition />
                         <RowDefinition />
                         <RowDefinition />
                         <RowDefinition />
@@ -125,8 +127,7 @@
                 </Grid>
                 <Grid
                     Canvas.Left="0"
-                    Canvas.Top="0"
-                    Width="790"
+                    Width="796"
                     Height="50">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition />
@@ -137,69 +138,104 @@
                         <ColumnDefinition />
                         <ColumnDefinition />
                     </Grid.ColumnDefinitions>
-                    <TextBlock
-                        Grid.Column="1"
-                        Margin="10,10,0,0"
-                        HorizontalAlignment="Left"
-                        VerticalAlignment="Top"
-                        FontSize="20"
-                        Foreground="White"
-                        Text="{DynamicResource TextBox_MonDay}"
-                        TextWrapping="Wrap" />
-                    <TextBlock
-                        Grid.Column="2"
-                        Margin="10,10,0,0"
-                        HorizontalAlignment="Left"
-                        VerticalAlignment="Top"
-                        FontSize="20"
-                        Foreground="White"
-                        Text="{DynamicResource TextBox_TueDay}"
-                        TextWrapping="Wrap" />
-                    <TextBlock
-                        Grid.Column="3"
-                        Margin="10,10,0,0"
-                        HorizontalAlignment="Left"
-                        VerticalAlignment="Top"
-                        FontSize="20"
-                        Foreground="White"
-                        Text="{DynamicResource TextBox_WedDay}"
-                        TextWrapping="Wrap" />
-                    <TextBlock
-                        Grid.Column="4"
-                        Margin="10,10,0,0"
-                        HorizontalAlignment="Left"
-                        VerticalAlignment="Top"
-                        FontSize="20"
-                        Foreground="White"
-                        Text="{DynamicResource TextBox_ThuDay}"
-                        TextWrapping="Wrap" />
-                    <TextBlock
-                        Grid.Column="5"
-                        Margin="10,10,0,0"
-                        HorizontalAlignment="Left"
-                        VerticalAlignment="Top"
-                        FontSize="20"
-                        Foreground="White"
-                        Text="{DynamicResource TextBox_FriDay}"
-                        TextWrapping="Wrap" />
-                    <TextBlock
-                        Grid.Column="6"
-                        Margin="10,10,0,0"
-                        HorizontalAlignment="Left"
-                        VerticalAlignment="Top"
-                        FontSize="20"
-                        Foreground="#FF001DFF"
-                        Text="{DynamicResource TextBox_SatDay}"
-                        TextWrapping="Wrap" />
-                    <TextBlock
+                    <Canvas
                         Grid.Column="0"
-                        Margin="10,10,0,0"
-                        HorizontalAlignment="Left"
-                        VerticalAlignment="Top"
-                        FontSize="20"
-                        Foreground="#FFB10303"
-                        Text="{DynamicResource TextBox_SunDay}"
-                        TextWrapping="Wrap" />
+                        Margin="{DynamicResource GlobalThickness}"
+                        Background="{DynamicResource BackgroundColor}">
+                        <TextBlock
+                            Margin="10,10,0,0"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Top"
+                            FontSize="16"
+                            Foreground="Red"
+                            RenderTransformOrigin="0.65,0"
+                            Text="{DynamicResource TextBox_SunDay}"
+                            TextWrapping="Wrap" />
+                    </Canvas>
+                    <Canvas
+                        Grid.Column="1"
+                        Margin="{DynamicResource GlobalThickness}"
+                        Background="{DynamicResource BackgroundColor}">
+                        <TextBlock
+                            Margin="10,10,0,0"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Top"
+                            FontSize="16"
+                            Foreground="White"
+                            RenderTransformOrigin="0.65,0"
+                            Text="{DynamicResource TextBox_MonDay}"
+                            TextWrapping="Wrap" />
+                    </Canvas>
+                    <Canvas
+                        Grid.Column="2"
+                        Margin="{DynamicResource GlobalThickness}"
+                        Background="{DynamicResource BackgroundColor}">
+                        <TextBlock
+                            Margin="10,10,0,0"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Top"
+                            FontSize="16"
+                            Foreground="White"
+                            RenderTransformOrigin="0.65,0"
+                            Text="{DynamicResource TextBox_TueDay}"
+                            TextWrapping="Wrap" />
+                    </Canvas>
+                    <Canvas
+                        Grid.Column="3"
+                        Margin="{DynamicResource GlobalThickness}"
+                        Background="{DynamicResource BackgroundColor}">
+                        <TextBlock
+                            Margin="10,10,0,0"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Top"
+                            FontSize="16"
+                            Foreground="White"
+                            RenderTransformOrigin="0.65,0"
+                            Text="{DynamicResource TextBox_WedDay}"
+                            TextWrapping="Wrap" />
+                    </Canvas>
+                    <Canvas
+                        Grid.Column="4"
+                        Margin="{DynamicResource GlobalThickness}"
+                        Background="{DynamicResource BackgroundColor}">
+                        <TextBlock
+                            Margin="10,10,0,0"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Top"
+                            FontSize="16"
+                            Foreground="White"
+                            RenderTransformOrigin="0.65,0"
+                            Text="{DynamicResource TextBox_ThuDay}"
+                            TextWrapping="Wrap" />
+                    </Canvas>
+                    <Canvas
+                        Grid.Column="5"
+                        Margin="{DynamicResource GlobalThickness}"
+                        Background="{DynamicResource BackgroundColor}">
+                        <TextBlock
+                            Margin="10,10,0,0"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Top"
+                            FontSize="16"
+                            Foreground="White"
+                            RenderTransformOrigin="0.65,0"
+                            Text="{DynamicResource TextBox_FriDay}"
+                            TextWrapping="Wrap" />
+                    </Canvas>
+                    <Canvas
+                        Grid.Column="6"
+                        Margin="{DynamicResource GlobalThickness}"
+                        Background="{DynamicResource BackgroundColor}">
+                        <TextBlock
+                            Margin="10,10,0,0"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Top"
+                            FontSize="16"
+                            Foreground="Blue"
+                            RenderTransformOrigin="0.65,0"
+                            Text="{DynamicResource TextBox_SatDay}"
+                            TextWrapping="Wrap" />
+                    </Canvas>
                 </Grid>
 
             </Canvas>

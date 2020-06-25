@@ -7,18 +7,20 @@
     xmlns:local="clr-namespace:CalendarWPF"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     Width="{DynamicResource MaxWidth}"
-    d:DesignHeight="300"
+    Height="{DynamicResource MaxHeight}"
     d:DesignWidth="300"
     mc:Ignorable="d">
     <UserControl.Resources>
-        <System:Double x:Key="MaxWidth">100</System:Double>
+        <System:Double x:Key="MaxWidth">110</System:Double>
+        <System:Double x:Key="MaxHeight">85</System:Double>
     </UserControl.Resources>
     <Grid Width="{DynamicResource MaxWidth}">
         <Canvas
             x:Name="Canvas_ShowText"
             Width="{DynamicResource MaxWidth}"
-            Height="80"
+            Height="85"
             VerticalAlignment="Top"
+            Background="#CC000000"
             MouseDown="Canvas_MouseDown"
             MouseEnter="Canvas_MouseEnterMemo"
             MouseLeave="Canvas_MouseLeaveMemo"
@@ -26,12 +28,11 @@
             <TextBlock
                 x:Name="TextBlock_ShowText"
                 Canvas.Top="20"
-                Width="100"
-                Height="60"
+                Width="{DynamicResource MaxWidth}"
+                Height="65"
                 HorizontalAlignment="Left"
                 VerticalAlignment="Top"
                 Foreground="White"
-                Text="Enter the memo."
                 TextWrapping="Wrap" />
             <TextBlock
                 x:Name="TextBlock_day"
@@ -42,32 +43,37 @@
         <Canvas
             x:Name="Canvas_EditText"
             Width="{DynamicResource MaxWidth}"
-            Height="300"
+            Height="{DynamicResource MaxHeight}"
             HorizontalAlignment="Left"
             VerticalAlignment="Top"
             Background="White"
             Visibility="Hidden">
             <Button
-                Canvas.Left="88"
                 Canvas.Top="0"
+                Width="{DynamicResource MaxWidth}"
                 Margin="0"
-                Background="#00000000"
-                BorderBrush="#00707070"
+                Background="#FFA0A0A0"
+                BorderBrush="#FF6C6C6C"
                 Click="button_SaveClick"
-                Content="V"
-                Foreground="Black" />
+                Content="Save"
+                Foreground="Black"
+                RenderTransformOrigin="-0.054,0.472" />
             <TextBox
                 x:Name="TextBox_EditText"
-                Canvas.Top="36"
+                Canvas.Top="20"
                 Width="{DynamicResource MaxWidth}"
-                Height="264"
+                Height="65"
                 AcceptsReturn="True"
                 Background="Transparent"
-                BorderBrush="#00ABADB3"
+                BorderBrush="#FF6C6C6C"
                 CaretBrush="Black"
                 Foreground="Black"
+                IsVisibleChanged="TextBox_EditText_IsVisibleChanged"
+                ScrollViewer.CanContentScroll="True"
+                SelectionBrush="{x:Null}"
                 Text="TextBox"
-                TextWrapping="Wrap" />
+                TextWrapping="Wrap"
+                VerticalScrollBarVisibility="Auto" />
         </Canvas>
 
     </Grid>
