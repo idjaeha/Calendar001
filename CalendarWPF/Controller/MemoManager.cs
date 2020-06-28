@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -8,6 +10,8 @@ namespace CalendarWPF.Src
 {
     public class MemoManager
     {
+        private static readonly string DATA_FILE_NAME = "memos.dat";
+        private static readonly string DATA_FILE_DIRECTORY = "data";
         private Dictionary<DateTime, Memo> memos;
 
         private static MemoManager memoManager;
@@ -78,7 +82,39 @@ namespace CalendarWPF.Src
             {
                 memos.Remove(date);
             }
-            memos.Add(date, newMemo); 
+            memos.Add(date, newMemo);
+            SaveDataToFile();
+        }
+
+        // 배열에 저장된 데이터를 외부 파일에 저장합니다.
+        public void SaveDataToFile()
+        {
+            string filePath = System.Windows.Forms.Application.StartupPath + $"\\{DATA_FILE_DIRECTORY}";
+            if(!Directory.Exists(filePath))
+            {
+                Directory.CreateDirectory(filePath);
+            }
+            Stream writeStream = new FileStream(filePath + $"\\{DATA_FILE_NAME}", FileMode.Create);
+            BinaryFormatter serializer = new BinaryFormatter();
+
+            serializer.Serialize(writeStream, memos); // 직렬화
+            writeStream.Close();
+        }
+
+        // 외부 파일에 저장된 데이터를 배열에 불러옵니다.
+        public void LoadDataFromFile()
+        {
+            string filePath = System.Windows.Forms.Application.StartupPath + $"\\{DATA_FILE_DIRECTORY}";
+            if (!Directory.Exists(filePath))
+            {
+                memos = new Dictionary<DateTime, Memo>();
+                return;
+            }
+            Stream readStream = new FileStream(filePath + $"\\{DATA_FILE_NAME}", FileMode.Open);
+            BinaryFormatter deserializer = new BinaryFormatter();
+
+            memos = (Dictionary < DateTime, Memo >)deserializer.Deserialize(readStream); // 역 직렬화
+            readStream.Close();
         }
     }
 }
