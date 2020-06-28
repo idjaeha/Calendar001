@@ -59,6 +59,8 @@ namespace CalendarWPF
             dayItems = new List<DailyMemo>();
 
             numberOfDays = new int[13] { 0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };
+
+            MemoManager.Instance.LoadDataFromFile();
         }
 
         private void Window_Initialized(object sender, EventArgs e)
