@@ -6,8 +6,8 @@
     <system:String x:Key="Greeting">안녕하세요</system:String>
     <system:String x:Key="ProgramExit">프로그램 종료</system:String>
     <system:String x:Key="ProgramHiding">프로그램 숨기기</system:String>
-    <system:String x:Key="Dragging">드래그 허용</system:String>
-    <system:String x:Key="noDragging">드래그 금지</system:String>
+    <system:String x:Key="Dragging">위치 및 크기 조절</system:String>
+    <system:String x:Key="noDragging">위치 및 크기 고정</system:String>
     <system:String x:Key="ChangeKorean">한국어로 변환</system:String>
     <system:String x:Key="ChangeEnglish">영어로 변환</system:String>
 </ResourceDictionary>

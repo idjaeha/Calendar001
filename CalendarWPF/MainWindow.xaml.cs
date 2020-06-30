@@ -69,6 +69,8 @@ namespace CalendarWPF
         private void Window_Initialized(object sender, EventArgs e)
         {
             this.AllowsTransparency = true;
+            this.Background = new SolidColorBrush(Colors.Black);
+            this.Background.Opacity = 0;
         }
 
         private void Label_Year_Initialized(object sender, EventArgs e)
@@ -123,23 +125,10 @@ namespace CalendarWPF
                 (object click, EventArgs eClick) =>
                 {
                     canDrag = !canDrag;
+                    
+                    this.Background.Opacity = canDrag == true ? 0.5 : 0;
                     ((System.Windows.Forms.MenuItem)click).Text = canDrag == true ? FindResource("noDragging").ToString() : FindResource("Dragging").ToString();
                 });
-
-            // TODO : 언어 설정 코드
-            //AddMenuItem(0, "ChangeKorean".ToString(), 
-            //    (object click, EventArgs eClick) =>
-            //    {
-            //        SelectCulture("ko-KR");
-            //        RefreshMenuItem();
-            //    });
-
-            //AddMenuItem(0, "ChangeEnglish".ToString(),
-            //    (object click, EventArgs eClick) =>
-            //    {
-            //        SelectCulture("eu-US");
-            //        RefreshMenuItem();
-            //    });
         }
 
         private void AddMenuItem(int index, string ID, EventHandler clickEvent)
@@ -284,23 +273,6 @@ namespace CalendarWPF
             dayItems.Clear();
         }
 
-
-        private void Test()
-        {
-            ScaleTransform scale = new ScaleTransform();
-            //scale.ScaleX = width / orginalWidth;
-            //scale.ScaleY = height / originalHeight;
-            scale.ScaleX *= 2;
-            scale.ScaleY *= 2;
-            FrameworkElement rootElement = this.Content as FrameworkElement;
-            rootElement.LayoutTransform = scale;
-        }
-
-
-        private void Rectangle_MouseDown(object sender, MouseButtonEventArgs e)
-        { 
-
-        }
 
 
         // 해당 개발은 해야할 것들을 표기한 것이고, 순서는 의미가 없다.

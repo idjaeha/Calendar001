@@ -8,12 +8,13 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     Width="{DynamicResource Window_Width}"
     Height="{DynamicResource Window_Height}"
-    Background="Transparent"
+    Background="#00FF0000"
+    BorderBrush="Black"
     Initialized="Window_Initialized"
     Loaded="Window_Loaded"
     MouseLeftButtonDown="Window_MouseLeftDown"
-    ResizeMode="NoResize"
     ShowInTaskbar="False"
+    Style="{DynamicResource CustomWindowStyle}"
     Visibility="Visible"
     WindowStyle="None"
     mc:Ignorable="d">
@@ -30,25 +31,25 @@
         <Thickness x:Key="GlobalThickness">2</Thickness>
         <System:Double x:Key="Window_Width">800</System:Double>
         <System:Double x:Key="Window_Height">800</System:Double>
+        <Style x:Key="CustomWindowStyle" TargetType="{x:Type Window}">
+            <Setter Property="WindowChrome.WindowChrome">
+                <Setter.Value>
+                    <WindowChrome
+                        CaptionHeight="0"
+                        CornerRadius="0"
+                        GlassFrameThickness="3"
+                        NonClientFrameEdges="None"
+                        ResizeBorderThickness="3" />
+                </Setter.Value>
+            </Setter>
+        </Style>
     </Window.Resources>
+
     <Canvas
         Width="800"
         Height="600"
         HorizontalAlignment="Left"
         VerticalAlignment="Top">
-        <Rectangle
-            Grid.RowSpan="2"
-            Grid.ColumnSpan="2"
-            Width="{DynamicResource Window_Width}"
-            Height="{DynamicResource Window_Height}"
-            HorizontalAlignment="Left"
-            VerticalAlignment="Top"
-            Panel.ZIndex="1"
-            Cursor="SizeNS"
-            Focusable="True"
-            MouseDown="Rectangle_MouseDown"
-            Stroke="Black"
-            StrokeThickness="3" />
         <Canvas Width="800" Height="100">
             <Canvas
                 Canvas.Left="0"
@@ -56,8 +57,7 @@
                 Width="796"
                 Height="96"
                 Margin="{DynamicResource GlobalThickness}"
-                Background="{DynamicResource BackgroundColor}"
-                Focusable="True">
+                Background="{DynamicResource BackgroundColor}">
                 <Label
                     x:Name="Label_Year"
                     Canvas.Left="80"
@@ -102,11 +102,6 @@
                     FontWeight="Bold"
                     Foreground="White"
                     Initialized="Label_Month_Initialized" />
-                <Button
-                    Canvas.Left="536"
-                    Canvas.Top="10"
-                    Width="75"
-                    Content="Button" />
             </Canvas>
         </Canvas>
         <Canvas

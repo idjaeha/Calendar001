@@ -20,6 +20,7 @@
             Width="{DynamicResource MaxWidth}"
             Height="85"
             VerticalAlignment="Top"
+            Panel.ZIndex="1"
             Background="#CC000000"
             MouseDown="Canvas_MouseDown"
             MouseEnter="Canvas_MouseEnterMemo"
@@ -32,6 +33,7 @@
                 Height="65"
                 HorizontalAlignment="Left"
                 VerticalAlignment="Top"
+                Panel.ZIndex="2"
                 Foreground="White"
                 TextWrapping="Wrap" />
             <TextBlock
@@ -46,12 +48,14 @@
             Height="{DynamicResource MaxHeight}"
             HorizontalAlignment="Left"
             VerticalAlignment="Top"
+            Panel.ZIndex="2"
             Background="White"
             Visibility="Hidden">
             <Button
                 Canvas.Top="0"
                 Width="{DynamicResource MaxWidth}"
                 Margin="0"
+                Panel.ZIndex="2"
                 Background="#FFA0A0A0"
                 BorderBrush="#FF6C6C6C"
                 Click="button_SaveClick"
@@ -63,6 +67,7 @@
                 Canvas.Top="20"
                 Width="{DynamicResource MaxWidth}"
                 Height="65"
+                Panel.ZIndex="2"
                 AcceptsReturn="True"
                 Background="Transparent"
                 BorderBrush="#FF6C6C6C"

@@ -6,8 +6,8 @@
     <system:String x:Key="Greeting">Hello</system:String>
     <system:String x:Key="ProgramExit">Program Exit</system:String>
     <system:String x:Key="ProgramHiding">Program Hide</system:String>
-    <system:String x:Key="Dragging">Dragging</system:String>
-    <system:String x:Key="noDragging">no Dragging</system:String>
+    <system:String x:Key="Dragging">Change position and size</system:String>
+    <system:String x:Key="noDragging">Fix position and size</system:String>
     <system:String x:Key="ChangeKorean">Change Korean</system:String>
     <system:String x:Key="ChangeEnglish">Change English</system:String>
 </ResourceDictionary>

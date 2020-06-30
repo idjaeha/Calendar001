@@ -90,7 +90,7 @@ namespace CalendarWPF
 
         private void Canvas_MouseLeaveMemo(object sender, MouseEventArgs e)
         {
-            ((Canvas)sender).Background.Opacity = 0.8;
+            ((Canvas)sender).Background.Opacity = 1;
         }
 
         private void TextBox_EditText_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
