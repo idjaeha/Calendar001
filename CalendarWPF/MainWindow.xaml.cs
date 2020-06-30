@@ -19,6 +19,7 @@ using System.ComponentModel;
 using System.Threading;
 using System.Globalization;
 using CalendarWPF.Src;
+using CalendarWPF.Model;
 
 namespace CalendarWPF
 {
@@ -36,6 +37,8 @@ namespace CalendarWPF
         private int selectedYear;
         private int selectedMonth;
         private int[] numberOfDays;
+        private static readonly int DAY_SPAN = 1;
+        private static readonly int DAY_WEEK = 7;
 
         public MainWindow()
         {
@@ -97,7 +100,7 @@ namespace CalendarWPF
         {
             menu = new System.Windows.Forms.ContextMenu();
             notify = new NotifyIcon();
-            notify.Icon = Properties.Resources.sampleIcon;
+            notify.Icon = Properties.Resources.notifyIcon;
             notify.Visible = true;
             notify.ContextMenu = menu;
 
@@ -124,7 +127,7 @@ namespace CalendarWPF
                 });
 
             // TODO : 언어 설정 코드
-            //AddMenuItem(0, "ChangeKorean".ToString(),
+            //AddMenuItem(0, "ChangeKorean".ToString(), 
             //    (object click, EventArgs eClick) =>
             //    {
             //        SelectCulture("ko-KR");
@@ -209,29 +212,14 @@ namespace CalendarWPF
             Thread.CurrentThread.CurrentUICulture = new CultureInfo(culture);
         }
 
-        // 언어 설정 관련 코드
-        //private void RefreshMenuItem()
-        //{
-        //    foreach (MenuItemWithID menuItem in menuItems)
-        //    {
-        //        menuItem.Text = FindResource(menuItem.ID).ToString();
-        //    }
-        //}
-
-        private class MenuItemWithID : System.Windows.Forms.MenuItem
-        {
-            public string ID { get; set; }
-            public MenuItemWithID() : base() { }
-        }
-
-        private void LoadDay(int day, int idx, string memo)
+        private void LoadDay(int day, int index, string memo)
         {
             DailyMemo newDaysItem = new DailyMemo(selectedYear, selectedMonth, day);
             newDaysItem.SetMemo(memo);
             dayItems.Add(newDaysItem);
-            Grid.SetColumnSpan(newDaysItem, 1);
-            Grid.SetRow(newDaysItem, idx / 7);
-            Grid.SetColumn(newDaysItem, idx % 7);
+            Grid.SetColumnSpan(newDaysItem, DAY_SPAN);
+            Grid.SetRow(newDaysItem, index / DAY_WEEK);
+            Grid.SetColumn(newDaysItem, index % DAY_WEEK);
             Calendar_Days.Children.Add(newDaysItem);
         }
 
@@ -273,7 +261,7 @@ namespace CalendarWPF
 
             countDays += month == 2 && year % 4 == 0 ? 1 : 0;
 
-            for(int day = 1; day <= countDays; day++)
+            for (int day = 1; day <= countDays; day++)
             {
                 string memo = "";
                 DateTime currentDate = new DateTime(year, month, day);
@@ -289,13 +277,30 @@ namespace CalendarWPF
         private void CleanCalendar()
         {
             // Calendar에 존재하는 날짜 관련 컨트롤을 삭제합니다.
-            foreach(DailyMemo days in dayItems)
+            foreach (DailyMemo days in dayItems)
             {
                 Calendar_Days.Children.Remove(days);
             }
             dayItems.Clear();
         }
 
+
+        private void Test()
+        {
+            ScaleTransform scale = new ScaleTransform();
+            //scale.ScaleX = width / orginalWidth;
+            //scale.ScaleY = height / originalHeight;
+            scale.ScaleX *= 2;
+            scale.ScaleY *= 2;
+            FrameworkElement rootElement = this.Content as FrameworkElement;
+            rootElement.LayoutTransform = scale;
+        }
+
+
+        private void Rectangle_MouseDown(object sender, MouseButtonEventArgs e)
+        { 
+
+        }
 
 
         // 해당 개발은 해야할 것들을 표기한 것이고, 순서는 의미가 없다.

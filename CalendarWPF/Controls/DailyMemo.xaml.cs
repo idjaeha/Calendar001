@@ -23,6 +23,7 @@ namespace CalendarWPF
     {
         private DateTime date;
         private string memo;
+
         public DailyMemo()
         {
             InitializeComponent();
@@ -65,7 +66,7 @@ namespace CalendarWPF
         {
             memo = TextBox_EditText.Text;
             TextBlock_ShowText.Text = memo;
-            MemoManager.Instance.AddMemos(date, memo);
+            MemoManager.Instance.SaveMemo(date, memo);
             ChangeShowMode();
         }
 
@@ -84,13 +85,11 @@ namespace CalendarWPF
 
         private void Canvas_MouseEnterMemo(object sender, MouseEventArgs e)
         {
-            ((Canvas)sender).Background = new SolidColorBrush(Colors.AliceBlue);
-            ((Canvas)sender).Background.Opacity = 0.2;
+            ((Canvas)sender).Background.Opacity = 0.5;
         }
 
         private void Canvas_MouseLeaveMemo(object sender, MouseEventArgs e)
         {
-            ((Canvas)sender).Background = new SolidColorBrush(Colors.Black);
             ((Canvas)sender).Background.Opacity = 0.8;
         }
 

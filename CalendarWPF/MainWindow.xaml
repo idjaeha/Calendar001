@@ -6,8 +6,8 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="clr-namespace:CalendarWPF"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    Width="800"
-    Height="800"
+    Width="{DynamicResource Window_Width}"
+    Height="{DynamicResource Window_Height}"
     Background="Transparent"
     Initialized="Window_Initialized"
     Loaded="Window_Loaded"
@@ -28,12 +28,27 @@
         <System:String x:Key="TextBox_SunDay">일</System:String>
         <SolidColorBrush x:Key="BackgroundColor" Color="#CC000000" />
         <Thickness x:Key="GlobalThickness">2</Thickness>
+        <System:Double x:Key="Window_Width">800</System:Double>
+        <System:Double x:Key="Window_Height">800</System:Double>
     </Window.Resources>
     <Canvas
         Width="800"
         Height="600"
         HorizontalAlignment="Left"
         VerticalAlignment="Top">
+        <Rectangle
+            Grid.RowSpan="2"
+            Grid.ColumnSpan="2"
+            Width="{DynamicResource Window_Width}"
+            Height="{DynamicResource Window_Height}"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Top"
+            Panel.ZIndex="1"
+            Cursor="SizeNS"
+            Focusable="True"
+            MouseDown="Rectangle_MouseDown"
+            Stroke="Black"
+            StrokeThickness="3" />
         <Canvas Width="800" Height="100">
             <Canvas
                 Canvas.Left="0"
@@ -87,6 +102,11 @@
                     FontWeight="Bold"
                     Foreground="White"
                     Initialized="Label_Month_Initialized" />
+                <Button
+                    Canvas.Left="536"
+                    Canvas.Top="10"
+                    Width="75"
+                    Content="Button" />
             </Canvas>
         </Canvas>
         <Canvas
@@ -124,6 +144,7 @@
                         <ColumnDefinition />
                         <ColumnDefinition />
                     </Grid.ColumnDefinitions>
+
                 </Grid>
                 <Grid
                     Canvas.Left="0"

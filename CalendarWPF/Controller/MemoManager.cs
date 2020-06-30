@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 
 namespace CalendarWPF.Src
 {
+    // 캘린더가 사용하는 메모들을 관리하기 위해 존재함
     public class MemoManager
     {
         private static readonly string DATA_FILE_NAME = "memos.dat";
@@ -62,12 +63,15 @@ namespace CalendarWPF.Src
             return newMemos;
         }
 
-        public void AddMemos(DateTime date, string memo)
+        public void SaveMemo(DateTime date, string memo)
         {
-            // 빈칸이면 저장하지 않음
+            // 빈칸일 경우에는 2가지 경우가 존재함
             if (memo.Trim() == "")
             {
-                return;
+                if(!memos.ContainsKey(date)) // 빈칸일 때, 해당 date에 메모가 존재하지 않을 경우
+                {
+                    return;
+                }
             }
 
             // 메모를 저장하여 memos에 추가함.
@@ -97,7 +101,7 @@ namespace CalendarWPF.Src
             Stream writeStream = new FileStream(filePath + $"\\{DATA_FILE_NAME}", FileMode.Create);
             BinaryFormatter serializer = new BinaryFormatter();
 
-            serializer.Serialize(writeStream, memos); // 직렬화
+            serializer.Serialize(writeStream, memos);
             writeStream.Close();
         }
 
@@ -113,7 +117,7 @@ namespace CalendarWPF.Src
             Stream readStream = new FileStream(filePath + $"\\{DATA_FILE_NAME}", FileMode.Open);
             BinaryFormatter deserializer = new BinaryFormatter();
 
-            memos = (Dictionary < DateTime, Memo >)deserializer.Deserialize(readStream); // 역 직렬화
+            memos = (Dictionary < DateTime, Memo >)deserializer.Deserialize(readStream);
             readStream.Close();
         }
     }
