@@ -9,12 +9,14 @@
     x:Name="UserControl_Main"
     Width="Auto"
     Height="Auto"
+    MinWidth="{DynamicResource MinWidth}"
+    MinHeight="{DynamicResource MinHeight}"
     d:DesignWidth="100"
     mc:Ignorable="d">
     <UserControl.Resources>
         <local:MinusConvertor x:Key="MinusConvertor" />
-        <System:Double x:Key="MaxWidth">120</System:Double>
-        <System:Double x:Key="MaxHeight">85</System:Double>
+        <System:Double x:Key="MinWidth">120</System:Double>
+        <System:Double x:Key="MinHeight">85</System:Double>
     </UserControl.Resources>
     <Grid Width="{Binding ActualWidth, ElementName=UserControl_Main}" Height="{Binding ActualHeight, ElementName=UserControl_Main}">
         <Canvas

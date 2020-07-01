@@ -97,11 +97,5 @@ namespace CalendarWPF
         {
             ((TextBox)sender).Focus();
         }
-
-        public void ChangeSize(int width, int height)
-        {
-            this.Width = width;
-            this.Height = height;
-        }
     }
 }
