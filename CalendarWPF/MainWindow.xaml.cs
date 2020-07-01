@@ -127,6 +127,7 @@ namespace CalendarWPF
                     canDrag = !canDrag;
                     this.BorderThickness = canDrag == true ? new Thickness(2) : new Thickness(0);
                     this.Background.Opacity = canDrag == true ? 0.5 : 0;
+                    this.ResizeMode = canDrag == true ? ResizeMode.CanResize : ResizeMode.NoResize;
                     ((System.Windows.Forms.MenuItem)click).Text = canDrag == true ? FindResource("noDragging").ToString() : FindResource("Dragging").ToString();
                 });
         }

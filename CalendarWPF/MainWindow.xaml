@@ -6,13 +6,17 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="clr-namespace:CalendarWPF"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    x:Name="Window_Main"
     Width="{DynamicResource Window_Width}"
     Height="{DynamicResource Window_Height}"
+    MinWidth="800"
+    MinHeight="700"
     Background="#00FF0000"
     BorderBrush="#FFF3FF00"
     Initialized="Window_Initialized"
     Loaded="Window_Loaded"
     MouseLeftButtonDown="Window_MouseLeftDown"
+    ResizeMode="NoResize"
     ShowInTaskbar="False"
     Style="{DynamicResource CustomWindowStyle}"
     Visibility="Visible"
@@ -27,10 +31,11 @@
         <System:String x:Key="TextBox_FriDay">금</System:String>
         <System:String x:Key="TextBox_SatDay">토</System:String>
         <System:String x:Key="TextBox_SunDay">일</System:String>
+        <local:MinusConvertor x:Key="MinusConvertor" />
         <SolidColorBrush x:Key="BackgroundColor" Color="#CC000000" />
-        <Thickness x:Key="GlobalThickness">2</Thickness>
+        <Thickness x:Key="GlobalThickness">0</Thickness>
         <System:Double x:Key="Window_Width">800</System:Double>
-        <System:Double x:Key="Window_Height">800</System:Double>
+        <System:Double x:Key="Window_Height">700</System:Double>
         <Style x:Key="CustomWindowStyle" TargetType="{x:Type Window}">
             <Setter Property="WindowChrome.WindowChrome">
                 <Setter.Value>
@@ -46,16 +51,20 @@
     </Window.Resources>
 
     <Canvas
-        Width="800"
+        x:Name="Canvas_Calendar"
+        Width="{Binding ActualWidth, ElementName=Window_Main}"
         Height="600"
         HorizontalAlignment="Left"
         VerticalAlignment="Top">
-        <Canvas Width="800" Height="100">
+        <Canvas
+            x:Name="Canvas_Title"
+            Width="{Binding ActualWidth, ElementName=Window_Main}"
+            Height="100">
             <Canvas
                 Canvas.Left="0"
                 Canvas.Top="0"
-                Width="796"
-                Height="96"
+                Width="{Binding ActualWidth, ElementName=Window_Main}"
+                Height="100"
                 Margin="{DynamicResource GlobalThickness}"
                 Background="{DynamicResource BackgroundColor}">
                 <Label
@@ -68,7 +77,7 @@
                     Foreground="White"
                     Initialized="Label_Year_Initialized" />
                 <Button
-                    Canvas.Left="705"
+                    Canvas.Left="{Binding ActualWidth, ConverterParameter=95, Converter={StaticResource MinusConvertor}, ElementName=Window_Main, Mode=OneWay}"
                     Canvas.Top="10"
                     Width="75"
                     Background="{x:Null}"
@@ -76,8 +85,8 @@
                     Content="Next"
                     Foreground="White" />
                 <Button
-                    Canvas.Left="625"
-                    Canvas.Top="11"
+                    Canvas.Left="{Binding ActualWidth, ConverterParameter=175, Converter={StaticResource MinusConvertor}, ElementName=Window_Main, Mode=OneWay}"
+                    Canvas.Top="10"
                     Width="75"
                     Background="{x:Null}"
                     Click="Button_ClickPrevMonth"
@@ -85,8 +94,8 @@
                     Foreground="White" />
                 <Label
                     x:Name="Label_Today"
-                    Canvas.Left="705"
-                    Canvas.Top="48"
+                    Canvas.Left="{Binding ActualWidth, ConverterParameter=95, Converter={StaticResource MinusConvertor}, ElementName=Window_Main, Mode=OneWay}"
+                    Canvas.Top="50"
                     Width="75"
                     Content="2020-00-00"
                     Foreground="White"
@@ -105,15 +114,16 @@
             </Canvas>
         </Canvas>
         <Canvas
+            x:Name="Canvas_Content"
             Canvas.Top="100"
-            Width="800"
-            Height="600">
+            Width="{Binding ActualWidth, ElementName=Window_Main}"
+            Height="{Binding ActualHeight, ConverterParameter=100, Converter={StaticResource MinusConvertor}, ElementName=Window_Main, Mode=OneWay}">
             <Grid
                 x:Name="Calendar_Days"
                 Canvas.Left="0"
                 Canvas.Top="50"
-                Width="800"
-                Height="540">
+                Width="{Binding ActualWidth, ElementName=Window_Main}"
+                Height="{Binding ActualHeight, ConverterParameter=50, Converter={StaticResource MinusConvertor}, ElementName=Canvas_Content, Mode=OneWay}">
                 <Grid.RowDefinitions>
                     <RowDefinition />
                     <RowDefinition />
@@ -135,7 +145,7 @@
             </Grid>
             <Grid
                 Canvas.Left="0"
-                Width="800"
+                Width="{Binding ActualWidth, ElementName=Window_Main}"
                 Height="50">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition />

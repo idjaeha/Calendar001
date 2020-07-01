@@ -6,19 +6,21 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="clr-namespace:CalendarWPF"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    Width="{DynamicResource MaxWidth}"
-    Height="{DynamicResource MaxHeight}"
-    d:DesignWidth="300"
+    x:Name="UserControl_Main"
+    Width="Auto"
+    Height="Auto"
+    d:DesignWidth="100"
     mc:Ignorable="d">
     <UserControl.Resources>
-        <System:Double x:Key="MaxWidth">110</System:Double>
+        <local:MinusConvertor x:Key="MinusConvertor" />
+        <System:Double x:Key="MaxWidth">120</System:Double>
         <System:Double x:Key="MaxHeight">85</System:Double>
     </UserControl.Resources>
-    <Grid Width="{DynamicResource MaxWidth}">
+    <Grid Width="{Binding ActualWidth, ElementName=UserControl_Main}" Height="{Binding ActualHeight, ElementName=UserControl_Main}">
         <Canvas
             x:Name="Canvas_ShowText"
-            Width="{DynamicResource MaxWidth}"
-            Height="85"
+            Width="{Binding ActualWidth, ElementName=UserControl_Main}"
+            Height="{Binding ActualHeight, ElementName=UserControl_Main}"
             VerticalAlignment="Top"
             Panel.ZIndex="1"
             Background="#CC000000"
@@ -29,8 +31,8 @@
             <TextBlock
                 x:Name="TextBlock_ShowText"
                 Canvas.Top="20"
-                Width="{DynamicResource MaxWidth}"
-                Height="65"
+                Width="{Binding ActualWidth, ElementName=UserControl_Main}"
+                Height="{Binding ActualHeight, ConverterParameter=20, Converter={StaticResource MinusConvertor}, ElementName=Canvas_ShowText, Mode=OneWay}"
                 HorizontalAlignment="Left"
                 VerticalAlignment="Top"
                 Panel.ZIndex="2"
@@ -44,8 +46,8 @@
         </Canvas>
         <Canvas
             x:Name="Canvas_EditText"
-            Width="{DynamicResource MaxWidth}"
-            Height="{DynamicResource MaxHeight}"
+            Width="{Binding ActualWidth, ElementName=UserControl_Main}"
+            Height="{Binding ActualHeight, ElementName=UserControl_Main}"
             HorizontalAlignment="Left"
             VerticalAlignment="Top"
             Panel.ZIndex="2"
@@ -53,7 +55,7 @@
             Visibility="Hidden">
             <Button
                 Canvas.Top="0"
-                Width="{DynamicResource MaxWidth}"
+                Width="{Binding ActualWidth, ElementName=UserControl_Main}"
                 Margin="0"
                 Panel.ZIndex="2"
                 Background="#FFA0A0A0"
@@ -65,8 +67,8 @@
             <TextBox
                 x:Name="TextBox_EditText"
                 Canvas.Top="20"
-                Width="{DynamicResource MaxWidth}"
-                Height="65"
+                Width="{Binding ActualWidth, ElementName=UserControl_Main}"
+                Height="{Binding ActualHeight, ConverterParameter=20, Converter={StaticResource MinusConvertor}, ElementName=Canvas_EditText, Mode=OneWay}"
                 Panel.ZIndex="2"
                 AcceptsReturn="True"
                 Background="Transparent"
@@ -75,7 +77,7 @@
                 Foreground="Black"
                 IsVisibleChanged="TextBox_EditText_IsVisibleChanged"
                 ScrollViewer.CanContentScroll="True"
-                SelectionBrush="{x:Null}"
+                SelectionBrush="#FF0023FF"
                 Text="TextBox"
                 TextWrapping="Wrap"
                 VerticalScrollBarVisibility="Auto" />

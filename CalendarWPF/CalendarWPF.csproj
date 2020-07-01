@@ -73,6 +73,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Controller\MinusConvertor.cs" />
     <Compile Include="Controls\DailyMemo.xaml.cs">
       <DependentUpon>DailyMemo.xaml</DependentUpon>
     </Compile>
