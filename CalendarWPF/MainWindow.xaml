@@ -9,7 +9,7 @@
     Width="{DynamicResource Window_Width}"
     Height="{DynamicResource Window_Height}"
     Background="#00FF0000"
-    BorderBrush="Black"
+    BorderBrush="#FFF3FF00"
     Initialized="Window_Initialized"
     Loaded="Window_Loaded"
     MouseLeftButtonDown="Window_MouseLeftDown"
@@ -108,153 +108,144 @@
             Canvas.Top="100"
             Width="800"
             Height="600">
-            <Canvas
+            <Grid
+                x:Name="Calendar_Days"
                 Canvas.Left="0"
-                Canvas.Top="0"
-                Width="796"
-                Height="596"
-                Margin="{DynamicResource GlobalThickness}"
-                Focusable="True">
-                <Grid
-                    x:Name="Calendar_Days"
-                    Canvas.Left="0"
-                    Canvas.Top="54"
-                    Width="796"
-                    Height="540"
-                    Focusable="True">
-                    <Grid.RowDefinitions>
-                        <RowDefinition />
-                        <RowDefinition />
-                        <RowDefinition />
-                        <RowDefinition />
-                        <RowDefinition />
-                        <RowDefinition />
-                    </Grid.RowDefinitions>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition />
-                        <ColumnDefinition />
-                        <ColumnDefinition />
-                        <ColumnDefinition />
-                        <ColumnDefinition />
-                        <ColumnDefinition />
-                        <ColumnDefinition />
-                    </Grid.ColumnDefinitions>
+                Canvas.Top="50"
+                Width="800"
+                Height="540">
+                <Grid.RowDefinitions>
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
 
-                </Grid>
-                <Grid
-                    Canvas.Left="0"
-                    Width="796"
-                    Height="50">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition />
-                        <ColumnDefinition />
-                        <ColumnDefinition />
-                        <ColumnDefinition />
-                        <ColumnDefinition />
-                        <ColumnDefinition />
-                        <ColumnDefinition />
-                    </Grid.ColumnDefinitions>
-                    <Canvas
-                        Grid.Column="0"
-                        Margin="{DynamicResource GlobalThickness}"
-                        Background="{DynamicResource BackgroundColor}">
-                        <TextBlock
-                            Margin="10,10,0,0"
-                            HorizontalAlignment="Left"
-                            VerticalAlignment="Top"
-                            FontSize="16"
-                            Foreground="Red"
-                            RenderTransformOrigin="0.65,0"
-                            Text="{DynamicResource TextBox_SunDay}"
-                            TextWrapping="Wrap" />
-                    </Canvas>
-                    <Canvas
-                        Grid.Column="1"
-                        Margin="{DynamicResource GlobalThickness}"
-                        Background="{DynamicResource BackgroundColor}">
-                        <TextBlock
-                            Margin="10,10,0,0"
-                            HorizontalAlignment="Left"
-                            VerticalAlignment="Top"
-                            FontSize="16"
-                            Foreground="White"
-                            RenderTransformOrigin="0.65,0"
-                            Text="{DynamicResource TextBox_MonDay}"
-                            TextWrapping="Wrap" />
-                    </Canvas>
-                    <Canvas
-                        Grid.Column="2"
-                        Margin="{DynamicResource GlobalThickness}"
-                        Background="{DynamicResource BackgroundColor}">
-                        <TextBlock
-                            Margin="10,10,0,0"
-                            HorizontalAlignment="Left"
-                            VerticalAlignment="Top"
-                            FontSize="16"
-                            Foreground="White"
-                            RenderTransformOrigin="0.65,0"
-                            Text="{DynamicResource TextBox_TueDay}"
-                            TextWrapping="Wrap" />
-                    </Canvas>
-                    <Canvas
-                        Grid.Column="3"
-                        Margin="{DynamicResource GlobalThickness}"
-                        Background="{DynamicResource BackgroundColor}">
-                        <TextBlock
-                            Margin="10,10,0,0"
-                            HorizontalAlignment="Left"
-                            VerticalAlignment="Top"
-                            FontSize="16"
-                            Foreground="White"
-                            RenderTransformOrigin="0.65,0"
-                            Text="{DynamicResource TextBox_WedDay}"
-                            TextWrapping="Wrap" />
-                    </Canvas>
-                    <Canvas
-                        Grid.Column="4"
-                        Margin="{DynamicResource GlobalThickness}"
-                        Background="{DynamicResource BackgroundColor}">
-                        <TextBlock
-                            Margin="10,10,0,0"
-                            HorizontalAlignment="Left"
-                            VerticalAlignment="Top"
-                            FontSize="16"
-                            Foreground="White"
-                            RenderTransformOrigin="0.65,0"
-                            Text="{DynamicResource TextBox_ThuDay}"
-                            TextWrapping="Wrap" />
-                    </Canvas>
-                    <Canvas
-                        Grid.Column="5"
-                        Margin="{DynamicResource GlobalThickness}"
-                        Background="{DynamicResource BackgroundColor}">
-                        <TextBlock
-                            Margin="10,10,0,0"
-                            HorizontalAlignment="Left"
-                            VerticalAlignment="Top"
-                            FontSize="16"
-                            Foreground="White"
-                            RenderTransformOrigin="0.65,0"
-                            Text="{DynamicResource TextBox_FriDay}"
-                            TextWrapping="Wrap" />
-                    </Canvas>
-                    <Canvas
-                        Grid.Column="6"
-                        Margin="{DynamicResource GlobalThickness}"
-                        Background="{DynamicResource BackgroundColor}">
-                        <TextBlock
-                            Margin="10,10,0,0"
-                            HorizontalAlignment="Left"
-                            VerticalAlignment="Top"
-                            FontSize="16"
-                            Foreground="Blue"
-                            RenderTransformOrigin="0.65,0"
-                            Text="{DynamicResource TextBox_SatDay}"
-                            TextWrapping="Wrap" />
-                    </Canvas>
-                </Grid>
+            </Grid>
+            <Grid
+                Canvas.Left="0"
+                Width="800"
+                Height="50">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <Canvas
+                    Grid.Column="0"
+                    Margin="{DynamicResource GlobalThickness}"
+                    Background="{DynamicResource BackgroundColor}">
+                    <TextBlock
+                        Margin="10,10,0,0"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Top"
+                        FontSize="16"
+                        Foreground="Red"
+                        RenderTransformOrigin="0.65,0"
+                        Text="{DynamicResource TextBox_SunDay}"
+                        TextWrapping="Wrap" />
+                </Canvas>
+                <Canvas
+                    Grid.Column="1"
+                    Margin="{DynamicResource GlobalThickness}"
+                    Background="{DynamicResource BackgroundColor}">
+                    <TextBlock
+                        Margin="10,10,0,0"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Top"
+                        FontSize="16"
+                        Foreground="White"
+                        RenderTransformOrigin="0.65,0"
+                        Text="{DynamicResource TextBox_MonDay}"
+                        TextWrapping="Wrap" />
+                </Canvas>
+                <Canvas
+                    Grid.Column="2"
+                    Margin="{DynamicResource GlobalThickness}"
+                    Background="{DynamicResource BackgroundColor}">
+                    <TextBlock
+                        Margin="10,10,0,0"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Top"
+                        FontSize="16"
+                        Foreground="White"
+                        RenderTransformOrigin="0.65,0"
+                        Text="{DynamicResource TextBox_TueDay}"
+                        TextWrapping="Wrap" />
+                </Canvas>
+                <Canvas
+                    Grid.Column="3"
+                    Margin="{DynamicResource GlobalThickness}"
+                    Background="{DynamicResource BackgroundColor}">
+                    <TextBlock
+                        Margin="10,10,0,0"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Top"
+                        FontSize="16"
+                        Foreground="White"
+                        RenderTransformOrigin="0.65,0"
+                        Text="{DynamicResource TextBox_WedDay}"
+                        TextWrapping="Wrap" />
+                </Canvas>
+                <Canvas
+                    Grid.Column="4"
+                    Margin="{DynamicResource GlobalThickness}"
+                    Background="{DynamicResource BackgroundColor}">
+                    <TextBlock
+                        Margin="10,10,0,0"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Top"
+                        FontSize="16"
+                        Foreground="White"
+                        RenderTransformOrigin="0.65,0"
+                        Text="{DynamicResource TextBox_ThuDay}"
+                        TextWrapping="Wrap" />
+                </Canvas>
+                <Canvas
+                    Grid.Column="5"
+                    Margin="{DynamicResource GlobalThickness}"
+                    Background="{DynamicResource BackgroundColor}">
+                    <TextBlock
+                        Margin="10,10,0,0"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Top"
+                        FontSize="16"
+                        Foreground="White"
+                        RenderTransformOrigin="0.65,0"
+                        Text="{DynamicResource TextBox_FriDay}"
+                        TextWrapping="Wrap" />
+                </Canvas>
+                <Canvas
+                    Grid.Column="6"
+                    Margin="{DynamicResource GlobalThickness}"
+                    Background="{DynamicResource BackgroundColor}">
+                    <TextBlock
+                        Margin="10,10,0,0"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Top"
+                        FontSize="16"
+                        Foreground="Blue"
+                        RenderTransformOrigin="0.65,0"
+                        Text="{DynamicResource TextBox_SatDay}"
+                        TextWrapping="Wrap" />
+                </Canvas>
+            </Grid>
 
-            </Canvas>
         </Canvas>
     </Canvas>
 </Window>

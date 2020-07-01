@@ -125,7 +125,7 @@ namespace CalendarWPF
                 (object click, EventArgs eClick) =>
                 {
                     canDrag = !canDrag;
-                    
+                    this.BorderThickness = canDrag == true ? new Thickness(2) : new Thickness(0);
                     this.Background.Opacity = canDrag == true ? 0.5 : 0;
                     ((System.Windows.Forms.MenuItem)click).Text = canDrag == true ? FindResource("noDragging").ToString() : FindResource("Dragging").ToString();
                 });
