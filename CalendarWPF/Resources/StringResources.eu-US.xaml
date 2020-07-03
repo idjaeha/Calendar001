@@ -10,4 +10,5 @@
     <system:String x:Key="noDragging">Fix position and size</system:String>
     <system:String x:Key="ChangeKorean">Change Korean</system:String>
     <system:String x:Key="ChangeEnglish">Change English</system:String>
+    <system:String x:Key="Setting">Setting</system:String>
 </ResourceDictionary>

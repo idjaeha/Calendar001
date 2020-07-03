@@ -74,11 +74,19 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Controller\MinusConvertor.cs" />
+    <Compile Include="Controls\ControlWindow.xaml.cs">
+      <DependentUpon>ControlWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\DailyMemo.xaml.cs">
       <DependentUpon>DailyMemo.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Model\FontInfomation.cs" />
     <Compile Include="Model\Memo.cs" />
     <Compile Include="Controller\MemoManager.cs" />
+    <Page Include="Controls\ControlWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Controls\DailyMemo.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

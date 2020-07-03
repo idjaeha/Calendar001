@@ -10,4 +10,5 @@
     <system:String x:Key="noDragging">위치 및 크기 고정</system:String>
     <system:String x:Key="ChangeKorean">한국어로 변환</system:String>
     <system:String x:Key="ChangeEnglish">영어로 변환</system:String>
+    <system:String x:Key="Setting">설정</system:String>
 </ResourceDictionary>

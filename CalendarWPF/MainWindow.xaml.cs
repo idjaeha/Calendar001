@@ -20,6 +20,7 @@ using System.Threading;
 using System.Globalization;
 using CalendarWPF.Src;
 using CalendarWPF.Model;
+using CalendarWPF.Controls;
 
 namespace CalendarWPF
 {
@@ -31,12 +32,12 @@ namespace CalendarWPF
         private NotifyIcon notify;
         private System.Windows.Forms.ContextMenu menu;
         private bool canDrag;
-        private List<MenuItemWithID> menuItems;
-        private List<DailyMemo> dayItems;
+        private List<MenuItemWithID> menuItems; // 사용되고 있는 menuItem을 저장한 배열
+        private List<DailyMemo> dayItems; // 현재 보여지고 있는 DailyMemo를 저장한 배열
         private DateTime now;
-        private int selectedYear;
-        private int selectedMonth;
-        private int[] numberOfDays;
+        private int selectedYear; // 현재 선택된 년
+        private int selectedMonth; // 현재 선택된 월
+        private static readonly int[] numberOfDays = new int[13] { 0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };
         private static readonly int DAY_SPAN = 1;
         private static readonly int DAY_WEEK = 7;
 
@@ -61,8 +62,6 @@ namespace CalendarWPF
             menuItems = new List<MenuItemWithID>();
             dayItems = new List<DailyMemo>();
 
-            numberOfDays = new int[13] { 0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };
-
             MemoManager.Instance.LoadDataFromFile();
         }
 
@@ -71,6 +70,14 @@ namespace CalendarWPF
             this.AllowsTransparency = true;
             this.Background = new SolidColorBrush(Colors.Black);
             this.Background.Opacity = 0;
+        }
+
+        internal void SetMemosFont(FontInfomation fontInfomation)
+        {
+            foreach(DailyMemo item in dayItems)
+            {
+                item.SetMemoFont(fontInfomation);
+            }
         }
 
         private void Label_Year_Initialized(object sender, EventArgs e)
@@ -105,23 +112,23 @@ namespace CalendarWPF
             notify.Icon = Properties.Resources.notifyIcon;
             notify.Visible = true;
             notify.ContextMenu = menu;
-
+            
             notify.DoubleClick += Notify_DoubleClick;
 
-            AddMenuItem(0, "ProgramExit".ToString(),
+            AddMenuItem(0, "ProgramExit",
                 (object click, EventArgs eClick) =>
                 {
                     System.Windows.Application.Current.Shutdown();
                     notify.Dispose();
                 });
 
-            AddMenuItem(0, "ProgramHiding".ToString(),
+            AddMenuItem(0, "ProgramHiding",
                 (object click, EventArgs eClick) =>
                 {
                     HideProgram();
                 });
 
-            AddMenuItem(0, "Dragging".ToString(),
+            AddMenuItem(0, "Dragging",
                 (object click, EventArgs eClick) =>
                 {
                     canDrag = !canDrag;
@@ -129,6 +136,15 @@ namespace CalendarWPF
                     this.Background.Opacity = canDrag == true ? 0.5 : 0;
                     this.ResizeMode = canDrag == true ? ResizeMode.CanResize : ResizeMode.NoResize;
                     ((System.Windows.Forms.MenuItem)click).Text = canDrag == true ? FindResource("noDragging").ToString() : FindResource("Dragging").ToString();
+                });
+
+            AddMenuItem(0, "Setting",
+                (object click, EventArgs eClick) =>
+                {
+                    ControlWindow dlg = new ControlWindow(this);
+                    dlg.Owner = this;
+
+                    dlg.ShowDialog();
                 });
         }
 
@@ -277,15 +293,13 @@ namespace CalendarWPF
 
 
         // 해당 개발은 해야할 것들을 표기한 것이고, 순서는 의미가 없다.
-        // 개발 1 : 로컬 저장소에 메모를 저장, 불러오기
-        // 개발 2 : 로컬 저장소와 서버와 연결하여 메모 사용
-        // 개발 3 : 각종 달력 설정 구현 ( 배경화면 색 변경, 폰트 색 변경 )
-        // 개발 4 : 달력 사이즈 변경
-        // 개발 5 : 달력의 Topmost 설정을 따로 주고, 배경화면에 얹어있는 식으로 표현하는 것을 구현
+        // 개발 1 : 로컬 저장소와 서버와 연결하여 메모 사용
+        // 개발 2 : 각종 달력 설정 구현 ( 배경화면 색 변경, 폰트 색 변경 )
+        // 개발 3 : 달력의 Topmost 설정을 따로 주고, 배경화면에 얹어있는 식으로 표현하는 것을 구현
+        // 개발 4 : 시작 시에 현재 적용된 크기와 배경색, 폰트 등을 불러오는 기능 구현
 
         // Detail Develop
         // TODO : 메모 편집 중 다른 곳을 눌렀을 때 저장이 되는 기능
-        // TODO : 달력의 크기가 변경될 때마다 자동으로 높이와 너비가 조절되는 기능
 
     }
 

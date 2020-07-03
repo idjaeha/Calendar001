@@ -1,4 +1,5 @@
-﻿using CalendarWPF.Src;
+﻿using CalendarWPF.Model;
+using CalendarWPF.Src;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -96,6 +97,15 @@ namespace CalendarWPF
         private void TextBox_EditText_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
         {
             ((TextBox)sender).Focus();
+        }
+
+        public void SetMemoFont(FontInfomation fontInfomation)
+        {
+            FontFamily newFontFamily = new FontFamily(fontInfomation.FontFamilyName);
+            TextBox_EditText.FontFamily = newFontFamily;
+            TextBlock_ShowText.FontFamily = newFontFamily;
+            TextBox_EditText.FontSize = double.Parse(fontInfomation.FontSize);
+            TextBlock_ShowText.FontSize = double.Parse(fontInfomation.FontSize);
         }
     }
 }
