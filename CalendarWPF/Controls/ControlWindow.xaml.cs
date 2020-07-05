@@ -77,7 +77,7 @@ namespace CalendarWPF.Controls
         /// </summary>
         private void PostFontInfomation()
         {
-            FontInfomation fontInfomation = new FontInfomation()
+            FontInformation fontInfomation = new FontInformation()
             {
                 FontFamilyName = ComboBox_Font.Text,
                 FontSize = TextBox_FontSize.Text

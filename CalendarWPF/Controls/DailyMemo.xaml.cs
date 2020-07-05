@@ -99,13 +99,17 @@ namespace CalendarWPF
             ((TextBox)sender).Focus();
         }
 
-        public void SetMemoFont(FontInfomation fontInfomation)
+        public void SetMemoFont(FontInformation fontInformation)
         {
-            FontFamily newFontFamily = new FontFamily(fontInfomation.FontFamilyName);
+            if(fontInformation == null)
+            {
+                return;
+            }
+            FontFamily newFontFamily = new FontFamily(fontInformation.FontFamilyName);
             TextBox_EditText.FontFamily = newFontFamily;
             TextBlock_ShowText.FontFamily = newFontFamily;
-            TextBox_EditText.FontSize = double.Parse(fontInfomation.FontSize);
-            TextBlock_ShowText.FontSize = double.Parse(fontInfomation.FontSize);
+            TextBox_EditText.FontSize = double.Parse(fontInformation.FontSize);
+            TextBlock_ShowText.FontSize = double.Parse(fontInformation.FontSize);
         }
     }
 }

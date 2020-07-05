@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace CalendarWPF.Model
 {
-    public class FontInfomation
+    public class FontInformation
     {
         public string FontFamilyName { get; set; }
         public string FontSize { get; set; }

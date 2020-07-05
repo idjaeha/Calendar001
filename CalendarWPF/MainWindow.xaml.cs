@@ -40,6 +40,7 @@ namespace CalendarWPF
         private static readonly int[] numberOfDays = new int[13] { 0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };
         private static readonly int DAY_SPAN = 1;
         private static readonly int DAY_WEEK = 7;
+        internal FontInformation currentFontInfomation;
 
         public MainWindow()
         {
@@ -72,11 +73,12 @@ namespace CalendarWPF
             this.Background.Opacity = 0;
         }
 
-        internal void SetMemosFont(FontInfomation fontInfomation)
+        internal void SetMemosFont(FontInformation fontInfomation)
         {
+            currentFontInfomation = fontInfomation;
             foreach(DailyMemo item in dayItems)
             {
-                item.SetMemoFont(fontInfomation);
+                item.SetMemoFont(currentFontInfomation);
             }
         }
 
@@ -218,10 +220,17 @@ namespace CalendarWPF
             Thread.CurrentThread.CurrentUICulture = new CultureInfo(culture);
         }
 
+        /// <summary>
+        /// 해당하는 날짜를 불러옵니다.
+        /// </summary>
+        /// <param name="day"></param>
+        /// <param name="index"></param>
+        /// <param name="memo"></param>
         private void LoadDay(int day, int index, string memo)
         {
             DailyMemo newDaysItem = new DailyMemo(selectedYear, selectedMonth, day);
             newDaysItem.SetMemo(memo);
+            newDaysItem.SetMemoFont(currentFontInfomation);
             dayItems.Add(newDaysItem);
             Grid.SetColumnSpan(newDaysItem, DAY_SPAN);
             Grid.SetRow(newDaysItem, index / DAY_WEEK);
@@ -256,10 +265,13 @@ namespace CalendarWPF
             CleanCalendar();
             LoadMonth(selectedYear, selectedMonth);
         }
-
+        /// <summary>
+        /// 인자로 받은 년, 월에 맞게 달을 불러옵니다.
+        /// </summary>
+        /// <param name="year">the year you want to load</param>
+        /// <param name="month">the month you want to load</param>
         private void LoadMonth(int year, int month)
         {
-            // 인자로 받은 년, 월에 맞게 달을 불러옵니다.
             DateTime firstDayOfMonth = new DateTime(year, month, 1);
             int idx = (int)firstDayOfMonth.DayOfWeek;
             int countDays = numberOfDays[month];

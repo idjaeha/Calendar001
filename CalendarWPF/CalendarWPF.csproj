@@ -80,7 +80,7 @@
     <Compile Include="Controls\DailyMemo.xaml.cs">
       <DependentUpon>DailyMemo.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Model\FontInfomation.cs" />
+    <Compile Include="Model\FontInformation.cs" />
     <Compile Include="Model\Memo.cs" />
     <Compile Include="Controller\MemoManager.cs" />
     <Page Include="Controls\ControlWindow.xaml">

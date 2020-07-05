@@ -50,7 +50,6 @@
             VerticalAlignment="Top"
             PreviewTextInput="TextBox_FontSize_PreviewTextInput"
             Text="12"
-            TextChanged="TextBox_FontSize_TextChanged"
             TextWrapping="Wrap" />
     </Grid>
 </Window>
