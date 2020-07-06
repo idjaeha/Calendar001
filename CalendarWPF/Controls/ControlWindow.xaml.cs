@@ -15,6 +15,7 @@ using System.Windows.Markup;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using System.Drawing;
 
 namespace CalendarWPF.Controls
 {
@@ -38,13 +39,27 @@ namespace CalendarWPF.Controls
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            LoadFonts();
+            AddFontsToComboBox();
+            LoadSetting();
         }
 
-        private void LoadFonts()
+        /// <summary>
+        /// 세팅을 불러와 적용시킵니다.
+        /// </summary>
+        private void LoadSetting()
+        {
+            ComboBox_Font.Text = mainWindow.CurrentSetting.FontFamilyName;
+            TextBox_FontSize.Text = mainWindow.CurrentSetting.FontSize;
+        }
+
+
+        /// <summary>
+        /// 기본 폰트를 불러와 ComboBox_Font에 추가합니다.
+        /// </summary>
+        private void AddFontsToComboBox()
         {
             var fonts = Fonts.SystemFontFamilies;
-            foreach (FontFamily font in fonts)
+            foreach (System.Windows.Media.FontFamily font in fonts)
             {
                 ComboBoxItem item = new ComboBoxItem();
                 string fontFamilyName = null;
@@ -58,10 +73,11 @@ namespace CalendarWPF.Controls
                     fontFamilyName = font.ToString();
                 }
 
+
                 if (fontFamilyName != null)
                 {
                     item.Content = fontFamilyName;
-                    item.FontFamily = new FontFamily(fontFamilyName);
+                    item.FontFamily = new System.Windows.Media.FontFamily(fontFamilyName);
                     ComboBox_Font.Items.Add(item);
                 }
             }
@@ -77,12 +93,21 @@ namespace CalendarWPF.Controls
         /// </summary>
         private void PostFontInfomation()
         {
-            FontInformation fontInfomation = new FontInformation()
+            // 비어있지 않다면 변경한다.
+            if (!(ComboBox_Font.Text == ""))
+            { 
+                mainWindow.CurrentSetting.FontFamilyName = ComboBox_Font.Text;
+            }
+
+            if (!(TextBox_FontSize.Text == ""))
             {
-                FontFamilyName = ComboBox_Font.Text,
-                FontSize = TextBox_FontSize.Text
-            };
-            mainWindow.SetMemosFont(fontInfomation);
+                mainWindow.CurrentSetting.FontSize = TextBox_FontSize.Text;
+            }
+
+            
+
+            // Setting 값을 토대로 변경을 시도한다.
+            mainWindow.SetMemosFont();
         }
 
         /// <summary>

@@ -40,7 +40,17 @@ namespace CalendarWPF
         private static readonly int[] numberOfDays = new int[13] { 0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };
         private static readonly int DAY_SPAN = 1;
         private static readonly int DAY_WEEK = 7;
-        internal FontInformation currentFontInfomation;
+        private Setting currentSetting;
+        internal Setting CurrentSetting {
+            get 
+            {
+                if (currentSetting == null) 
+                {
+                    currentSetting = new Setting();
+                }
+                return currentSetting;
+            }
+        }
 
         public MainWindow()
         {
@@ -73,12 +83,11 @@ namespace CalendarWPF
             this.Background.Opacity = 0;
         }
 
-        internal void SetMemosFont(FontInformation fontInfomation)
+        internal void SetMemosFont()
         {
-            currentFontInfomation = fontInfomation;
             foreach(DailyMemo item in dayItems)
             {
-                item.SetMemoFont(currentFontInfomation);
+                item.SetMemoFont();
             }
         }
 
@@ -228,9 +237,9 @@ namespace CalendarWPF
         /// <param name="memo"></param>
         private void LoadDay(int day, int index, string memo)
         {
-            DailyMemo newDaysItem = new DailyMemo(selectedYear, selectedMonth, day);
+            DailyMemo newDaysItem = new DailyMemo(this, selectedYear, selectedMonth, day);
             newDaysItem.SetMemo(memo);
-            newDaysItem.SetMemoFont(currentFontInfomation);
+            newDaysItem.SetMemoFont();
             dayItems.Add(newDaysItem);
             Grid.SetColumnSpan(newDaysItem, DAY_SPAN);
             Grid.SetRow(newDaysItem, index / DAY_WEEK);

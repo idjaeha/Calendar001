@@ -24,6 +24,7 @@ namespace CalendarWPF
     {
         private DateTime date;
         private string memo;
+        private MainWindow mainWindow;
 
         public DailyMemo()
         {
@@ -31,10 +32,11 @@ namespace CalendarWPF
             ChangeShowMode();
         }
 
-        public DailyMemo(int year, int month, int day) : this()
+        public DailyMemo(MainWindow mainWindow, int year, int month, int day) : this()
         {
             date = new DateTime(year, month, day);
             TextBlock_day.Text = day.ToString();
+            this.mainWindow = mainWindow;
         }
 
         public void SetMemo(string text)
@@ -99,17 +101,17 @@ namespace CalendarWPF
             ((TextBox)sender).Focus();
         }
 
-        public void SetMemoFont(FontInformation fontInformation)
+        public void SetMemoFont()
         {
-            if(fontInformation == null)
+            if(mainWindow.CurrentSetting.FontFamilyName == null)
             {
                 return;
             }
-            FontFamily newFontFamily = new FontFamily(fontInformation.FontFamilyName);
+            FontFamily newFontFamily = new FontFamily(mainWindow.CurrentSetting.FontFamilyName);
             TextBox_EditText.FontFamily = newFontFamily;
             TextBlock_ShowText.FontFamily = newFontFamily;
-            TextBox_EditText.FontSize = double.Parse(fontInformation.FontSize);
-            TextBlock_ShowText.FontSize = double.Parse(fontInformation.FontSize);
+            TextBox_EditText.FontSize = double.Parse(mainWindow.CurrentSetting.FontSize);
+            TextBlock_ShowText.FontSize = double.Parse(mainWindow.CurrentSetting.FontSize);
         }
     }
 }
