@@ -27,8 +27,6 @@
             Panel.ZIndex="1"
             Background="#CC000000"
             MouseDown="Canvas_MouseDown"
-            MouseEnter="Canvas_MouseEnterMemo"
-            MouseLeave="Canvas_MouseLeaveMemo"
             Visibility="Visible">
             <TextBlock
                 x:Name="TextBlock_ShowText"

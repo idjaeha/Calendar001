@@ -15,7 +15,6 @@ using System.Windows.Markup;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
-using System.Drawing;
 
 namespace CalendarWPF.Controls
 {
@@ -50,6 +49,8 @@ namespace CalendarWPF.Controls
         {
             ComboBox_Font.Text = mainWindow.CurrentSetting.FontFamilyName;
             TextBox_FontSize.Text = mainWindow.CurrentSetting.FontSize;
+            TextBlock_Background.Text = mainWindow.CurrentSetting.Background.ToString();
+            ColorPicker_Background.SelectedColor = ColorConverter.ConvertFromString(mainWindow.CurrentSetting.Background.ToString()) as Color?;
         }
 
 
@@ -98,16 +99,18 @@ namespace CalendarWPF.Controls
             { 
                 mainWindow.CurrentSetting.FontFamilyName = ComboBox_Font.Text;
             }
-
             if (!(TextBox_FontSize.Text == ""))
             {
                 mainWindow.CurrentSetting.FontSize = TextBox_FontSize.Text;
             }
-
-            
+            if (!(TextBlock_Background.Text == ""))
+            {
+                mainWindow.CurrentSetting.Background = new SolidColorBrush(ColorPicker_Background.SelectedColor.GetValueOrDefault());
+            }
 
             // Setting 값을 토대로 변경을 시도한다.
             mainWindow.SetMemosFont();
+            mainWindow.SetBackground();
         }
 
         /// <summary>
@@ -119,6 +122,11 @@ namespace CalendarWPF.Controls
         {
             Regex regex = new Regex("[^0-9]+");
             e.Handled = regex.IsMatch(e.Text); // 숫자일 경우 true를 반환하여 이벤트를 종료시킵니다.
+        }
+
+        private void ColorPicker_background_SelectedColorChanged(object sender, RoutedPropertyChangedEventArgs<System.Windows.Media.Color?> e)
+        {
+            TextBlock_Background.Text = ColorPicker_Background.SelectedColorText;
         }
     }
 }

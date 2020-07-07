@@ -5,9 +5,11 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="clr-namespace:CalendarWPF.Controls"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
     Title="ControlWindow"
     Width="800"
     Height="450"
+    Background="White"
     Loaded="Window_Loaded"
     mc:Ignorable="d">
 
@@ -50,6 +52,20 @@
             VerticalAlignment="Top"
             PreviewTextInput="TextBox_FontSize_PreviewTextInput"
             Text="12"
+            TextWrapping="Wrap" />
+        <xctk:ColorPicker
+            x:Name="ColorPicker_Background"
+            Margin="10,42,658,340"
+            SelectedColorChanged="ColorPicker_background_SelectedColorChanged" />
+        <TextBlock
+            x:Name="TextBlock_Background"
+            Height="37"
+            Margin="139,42,0,0"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Top"
+            FontSize="20"
+            RenderTransformOrigin="0.098,-0.068"
+            Text="TextBlock"
             TextWrapping="Wrap" />
     </Grid>
 </Window>

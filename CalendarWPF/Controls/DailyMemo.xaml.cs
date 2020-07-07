@@ -45,6 +45,11 @@ namespace CalendarWPF
             TextBlock_ShowText.Text = memo;
         }
 
+        public void SetBackground(Brush brush)
+        {
+            Canvas_ShowText.Background = brush;
+        }
+
         private void doubleClick()
         {
             TextBox_EditText.Text = memo;
@@ -84,16 +89,6 @@ namespace CalendarWPF
         {
             Canvas_EditText.Visibility = Visibility.Hidden;
             Canvas_ShowText.Visibility = Visibility.Visible;
-        }
-
-        private void Canvas_MouseEnterMemo(object sender, MouseEventArgs e)
-        {
-            ((Canvas)sender).Background.Opacity = 0.5;
-        }
-
-        private void Canvas_MouseLeaveMemo(object sender, MouseEventArgs e)
-        {
-            ((Canvas)sender).Background.Opacity = 1;
         }
 
         private void TextBox_EditText_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)

@@ -61,6 +61,7 @@
             Width="{Binding ActualWidth, ElementName=Window_Main}"
             Height="100">
             <Canvas
+                x:Name="Canvas_InnerTitle"
                 Canvas.Left="0"
                 Canvas.Top="0"
                 Width="{Binding ActualWidth, ElementName=Window_Main}"

@@ -41,5 +41,7 @@ namespace CalendarWPF.Model
             }
         }
         public FontStyle FontStyle { get; set; }
+
+        public System.Windows.Media.Brush Background { get; set; }
     }
 }

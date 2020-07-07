@@ -46,7 +46,10 @@ namespace CalendarWPF
             {
                 if (currentSetting == null) 
                 {
-                    currentSetting = new Setting();
+                    currentSetting = new Setting()
+                    {
+                        Background = Window_Main.Background
+                    };
                 }
                 return currentSetting;
             }
@@ -114,6 +117,18 @@ namespace CalendarWPF
 
             this.Left = SystemParameters.WorkArea.Width - this.Width;
             this.Top = 0;
+        }
+
+        /// <summary>
+        /// 캘린더 내에 존재하는 지정된 요소들의 Background를 변경합니다.
+        /// </summary>
+        internal void SetBackground()
+        {
+            this.Resources["BackgroundColor"] = CurrentSetting.Background;
+            foreach(DailyMemo memo in dayItems)
+            {
+                memo.SetBackground(CurrentSetting.Background);
+            }
         }
 
         private void InitNotify()
