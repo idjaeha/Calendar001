@@ -1,4 +1,5 @@
-﻿using CalendarWPF.Model;
+﻿using CalendarWPF.Controller;
+using CalendarWPF.Model;
 using CalendarWPF.Src;
 using System;
 using System.Collections.Generic;
@@ -101,31 +102,44 @@ namespace CalendarWPF
         /// </summary>
         public void SetMemoFont()
         {
-            if(mainWindow.CurrentSetting.FontFamilyName == null)
+            if (SettingManager.CurrentSetting.FontFamilyName != null)
             {
-                return;
+                FontFamily newFontFamily = new FontFamily(SettingManager.CurrentSetting.FontFamilyName);
+                TextBox_EditText.FontFamily = newFontFamily;
+                TextBlock_ShowText.FontFamily = newFontFamily;
             }
-            FontFamily newFontFamily = new FontFamily(mainWindow.CurrentSetting.FontFamilyName);
-            TextBox_EditText.FontFamily = newFontFamily;
-            TextBlock_ShowText.FontFamily = newFontFamily;
-            TextBox_EditText.FontSize = double.Parse(mainWindow.CurrentSetting.FontSize);
-            TextBlock_ShowText.FontSize = double.Parse(mainWindow.CurrentSetting.FontSize);
-            TextBox_EditText.FontStyle = mainWindow.CurrentSetting.FontStyle;
-            TextBlock_ShowText.FontStyle = mainWindow.CurrentSetting.FontStyle;
-            TextBox_EditText.FontWeight = mainWindow.CurrentSetting.FontWeight;
-            TextBlock_ShowText.FontWeight = mainWindow.CurrentSetting.FontWeight;
-            TextBox_EditText.TextDecorations = mainWindow.CurrentSetting.TextDecoration;
-            TextBlock_ShowText.TextDecorations = mainWindow.CurrentSetting.TextDecoration;
+
+            if (SettingManager.CurrentSetting.FontSize != null)
+            {
+                TextBox_EditText.FontSize = double.Parse(SettingManager.CurrentSetting.FontSize);
+                TextBlock_ShowText.FontSize = double.Parse(SettingManager.CurrentSetting.FontSize);
+            }
+
+            if (SettingManager.CurrentSetting.FontStyle != null)
+            {
+                TextBox_EditText.FontStyle = (FontStyle)ConvertHelper.CFontStyle.ConvertFromString(SettingManager.CurrentSetting.FontStyle);
+                TextBlock_ShowText.FontStyle = (FontStyle)ConvertHelper.CFontStyle.ConvertFromString(SettingManager.CurrentSetting.FontStyle);
+            }
+
+            if (SettingManager.CurrentSetting.FontWeight != null)
+            {
+                TextBox_EditText.FontWeight = (FontWeight)ConvertHelper.CFontWeight.ConvertFromString(SettingManager.CurrentSetting.FontWeight);
+                TextBlock_ShowText.FontWeight = (FontWeight)ConvertHelper.CFontWeight.ConvertFromString(SettingManager.CurrentSetting.FontWeight);
+            }
+
+            TextBox_EditText.TextDecorations = SettingManager.CurrentSetting.GetTextDecorations();
+            TextBlock_ShowText.TextDecorations = SettingManager.CurrentSetting.GetTextDecorations();
+            
         }
 
         internal void SetMemoForeground()
         {
-            TextBlock_ShowText.Foreground = mainWindow.CurrentSetting.MemoForeground;
+            TextBlock_ShowText.Foreground = ConvertHelper.CBrush.ConvertFromString(SettingManager.CurrentSetting.MemoForeground) as Brush;
         }
 
         internal void SetOptionForeground()
         {
-            TextBlock_Day.Foreground = mainWindow.CurrentSetting.OptionForeground;
+            TextBlock_Day.Foreground = ConvertHelper.CBrush.ConvertFromString(SettingManager.CurrentSetting.OptionForeground) as Brush;
         }
     }
 }

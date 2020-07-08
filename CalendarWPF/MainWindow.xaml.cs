@@ -21,6 +21,7 @@ using System.Globalization;
 using CalendarWPF.Src;
 using CalendarWPF.Model;
 using CalendarWPF.Controls;
+using CalendarWPF.Controller;
 
 namespace CalendarWPF
 {
@@ -40,26 +41,13 @@ namespace CalendarWPF
         private static readonly int[] numberOfDays = new int[13] { 0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };
         private static readonly int DAY_SPAN = 1;
         private static readonly int DAY_WEEK = 7;
-        private Setting currentSetting;
-        internal Setting CurrentSetting {
-            get 
-            {
-                if (currentSetting == null) 
-                {
-                    currentSetting = new Setting()
-                    {
-                        Background = this.Resources["BackgroundColor"] as Brush
-                    };
-                }
-                return currentSetting;
-            }
-        }
 
         public MainWindow()
         {
             InitData();
             InitializeComponent();
             LoadMonth(selectedYear, selectedMonth);
+            SetAllSetting();
         }
 
         #region Initialized
@@ -77,6 +65,15 @@ namespace CalendarWPF
             dayItems = new List<DailyMemo>();
 
             MemoManager.Instance.LoadDataFromFile();
+            SettingManager.LoadCurrentSetting();
+        }
+
+        private void SetAllSetting()
+        {
+            SetMemosFont();
+            SetMemoForeground();
+            SetOptionForeground();
+            SetBackground();
         }
 
         private void Window_Initialized(object sender, EventArgs e)
@@ -88,7 +85,7 @@ namespace CalendarWPF
 
         internal void SetMemosFont()
         {
-            foreach(DailyMemo item in dayItems)
+            foreach (DailyMemo item in dayItems)
             {
                 item.SetMemoFont();
             }
@@ -124,10 +121,15 @@ namespace CalendarWPF
         /// </summary>
         internal void SetBackground()
         {
-            this.Resources["BackgroundColor"] = CurrentSetting.Background;
+            if(SettingManager.CurrentSetting.Background == null)
+            {
+                return;
+            }
+
+            this.Resources["BackgroundColor"] = ConvertHelper.CBrush.ConvertFromString(SettingManager.CurrentSetting.Background);
             foreach(DailyMemo memo in dayItems)
             {
-                memo.SetBackground(CurrentSetting.Background);
+                memo.SetBackground(ConvertHelper.CBrush.ConvertFromString(SettingManager.CurrentSetting.Background) as Brush);
             }
         }
 
@@ -144,8 +146,8 @@ namespace CalendarWPF
             AddMenuItem(0, "ProgramExit",
                 (object click, EventArgs eClick) =>
                 {
-                    System.Windows.Application.Current.Shutdown();
                     notify.Dispose();
+                    System.Windows.Application.Current.Shutdown();
                 });
 
             AddMenuItem(0, "ProgramHiding",
@@ -176,6 +178,11 @@ namespace CalendarWPF
 
         internal void SetMemoForeground()
         {
+            if (SettingManager.CurrentSetting.MemoForeground == null)
+            {
+                return;
+            }
+
             foreach (DailyMemo item in dayItems)
             {
                 item.SetMemoForeground();
@@ -184,7 +191,12 @@ namespace CalendarWPF
 
         internal void SetOptionForeground()
         {
-            this.Resources["OptionBrush"] = CurrentSetting.OptionForeground;
+            if (SettingManager.CurrentSetting.OptionForeground == null)
+            {
+                return;
+            }
+
+            this.Resources["OptionBrush"] = ConvertHelper.CBrush.ConvertFromString(SettingManager.CurrentSetting.OptionForeground);
             foreach (DailyMemo item in dayItems)
             {
                 item.SetOptionForeground();
@@ -291,6 +303,7 @@ namespace CalendarWPF
             Label_Month.Content = $"{selectedMonth}";
             CleanCalendar();
             LoadMonth(selectedYear, selectedMonth);
+            SetAllSetting();
         }
 
         private void Button_ClickNextMonth(object sender, RoutedEventArgs e)
@@ -305,6 +318,7 @@ namespace CalendarWPF
             Label_Month.Content = $"{selectedMonth}";
             CleanCalendar();
             LoadMonth(selectedYear, selectedMonth);
+            SetAllSetting();
         }
         /// <summary>
         /// 인자로 받은 년, 월에 맞게 달을 불러옵니다.
@@ -341,6 +355,11 @@ namespace CalendarWPF
                 Calendar_Days.Children.Remove(days);
             }
             dayItems.Clear();
+        }
+
+        private void Window_Main_Closed(object sender, EventArgs e)
+        {
+            SettingManager.SaveCurrentSetting();
         }
 
 

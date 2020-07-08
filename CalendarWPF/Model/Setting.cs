@@ -13,6 +13,13 @@ namespace CalendarWPF.Model
     {
         private string fontFamilyName;
         private string fontSize;
+        private string fontStyle;
+        private string fontWeight;
+        private string backGround;
+        private string memoForeGround;
+        private string optionForeGround;
+        [NonSerialized]
+        private TextDecorationCollection textDecorations;
 
         public string FontFamilyName { get
             {
@@ -41,12 +48,91 @@ namespace CalendarWPF.Model
                 fontSize = value;
             }
         }
-        public System.Windows.FontStyle FontStyle { get; set; }
-        public System.Windows.FontWeight FontWeight { get; set; }
+        
+        public string FontStyle
+        { 
+            get
+            {
+                if(fontStyle == null)
+                {
+                    fontStyle = System.Windows.FontStyles.Normal.ToString();
+                }
+                return fontStyle;
+            }
+            set
+            {
+                fontStyle = value;
+            }
+            }
+        public string FontWeight
+        {
+            get
+            {
+                if (fontWeight == null)
+                {
+                    fontWeight = System.Windows.FontWeights.Normal.ToString();
+                }
+                return fontWeight;
+            }
+            set
+            {
+                fontWeight = value;
+            }
+        }
 
-        public System.Windows.Media.Brush Background { get; set; }
-        public System.Windows.Media.Brush MemoForeground { get; set; }
-        public System.Windows.Media.Brush OptionForeground { get; set; }
-        public TextDecorationCollection TextDecoration { get; internal set; }
+        public string Background
+        {
+            get
+            {
+                if (backGround == null)
+                {
+                    backGround = "#CC000000";
+                }
+                return backGround;
+            }
+            set
+            {
+                backGround = value;
+            }
+        }
+        public string MemoForeground
+        {
+            get
+            {
+                if (memoForeGround == null)
+                {
+                    memoForeGround = System.Windows.Media.Colors.White.ToString();
+                }
+                return memoForeGround;
+            }
+            set
+            {
+                memoForeGround = value;
+            }
+        }
+        public string OptionForeground
+        {
+            get
+            {
+                if (optionForeGround == null)
+                {
+                    optionForeGround = System.Windows.Media.Colors.White.ToString();
+                }
+                return optionForeGround;
+            }
+            set
+            {
+                optionForeGround = value;
+            }
+        }
+
+        public TextDecorationCollection GetTextDecorations()
+        {
+            return textDecorations;
+        }
+        public void SetTextDecorations(TextDecorationCollection textDecorations)
+        {
+            this.textDecorations = textDecorations;
+        }
     }
 }

@@ -1,4 +1,5 @@
-﻿using CalendarWPF.Model;
+﻿using CalendarWPF.Controller;
+using CalendarWPF.Model;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -24,10 +25,12 @@ namespace CalendarWPF.Controls
     public partial class ControlWindow : Window
     {
         private MainWindow mainWindow;
+        private TextDecorationCollection textDecorations;
 
         public ControlWindow()
         {
             InitializeComponent();
+            textDecorations = new TextDecorationCollection();
         }
 
         public ControlWindow(MainWindow mainWindow)
@@ -47,12 +50,12 @@ namespace CalendarWPF.Controls
         /// </summary>
         private void LoadSetting()
         {
-            ComboBox_Font.Text = mainWindow.CurrentSetting.FontFamilyName;
-            TextBox_FontSize.Text = mainWindow.CurrentSetting.FontSize;
-            TextBlock_Background.Text = mainWindow.CurrentSetting.Background.ToString();
-            ColorPicker_Background.SelectedColor = ColorConverter.ConvertFromString(mainWindow.CurrentSetting.Background.ToString()) as Color?;
-            ColorPicker_Background.SelectedColor = ColorConverter.ConvertFromString(mainWindow.CurrentSetting.OptionForeground.ToString()) as Color?;
-            ColorPicker_Background.SelectedColor = ColorConverter.ConvertFromString(mainWindow.CurrentSetting.MemoForeground.ToString()) as Color?;
+            ComboBox_Font.Text = SettingManager.CurrentSetting.FontFamilyName;
+            TextBox_FontSize.Text = SettingManager.CurrentSetting.FontSize;
+            TextBlock_Background.Text = SettingManager.CurrentSetting.Background.ToString();
+            ColorPicker_Background.SelectedColor = ColorConverter.ConvertFromString(SettingManager.CurrentSetting.Background) as Color?;
+            ColorPicker_OptionForeground.SelectedColor = ColorConverter.ConvertFromString(SettingManager.CurrentSetting.OptionForeground) as Color?;
+            ColorPicker_MemoForeground.SelectedColor = ColorConverter.ConvertFromString(SettingManager.CurrentSetting.MemoForeground) as Color?;
         }
 
 
@@ -96,7 +99,8 @@ namespace CalendarWPF.Controls
         /// </summary>
         private void SaveSetting()
         {
-
+            SettingManager.SaveCurrentSetting();
+            this.Close();
         }
 
         /// <summary>
@@ -120,7 +124,7 @@ namespace CalendarWPF.Controls
             if (ColorPicker_Background.SelectedColor != null)
             {
                 TextBlock_Background.Text = ColorPicker_Background.SelectedColorText;
-                mainWindow.CurrentSetting.Background = new SolidColorBrush(ColorPicker_Background.SelectedColor.GetValueOrDefault());
+                SettingManager.CurrentSetting.Background = (new SolidColorBrush(ColorPicker_Background.SelectedColor.GetValueOrDefault())).ToString();
             }
 
             mainWindow.SetBackground();
@@ -133,7 +137,7 @@ namespace CalendarWPF.Controls
                 // 비어있지 않다면 변경한다.
                 if (!(ComboBox_Font.Text == ""))
                 {
-                    mainWindow.CurrentSetting.FontFamilyName = ComboBox_Font.Text;
+                    SettingManager.CurrentSetting.FontFamilyName = ComboBox_Font.Text;
                 }
             });
         }
@@ -144,7 +148,7 @@ namespace CalendarWPF.Controls
             {
                 if (!(TextBox_FontSize.Text == ""))
                 {
-                    mainWindow.CurrentSetting.FontSize = TextBox_FontSize.Text;
+                    SettingManager.CurrentSetting.FontSize = TextBox_FontSize.Text;
                 }
             });
         }
@@ -158,7 +162,7 @@ namespace CalendarWPF.Controls
 
             if (e.NewValue != null)
             {
-                mainWindow.CurrentSetting.MemoForeground = new SolidColorBrush(e.NewValue.GetValueOrDefault());
+                SettingManager.CurrentSetting.MemoForeground = new SolidColorBrush(e.NewValue.GetValueOrDefault()).ToString();
             }
 
             mainWindow.SetMemoForeground();
@@ -173,7 +177,7 @@ namespace CalendarWPF.Controls
 
             if (e.NewValue != null)
             {
-                mainWindow.CurrentSetting.OptionForeground = new SolidColorBrush(e.NewValue.GetValueOrDefault());
+                SettingManager.CurrentSetting.OptionForeground = new SolidColorBrush(e.NewValue.GetValueOrDefault()).ToString();
             }
 
             mainWindow.SetOptionForeground();
@@ -183,7 +187,7 @@ namespace CalendarWPF.Controls
         {
             ChangeFont(() =>
             {
-                mainWindow.CurrentSetting.FontWeight = FontWeights.Bold;
+                SettingManager.CurrentSetting.FontWeight = FontWeights.Bold.ToString();
             });
         }
 
@@ -191,7 +195,7 @@ namespace CalendarWPF.Controls
         {
             ChangeFont(() =>
             {
-                mainWindow.CurrentSetting.FontWeight = FontWeights.Normal;
+                SettingManager.CurrentSetting.FontWeight = FontWeights.Normal.ToString();
             });
         }
 
@@ -199,7 +203,7 @@ namespace CalendarWPF.Controls
         {
             ChangeFont(() =>
             {
-                mainWindow.CurrentSetting.FontStyle = FontStyles.Italic;
+                SettingManager.CurrentSetting.FontStyle = FontStyles.Italic.ToString();
             });
         }
 
@@ -207,7 +211,7 @@ namespace CalendarWPF.Controls
         {
             ChangeFont(() =>
             {
-                mainWindow.CurrentSetting.FontStyle = FontStyles.Normal;
+                SettingManager.CurrentSetting.FontStyle = FontStyles.Normal.ToString();
             });
         }
 
@@ -215,7 +219,7 @@ namespace CalendarWPF.Controls
         {
             ChangeFont(() =>
             {
-                mainWindow.CurrentSetting.TextDecoration = TextDecorations.Underline;
+                SettingManager.CurrentSetting.SetTextDecorations(TextDecorations.Underline);
             });
         }
 
@@ -223,7 +227,7 @@ namespace CalendarWPF.Controls
         {
             ChangeFont(() =>
             {
-                mainWindow.CurrentSetting.TextDecoration = null;
+                SettingManager.CurrentSetting.SetTextDecorations(null);
             });
         }
 
@@ -239,6 +243,11 @@ namespace CalendarWPF.Controls
             }
             changeAction();
             mainWindow.SetMemosFont();
+        }
+
+        private void Window_Closed(object sender, EventArgs e)
+        {
+            SaveSetting();
         }
     }
 }

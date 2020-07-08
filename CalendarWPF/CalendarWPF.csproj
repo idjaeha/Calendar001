@@ -90,7 +90,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Controller\ConvertHelper.cs" />
     <Compile Include="Controller\MinusConvertor.cs" />
+    <Compile Include="Controller\SettingManager.cs" />
     <Compile Include="Controls\ControlWindow.xaml.cs">
       <DependentUpon>ControlWindow.xaml</DependentUpon>
     </Compile>

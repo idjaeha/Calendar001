@@ -2,46 +2,39 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace CalendarWPF.Src
 {
-    // 캘린더가 사용하는 메모들을 관리하기 위해 존재함
+    /// <summary>
+    /// 캘린더가 사용하는 메모들을 관리합니다.
+    /// </summary>
     public class MemoManager
     {
         private static readonly string DATA_FILE_NAME = "memos.dat";
         private static readonly string DATA_FILE_DIRECTORY = "data";
         private Dictionary<DateTime, Memo> memos;
 
-        private static MemoManager memoManager;
+        private static MemoManager instance;
 
         public static MemoManager Instance
         {
             get
             {
-                if (memoManager == null)
+                if (instance == null)
                 {
-                    memoManager = new MemoManager();
+                    instance = new MemoManager();
                 }
-                return memoManager;
+                return instance;
             }
         }
 
-        public MemoManager()
+        private MemoManager()
         {
             memos = new Dictionary<DateTime, Memo>();
-        }
-
-        public void LoadAllMemos()
-        {
-            // Data.dat에서 데이터를 불러와 memos에 저장, 이때 중복된 값이 있다면 더 늦게 생성된 값을 memos에 저장
-        }
-
-        public void SaveAllMemos()
-        {
-            // 현재 memos에 저장된 값을 Data.dat에 저장
         }
 
         public Dictionary<DateTime, Memo> GetMemos(int year, int month)
@@ -90,34 +83,54 @@ namespace CalendarWPF.Src
             SaveDataToFile();
         }
 
-        // 배열에 저장된 데이터를 외부 파일에 저장합니다.
+        /// <summary>
+        /// 배열에 저장된 데이터를 외부 파일에 저장합니다. 
+        /// </summary>
         public void SaveDataToFile()
         {
-            string filePath = System.Windows.Forms.Application.StartupPath + $"\\{DATA_FILE_DIRECTORY}";
-            if(!Directory.Exists(filePath))
+            string directoryPath = System.Windows.Forms.Application.StartupPath + $"\\{DATA_FILE_DIRECTORY}";
+            string filePath = directoryPath + $"\\{DATA_FILE_NAME}";
+            if (!Directory.Exists(directoryPath))
             {
-                Directory.CreateDirectory(filePath);
+                Directory.CreateDirectory(directoryPath);
             }
-            Stream writeStream = new FileStream(filePath + $"\\{DATA_FILE_NAME}", FileMode.Create);
+            Stream writeStream = new FileStream(filePath, FileMode.Create);
             BinaryFormatter serializer = new BinaryFormatter();
 
             serializer.Serialize(writeStream, memos);
             writeStream.Close();
         }
-
-        // 외부 파일에 저장된 데이터를 배열에 불러옵니다.
+        /// <summary>
+        /// 외부 파일에 저장된 데이터를 배열에 불러옵니다. 
+        /// </summary>
         public void LoadDataFromFile()
         {
-            string filePath = System.Windows.Forms.Application.StartupPath + $"\\{DATA_FILE_DIRECTORY}";
-            if (!Directory.Exists(filePath))
+            string directoryPath = System.Windows.Forms.Application.StartupPath + $"\\{DATA_FILE_DIRECTORY}";
+            string filePath = directoryPath + $"\\{DATA_FILE_NAME}";
+
+            if (!Directory.Exists(directoryPath))
             {
                 memos = new Dictionary<DateTime, Memo>();
                 return;
             }
-            Stream readStream = new FileStream(filePath + $"\\{DATA_FILE_NAME}", FileMode.Open);
+
+            if (!File.Exists(filePath))
+            {
+                memos = new Dictionary<DateTime, Memo>();
+                return;
+            }
+
+            Stream readStream = new FileStream(filePath, FileMode.Open);
             BinaryFormatter deserializer = new BinaryFormatter();
 
-            memos = (Dictionary < DateTime, Memo >)deserializer.Deserialize(readStream);
+            try
+            {
+                memos = (Dictionary<DateTime, Memo>)deserializer.Deserialize(readStream);
+            }
+            catch (SerializationException e)
+            {
+                memos = new Dictionary<DateTime, Memo>();
+            }
             readStream.Close();
         }
     }

@@ -10,6 +10,7 @@
     Width="800"
     Height="450"
     Background="White"
+    Closed="Window_Closed"
     Loaded="Window_Loaded"
     mc:Ignorable="d">
 
@@ -57,7 +58,7 @@
             TextChanged="TextBox_FontSize_TextChanged"
             TextWrapping="Wrap" />
         <xctk:ColorPicker
-            x:Name="ColorPicker_Foreground"
+            x:Name="ColorPicker_MemoForeground"
             Margin="399,10,283,369"
             SelectedColorChanged="ColorPicker_Foreground_SelectedColorChanged" />
         <xctk:ColorPicker
