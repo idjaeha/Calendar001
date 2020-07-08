@@ -51,6 +51,8 @@ namespace CalendarWPF.Controls
             TextBox_FontSize.Text = mainWindow.CurrentSetting.FontSize;
             TextBlock_Background.Text = mainWindow.CurrentSetting.Background.ToString();
             ColorPicker_Background.SelectedColor = ColorConverter.ConvertFromString(mainWindow.CurrentSetting.Background.ToString()) as Color?;
+            ColorPicker_Background.SelectedColor = ColorConverter.ConvertFromString(mainWindow.CurrentSetting.OptionForeground.ToString()) as Color?;
+            ColorPicker_Background.SelectedColor = ColorConverter.ConvertFromString(mainWindow.CurrentSetting.MemoForeground.ToString()) as Color?;
         }
 
 
@@ -86,31 +88,15 @@ namespace CalendarWPF.Controls
 
         private void Button_Save_Click(object sender, RoutedEventArgs e)
         {
-            PostFontInfomation();
+            SaveSetting();
         }
 
         /// <summary>
-        /// mainWindow로 현재 폰트 값을 보냅니다.
+        /// 현재 Setting 값을 저장합니다.
         /// </summary>
-        private void PostFontInfomation()
+        private void SaveSetting()
         {
-            // 비어있지 않다면 변경한다.
-            if (!(ComboBox_Font.Text == ""))
-            { 
-                mainWindow.CurrentSetting.FontFamilyName = ComboBox_Font.Text;
-            }
-            if (!(TextBox_FontSize.Text == ""))
-            {
-                mainWindow.CurrentSetting.FontSize = TextBox_FontSize.Text;
-            }
-            if (!(TextBlock_Background.Text == ""))
-            {
-                mainWindow.CurrentSetting.Background = new SolidColorBrush(ColorPicker_Background.SelectedColor.GetValueOrDefault());
-            }
 
-            // Setting 값을 토대로 변경을 시도한다.
-            mainWindow.SetMemosFont();
-            mainWindow.SetBackground();
         }
 
         /// <summary>
@@ -126,7 +112,133 @@ namespace CalendarWPF.Controls
 
         private void ColorPicker_background_SelectedColorChanged(object sender, RoutedPropertyChangedEventArgs<System.Windows.Media.Color?> e)
         {
-            TextBlock_Background.Text = ColorPicker_Background.SelectedColorText;
+            if (mainWindow == null)
+            {
+                return;
+            }
+
+            if (ColorPicker_Background.SelectedColor != null)
+            {
+                TextBlock_Background.Text = ColorPicker_Background.SelectedColorText;
+                mainWindow.CurrentSetting.Background = new SolidColorBrush(ColorPicker_Background.SelectedColor.GetValueOrDefault());
+            }
+
+            mainWindow.SetBackground();
+        }
+
+        private void ComboBox_Font_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            ChangeFont(() =>
+            {
+                // 비어있지 않다면 변경한다.
+                if (!(ComboBox_Font.Text == ""))
+                {
+                    mainWindow.CurrentSetting.FontFamilyName = ComboBox_Font.Text;
+                }
+            });
+        }
+
+        private void TextBox_FontSize_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            ChangeFont(() =>
+            {
+                if (!(TextBox_FontSize.Text == ""))
+                {
+                    mainWindow.CurrentSetting.FontSize = TextBox_FontSize.Text;
+                }
+            });
+        }
+
+        private void ColorPicker_Foreground_SelectedColorChanged(object sender, RoutedPropertyChangedEventArgs<Color?> e)
+        {
+            if (mainWindow == null)
+            {
+                return;
+            }
+
+            if (e.NewValue != null)
+            {
+                mainWindow.CurrentSetting.MemoForeground = new SolidColorBrush(e.NewValue.GetValueOrDefault());
+            }
+
+            mainWindow.SetMemoForeground();
+        }
+
+        private void ColorPicker_OptionForeground_SelectedColorChanged(object sender, RoutedPropertyChangedEventArgs<Color?> e)
+        {
+            if (mainWindow == null)
+            {
+                return;
+            }
+
+            if (e.NewValue != null)
+            {
+                mainWindow.CurrentSetting.OptionForeground = new SolidColorBrush(e.NewValue.GetValueOrDefault());
+            }
+
+            mainWindow.SetOptionForeground();
+        }
+
+        private void CheckBox_Bold_Checked(object sender, RoutedEventArgs e)
+        {
+            ChangeFont(() =>
+            {
+                mainWindow.CurrentSetting.FontWeight = FontWeights.Bold;
+            });
+        }
+
+        private void CheckBox_Bold_Unchecked(object sender, RoutedEventArgs e)
+        {
+            ChangeFont(() =>
+            {
+                mainWindow.CurrentSetting.FontWeight = FontWeights.Normal;
+            });
+        }
+
+        private void CheckBox_Italic_Checked(object sender, RoutedEventArgs e)
+        {
+            ChangeFont(() =>
+            {
+                mainWindow.CurrentSetting.FontStyle = FontStyles.Italic;
+            });
+        }
+
+        private void CheckBox_Italic_Unchecked(object sender, RoutedEventArgs e)
+        {
+            ChangeFont(() =>
+            {
+                mainWindow.CurrentSetting.FontStyle = FontStyles.Normal;
+            });
+        }
+
+        private void CheckBox_UnderLine_Checked(object sender, RoutedEventArgs e)
+        {
+            ChangeFont(() =>
+            {
+                mainWindow.CurrentSetting.TextDecoration = TextDecorations.Underline;
+            });
+        }
+
+        private void CheckBox_UnderLine_Unchecked(object sender, RoutedEventArgs e)
+        {
+            ChangeFont(() =>
+            {
+                mainWindow.CurrentSetting.TextDecoration = null;
+            });
+        }
+
+        /// <summary>
+        /// 매개변수가 없는 Action을 인자로 받아 폰트 값을 변경하게 합니다.
+        /// </summary>
+        /// <param name="changeAction"></param>
+        private void ChangeFont(Action changeAction)
+        {
+            if (mainWindow == null)
+            {
+                return;
+            }
+            changeAction();
+            mainWindow.SetMemosFont();
         }
     }
 }

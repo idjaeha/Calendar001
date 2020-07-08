@@ -48,7 +48,7 @@ namespace CalendarWPF
                 {
                     currentSetting = new Setting()
                     {
-                        Background = Window_Main.Background
+                        Background = this.Resources["BackgroundColor"] as Brush
                     };
                 }
                 return currentSetting;
@@ -172,6 +172,23 @@ namespace CalendarWPF
 
                     dlg.ShowDialog();
                 });
+        }
+
+        internal void SetMemoForeground()
+        {
+            foreach (DailyMemo item in dayItems)
+            {
+                item.SetMemoForeground();
+            }
+        }
+
+        internal void SetOptionForeground()
+        {
+            this.Resources["OptionBrush"] = CurrentSetting.OptionForeground;
+            foreach (DailyMemo item in dayItems)
+            {
+                item.SetOptionForeground();
+            }
         }
 
         private void AddMenuItem(int index, string ID, EventHandler clickEvent)

@@ -48,6 +48,7 @@
                 </Setter.Value>
             </Setter>
         </Style>
+        <SolidColorBrush x:Key="OptionBrush" Color="White" />
     </Window.Resources>
 
     <Canvas
@@ -75,7 +76,7 @@
                     Margin="0"
                     Content="2020"
                     FontSize="14"
-                    Foreground="White"
+                    Foreground="{DynamicResource OptionBrush}"
                     Initialized="Label_Year_Initialized" />
                 <Button
                     Canvas.Left="{Binding ActualWidth, ConverterParameter=95, Converter={StaticResource MinusConvertor}, ElementName=Window_Main, Mode=OneWay}"
@@ -84,7 +85,7 @@
                     Background="{x:Null}"
                     Click="Button_ClickNextMonth"
                     Content="Next"
-                    Foreground="White" />
+                    Foreground="{DynamicResource OptionBrush}" />
                 <Button
                     Canvas.Left="{Binding ActualWidth, ConverterParameter=175, Converter={StaticResource MinusConvertor}, ElementName=Window_Main, Mode=OneWay}"
                     Canvas.Top="10"
@@ -92,14 +93,14 @@
                     Background="{x:Null}"
                     Click="Button_ClickPrevMonth"
                     Content="Prev"
-                    Foreground="White" />
+                    Foreground="{DynamicResource OptionBrush}" />
                 <Label
                     x:Name="Label_Today"
                     Canvas.Left="{Binding ActualWidth, ConverterParameter=95, Converter={StaticResource MinusConvertor}, ElementName=Window_Main, Mode=OneWay}"
                     Canvas.Top="50"
                     Width="75"
                     Content="2020-00-00"
-                    Foreground="White"
+                    Foreground="{DynamicResource OptionBrush}"
                     Initialized="Label_Today_Initialized" />
                 <Label
                     x:Name="Label_Month"
@@ -110,7 +111,7 @@
                     FlowDirection="RightToLeft"
                     FontSize="48"
                     FontWeight="Bold"
-                    Foreground="White"
+                    Foreground="{DynamicResource OptionBrush}"
                     Initialized="Label_Month_Initialized" />
             </Canvas>
         </Canvas>
@@ -166,7 +167,7 @@
                         HorizontalAlignment="Left"
                         VerticalAlignment="Top"
                         FontSize="16"
-                        Foreground="Red"
+                        Foreground="{DynamicResource OptionBrush}"
                         RenderTransformOrigin="0.65,0"
                         Text="{DynamicResource TextBox_SunDay}"
                         TextWrapping="Wrap" />
@@ -180,7 +181,7 @@
                         HorizontalAlignment="Left"
                         VerticalAlignment="Top"
                         FontSize="16"
-                        Foreground="White"
+                        Foreground="{DynamicResource OptionBrush}"
                         RenderTransformOrigin="0.65,0"
                         Text="{DynamicResource TextBox_MonDay}"
                         TextWrapping="Wrap" />
@@ -194,7 +195,7 @@
                         HorizontalAlignment="Left"
                         VerticalAlignment="Top"
                         FontSize="16"
-                        Foreground="White"
+                        Foreground="{DynamicResource OptionBrush}"
                         RenderTransformOrigin="0.65,0"
                         Text="{DynamicResource TextBox_TueDay}"
                         TextWrapping="Wrap" />
@@ -208,7 +209,7 @@
                         HorizontalAlignment="Left"
                         VerticalAlignment="Top"
                         FontSize="16"
-                        Foreground="White"
+                        Foreground="{DynamicResource OptionBrush}"
                         RenderTransformOrigin="0.65,0"
                         Text="{DynamicResource TextBox_WedDay}"
                         TextWrapping="Wrap" />
@@ -222,7 +223,7 @@
                         HorizontalAlignment="Left"
                         VerticalAlignment="Top"
                         FontSize="16"
-                        Foreground="White"
+                        Foreground="{DynamicResource OptionBrush}"
                         RenderTransformOrigin="0.65,0"
                         Text="{DynamicResource TextBox_ThuDay}"
                         TextWrapping="Wrap" />
@@ -236,7 +237,7 @@
                         HorizontalAlignment="Left"
                         VerticalAlignment="Top"
                         FontSize="16"
-                        Foreground="White"
+                        Foreground="{DynamicResource OptionBrush}"
                         RenderTransformOrigin="0.65,0"
                         Text="{DynamicResource TextBox_FriDay}"
                         TextWrapping="Wrap" />
@@ -250,7 +251,7 @@
                         HorizontalAlignment="Left"
                         VerticalAlignment="Top"
                         FontSize="16"
-                        Foreground="Blue"
+                        Foreground="{DynamicResource OptionBrush}"
                         RenderTransformOrigin="0.65,0"
                         Text="{DynamicResource TextBox_SatDay}"
                         TextWrapping="Wrap" />

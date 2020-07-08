@@ -35,7 +35,7 @@ namespace CalendarWPF
         public DailyMemo(MainWindow mainWindow, int year, int month, int day) : this()
         {
             date = new DateTime(year, month, day);
-            TextBlock_day.Text = day.ToString();
+            TextBlock_Day.Text = day.ToString();
             this.mainWindow = mainWindow;
         }
 
@@ -96,6 +96,9 @@ namespace CalendarWPF
             ((TextBox)sender).Focus();
         }
 
+        /// <summary>
+        /// 각종 폰트 크기, 스타일, 글씨체 등을 받아와 적용시킵니다.
+        /// </summary>
         public void SetMemoFont()
         {
             if(mainWindow.CurrentSetting.FontFamilyName == null)
@@ -107,6 +110,22 @@ namespace CalendarWPF
             TextBlock_ShowText.FontFamily = newFontFamily;
             TextBox_EditText.FontSize = double.Parse(mainWindow.CurrentSetting.FontSize);
             TextBlock_ShowText.FontSize = double.Parse(mainWindow.CurrentSetting.FontSize);
+            TextBox_EditText.FontStyle = mainWindow.CurrentSetting.FontStyle;
+            TextBlock_ShowText.FontStyle = mainWindow.CurrentSetting.FontStyle;
+            TextBox_EditText.FontWeight = mainWindow.CurrentSetting.FontWeight;
+            TextBlock_ShowText.FontWeight = mainWindow.CurrentSetting.FontWeight;
+            TextBox_EditText.TextDecorations = mainWindow.CurrentSetting.TextDecoration;
+            TextBlock_ShowText.TextDecorations = mainWindow.CurrentSetting.TextDecoration;
+        }
+
+        internal void SetMemoForeground()
+        {
+            TextBlock_ShowText.Foreground = mainWindow.CurrentSetting.MemoForeground;
+        }
+
+        internal void SetOptionForeground()
+        {
+            TextBlock_Day.Foreground = mainWindow.CurrentSetting.OptionForeground;
         }
     }
 }

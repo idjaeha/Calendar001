@@ -39,7 +39,7 @@
                 Foreground="White"
                 TextWrapping="Wrap" />
             <TextBlock
-                x:Name="TextBlock_day"
+                x:Name="TextBlock_Day"
                 Foreground="White"
                 Text="1"
                 TextWrapping="Wrap" />

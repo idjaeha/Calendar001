@@ -32,10 +32,12 @@
         <ComboBox
             x:Name="ComboBox_Font"
             Width="304"
+            Height="40"
             Margin="10,10,0,0"
             HorizontalAlignment="Left"
             VerticalAlignment="Top"
-            FontSize="16">
+            FontSize="16"
+            SelectionChanged="ComboBox_Font_SelectionChanged">
             <ComboBoxItem />
         </ComboBox>
         <Button
@@ -46,26 +48,60 @@
         <TextBox
             x:Name="TextBox_FontSize"
             Width="75"
-            Height="27"
+            Height="40"
             Margin="319,10,0,0"
             HorizontalAlignment="Left"
             VerticalAlignment="Top"
             PreviewTextInput="TextBox_FontSize_PreviewTextInput"
             Text="12"
+            TextChanged="TextBox_FontSize_TextChanged"
             TextWrapping="Wrap" />
         <xctk:ColorPicker
+            x:Name="ColorPicker_Foreground"
+            Margin="399,10,283,369"
+            SelectedColorChanged="ColorPicker_Foreground_SelectedColorChanged" />
+        <xctk:ColorPicker
             x:Name="ColorPicker_Background"
-            Margin="10,42,658,340"
+            Margin="11,131,657,251"
             SelectedColorChanged="ColorPicker_background_SelectedColorChanged" />
         <TextBlock
             x:Name="TextBlock_Background"
             Height="37"
-            Margin="139,42,0,0"
+            Margin="140,131,0,0"
             HorizontalAlignment="Left"
             VerticalAlignment="Top"
             FontSize="20"
             RenderTransformOrigin="0.098,-0.068"
             Text="TextBlock"
+            TextDecorations="{x:Null}"
             TextWrapping="Wrap" />
+        <xctk:ColorPicker
+            x:Name="ColorPicker_OptionForeground"
+            Margin="11,173,657,205"
+            SelectedColorChanged="ColorPicker_OptionForeground_SelectedColorChanged" />
+        <CheckBox
+            x:Name="CheckBox_Bold"
+            Margin="523,10,0,0"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Top"
+            Checked="CheckBox_Bold_Checked"
+            Content="굵게"
+            Unchecked="CheckBox_Bold_Unchecked" />
+        <CheckBox
+            x:Name="CheckBox_Italic"
+            Margin="572,10,0,0"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Top"
+            Checked="CheckBox_Italic_Checked"
+            Content="기울임"
+            Unchecked="CheckBox_Italic_Unchecked" />
+        <CheckBox
+            x:Name="CheckBox_UnderLine"
+            Margin="633,10,0,0"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Top"
+            Checked="CheckBox_UnderLine_Checked"
+            Content="밑줄"
+            Unchecked="CheckBox_UnderLine_Unchecked" />
     </Grid>
 </Window>

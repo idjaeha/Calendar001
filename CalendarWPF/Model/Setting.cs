@@ -4,6 +4,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace CalendarWPF.Model
 {
@@ -17,7 +18,7 @@ namespace CalendarWPF.Model
             {
                 if(fontFamilyName == null)
                 {
-                    fontFamilyName = SystemFonts.DefaultFont.Name;
+                    fontFamilyName = System.Drawing.SystemFonts.DefaultFont.Name;
                 }
 
                 return fontFamilyName;
@@ -40,8 +41,12 @@ namespace CalendarWPF.Model
                 fontSize = value;
             }
         }
-        public FontStyle FontStyle { get; set; }
+        public System.Windows.FontStyle FontStyle { get; set; }
+        public System.Windows.FontWeight FontWeight { get; set; }
 
         public System.Windows.Media.Brush Background { get; set; }
+        public System.Windows.Media.Brush MemoForeground { get; set; }
+        public System.Windows.Media.Brush OptionForeground { get; set; }
+        public TextDecorationCollection TextDecoration { get; internal set; }
     }
 }
