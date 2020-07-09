@@ -18,6 +18,10 @@ namespace CalendarWPF.Model
         private string backGround;
         private string memoForeGround;
         private string optionForeGround;
+        private double width = -1;
+        private double height = -1;
+        private double top = -1;
+        private double left = -1;
         [NonSerialized]
         private TextDecorationCollection textDecorations;
 
@@ -133,6 +137,53 @@ namespace CalendarWPF.Model
         public void SetTextDecorations(TextDecorationCollection textDecorations)
         {
             this.textDecorations = textDecorations;
+        }
+
+        public double Width
+        {
+            get
+            {
+                return width;
+            }
+            set
+            {
+                width = value;
+            }
+        }
+        public double Height
+        {
+            get
+            {
+                return height;
+            }
+            set
+            {
+                height = value;
+            }
+        }
+
+        public double Top
+        {
+            get
+            {
+                return top;
+            }
+            set
+            {
+                top = value;
+            }
+        }
+
+        public double Left
+        {
+            get
+            {
+                return left;
+            }
+            set
+            {
+                left = value;
+            }
         }
     }
 }

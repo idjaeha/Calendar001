@@ -21,7 +21,7 @@
     Style="{DynamicResource CustomWindowStyle}"
     Visibility="Visible"
     WindowStyle="None"
-    mc:Ignorable="d" Closed="Window_Main_Closed">
+    mc:Ignorable="d" Closed="Window_Main_Closed" SizeChanged="Window_Main_SizeChanged" LocationChanged="Window_Main_LocationChanged">
     <Window.Resources>
         <System:String x:Key="Label_Month">Month</System:String>
         <System:String x:Key="TextBox_MonDay">월</System:String>

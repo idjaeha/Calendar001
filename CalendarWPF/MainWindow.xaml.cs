@@ -74,6 +74,30 @@ namespace CalendarWPF
             SetMemoForeground();
             SetOptionForeground();
             SetBackground();
+            SetTransform();
+        }
+
+        private void SetTransform()
+        {
+            if(SettingManager.CurrentSetting.Top != -1)
+            {
+                this.Top = SettingManager.CurrentSetting.Top;
+            }
+
+            if (SettingManager.CurrentSetting.Left != -1)
+            {
+                this.Left = SettingManager.CurrentSetting.Left;
+            }
+
+            if (SettingManager.CurrentSetting.Width != -1)
+            {
+                this.Width = SettingManager.CurrentSetting.Width;
+            }
+
+            if (SettingManager.CurrentSetting.Height != -1)
+            {
+                this.Height = SettingManager.CurrentSetting.Height;
+            }
         }
 
         private void Window_Initialized(object sender, EventArgs e)
@@ -111,9 +135,14 @@ namespace CalendarWPF
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             InitNotify();
-
-            this.Left = SystemParameters.WorkArea.Width - this.Width;
-            this.Top = 0;
+            if (this.Left == -1)
+            {
+                this.Left = SystemParameters.WorkArea.Width - this.Width;
+            }
+            if (this.Top == -1)
+            {
+                this.Top = 0;
+            }
         }
 
         /// <summary>
@@ -362,13 +391,23 @@ namespace CalendarWPF
             SettingManager.SaveCurrentSetting();
         }
 
+        private void Window_Main_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            SettingManager.CurrentSetting.Width = this.ActualWidth;
+            SettingManager.CurrentSetting.Height = this.ActualHeight;
+        }
+
+        private void Window_Main_LocationChanged(object sender, EventArgs e)
+        {
+            SettingManager.CurrentSetting.Top = this.Top;
+            SettingManager.CurrentSetting.Left = this.Left;
+        }
+
 
 
         // 해당 개발은 해야할 것들을 표기한 것이고, 순서는 의미가 없다.
-        // 개발 1 : 로컬 저장소와 서버와 연결하여 메모 사용
-        // 개발 2 : 각종 달력 설정 구현 ( 배경화면 색 변경, 폰트 색 변경 )
-        // 개발 3 : 달력의 Topmost 설정을 따로 주고, 배경화면에 얹어있는 식으로 표현하는 것을 구현
-        // 개발 4 : 시작 시에 현재 적용된 크기와 배경색, 폰트 등을 불러오는 기능 구현
+        // 개발 1 : 달력의 Topmost 설정을 따로 주고, 배경화면에 얹어있는 식으로 표현하는 것을 구현
+        // 개발 2 : 위치와 크기 또한 설정 저장
 
         // Detail Develop
         // TODO : 메모 편집 중 다른 곳을 눌렀을 때 저장이 되는 기능
