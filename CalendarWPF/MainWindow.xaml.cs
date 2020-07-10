@@ -34,7 +34,7 @@ namespace CalendarWPF
         private System.Windows.Forms.ContextMenu menu;
         private bool canDrag;
         private List<MenuItemWithID> menuItems; // 사용되고 있는 menuItem을 저장한 배열
-        private List<DailyMemo> dayItems; // 현재 보여지고 있는 DailyMemo를 저장한 배열
+        private List<DailyMemo> dailyMemos; // 현재 보여지고 있는 DailyMemo를 저장한 배열
         private DateTime now;
         private int selectedYear; // 현재 선택된 년
         private int selectedMonth; // 현재 선택된 월
@@ -62,12 +62,79 @@ namespace CalendarWPF
             selectedYear = now.Year;
 
             menuItems = new List<MenuItemWithID>();
-            dayItems = new List<DailyMemo>();
+            dailyMemos = new List<DailyMemo>();
 
             MemoManager.Instance.LoadDataFromFile();
             SettingManager.LoadCurrentSetting();
         }
 
+        private void Window_Initialized(object sender, EventArgs e)
+        {
+            this.AllowsTransparency = true;
+            this.Background = new SolidColorBrush(Colors.Black);
+            this.Background.Opacity = 0;
+        }
+
+        private void Label_Year_Initialized(object sender, EventArgs e)
+        {
+            Label_Year.Content = $"{selectedYear}";
+        }
+
+        private void Label_Month_Initialized(object sender, EventArgs e)
+        {
+            Label_Month.Content = $"{selectedMonth}";
+        }
+
+        private void Label_Today_Initialized(object sender, EventArgs e)
+        {
+            Label_Today.Content = $"{now.Year}. {now.Month}. {now.Day}";
+        }
+        
+        private void InitNotify()
+        {
+            menu = new System.Windows.Forms.ContextMenu();
+            notify = new NotifyIcon();
+            notify.Icon = Properties.Resources.notifyIcon;
+            notify.Visible = true;
+            notify.ContextMenu = menu;
+            
+            notify.DoubleClick += Notify_DoubleClick;
+
+            AddMenuItem(0, "ProgramExit",
+                (object click, EventArgs eClick) =>
+                {
+                    QuitProgram();
+                });
+
+            AddMenuItem(0, "ProgramHiding",
+                (object click, EventArgs eClick) =>
+                {
+                    HideProgram();
+                });
+
+            AddMenuItem(0, "Dragging",
+                (object click, EventArgs eClick) =>
+                {
+                    ControlDragging(click, eClick);
+                });
+
+            AddMenuItem(0, "Setting",
+                (object click, EventArgs eClick) =>
+                {
+                    ShowSetting();
+                });
+        }
+
+        #endregion
+
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            InitNotify();
+        }
+
+        /// <summary>
+        /// Setting 값을 토대로 모든 값을 설정합니다.
+        /// </summary>
         private void SetAllSetting()
         {
             SetMemosFont();
@@ -77,9 +144,12 @@ namespace CalendarWPF
             SetTransform();
         }
 
+        /// <summary>
+        /// 위치와 크기를 Setting 값을 토대로 설정합니다.
+        /// </summary>
         private void SetTransform()
         {
-            if(SettingManager.CurrentSetting.Top != -1)
+            if (SettingManager.CurrentSetting.Top != -1)
             {
                 this.Top = SettingManager.CurrentSetting.Top;
             }
@@ -98,50 +168,23 @@ namespace CalendarWPF
             {
                 this.Height = SettingManager.CurrentSetting.Height;
             }
-        }
 
-        private void Window_Initialized(object sender, EventArgs e)
-        {
-            this.AllowsTransparency = true;
-            this.Background = new SolidColorBrush(Colors.Black);
-            this.Background.Opacity = 0;
+            // 오른쪽 상단에 해당 윈도우를 붙입니다.
+            if (SettingManager.CurrentSetting.Left == -1)
+            {
+                this.Left = SystemParameters.WorkArea.Width - this.Width;
+            }
+            if (SettingManager.CurrentSetting.Top == -1)
+            {
+                this.Top = 0;
+            }
         }
 
         internal void SetMemosFont()
         {
-            foreach (DailyMemo item in dayItems)
+            foreach (DailyMemo item in dailyMemos)
             {
                 item.SetMemoFont();
-            }
-        }
-
-        private void Label_Year_Initialized(object sender, EventArgs e)
-        {
-            Label_Year.Content = $"{selectedYear}";
-        }
-
-        private void Label_Month_Initialized(object sender, EventArgs e)
-        {
-            Label_Month.Content = $"{selectedMonth}";
-        }
-
-        private void Label_Today_Initialized(object sender, EventArgs e)
-        {
-            Label_Today.Content = $"{now.Year}. {now.Month}. {now.Day}";
-        }
-
-        #endregion
-
-        private void Window_Loaded(object sender, RoutedEventArgs e)
-        {
-            InitNotify();
-            if (this.Left == -1)
-            {
-                this.Left = SystemParameters.WorkArea.Width - this.Width;
-            }
-            if (this.Top == -1)
-            {
-                this.Top = 0;
             }
         }
 
@@ -156,53 +199,70 @@ namespace CalendarWPF
             }
 
             this.Resources["BackgroundColor"] = ConvertHelper.CBrush.ConvertFromString(SettingManager.CurrentSetting.Background);
-            foreach(DailyMemo memo in dayItems)
+            foreach(DailyMemo memo in dailyMemos)
             {
                 memo.SetBackground(ConvertHelper.CBrush.ConvertFromString(SettingManager.CurrentSetting.Background) as Brush);
             }
         }
 
-        private void InitNotify()
+        /// <summary>
+        /// drag 가능한 state에 따라 값을 조절해줍니다.
+        /// </summary>
+        /// <param name="click">클릭 당한 대상</param>
+        /// <param name="eClick">클릭에 대한 인자</param>
+        private void ControlDragging(object click, EventArgs eClick)
         {
-            menu = new System.Windows.Forms.ContextMenu();
-            notify = new NotifyIcon();
-            notify.Icon = Properties.Resources.notifyIcon;
-            notify.Visible = true;
-            notify.ContextMenu = menu;
-            
-            notify.DoubleClick += Notify_DoubleClick;
+            if(canDrag)
+            {
+                DisableDragging(click, eClick);
+            }
+            else
+            {
+                EnableDragging(click, eClick);
+            }
+        }
 
-            AddMenuItem(0, "ProgramExit",
-                (object click, EventArgs eClick) =>
-                {
-                    notify.Dispose();
-                    System.Windows.Application.Current.Shutdown();
-                });
+        /// <summary>
+        /// 드래그를 금지합니다.
+        /// </summary>
+        /// <param name="click">클릭 당한 대상</param>
+        /// <param name="eClick">클릭 이벤트 발생 시에 생기는 인자</param>
+        private void DisableDragging(object click, EventArgs eClick)
+        {
+            canDrag = false;
+            this.BorderThickness = new Thickness(0);
+            this.Background.Opacity = 0;
+            this.ResizeMode = ResizeMode.NoResize;
+            ((System.Windows.Forms.MenuItem)click).Text = FindResource("Dragging").ToString();
+        }
 
-            AddMenuItem(0, "ProgramHiding",
-                (object click, EventArgs eClick) =>
-                {
-                    HideProgram();
-                });
+        private void EnableDragging(object click, EventArgs eClick)
+        {
+            canDrag = true;
+            this.BorderThickness = new Thickness(2);
+            this.Background.Opacity = 0.5;
+            this.ResizeMode = ResizeMode.CanResize;
+            ((System.Windows.Forms.MenuItem)click).Text = FindResource("noDragging").ToString();
+        }
 
-            AddMenuItem(0, "Dragging",
-                (object click, EventArgs eClick) =>
-                {
-                    canDrag = !canDrag;
-                    this.BorderThickness = canDrag == true ? new Thickness(2) : new Thickness(0);
-                    this.Background.Opacity = canDrag == true ? 0.5 : 0;
-                    this.ResizeMode = canDrag == true ? ResizeMode.CanResize : ResizeMode.NoResize;
-                    ((System.Windows.Forms.MenuItem)click).Text = canDrag == true ? FindResource("noDragging").ToString() : FindResource("Dragging").ToString();
-                });
+        /// <summary>
+        /// 프로그램을 종료합니다.
+        /// </summary>
+        private void QuitProgram()
+        {
+            notify.Dispose();
+            System.Windows.Application.Current.Shutdown();
+        }
 
-            AddMenuItem(0, "Setting",
-                (object click, EventArgs eClick) =>
-                {
-                    ControlWindow dlg = new ControlWindow(this);
-                    dlg.Owner = this;
+        /// <summary>
+        /// Setting 윈도우를 보여줍니다.
+        /// </summary>
+        private void ShowSetting()
+        {
+            ControlWindow dlg = new ControlWindow(this);
+            dlg.Owner = this;
 
-                    dlg.ShowDialog();
-                });
+            dlg.ShowDialog();
         }
 
         internal void SetMemoForeground()
@@ -212,7 +272,7 @@ namespace CalendarWPF
                 return;
             }
 
-            foreach (DailyMemo item in dayItems)
+            foreach (DailyMemo item in dailyMemos)
             {
                 item.SetMemoForeground();
             }
@@ -226,7 +286,7 @@ namespace CalendarWPF
             }
 
             this.Resources["OptionBrush"] = ConvertHelper.CBrush.ConvertFromString(SettingManager.CurrentSetting.OptionForeground);
-            foreach (DailyMemo item in dayItems)
+            foreach (DailyMemo item in dailyMemos)
             {
                 item.SetOptionForeground();
             }
@@ -243,12 +303,6 @@ namespace CalendarWPF
             item.ID = ID;
         }
 
-        private void Notify_DoubleClick(object sender, EventArgs e)
-        {
-            // Notify를 더블 클릭했을 경우 발동되는 이벤트
-            ShowWindow();
-        }
-
         private void ShowWindow()
         {
             // 윈도우를 보여줍니다.
@@ -263,15 +317,6 @@ namespace CalendarWPF
         {
             // 윈도우를 숨겨줍니다.
             this.Hide();
-        }
-
-        private void Window_MouseLeftDown(object sender, MouseButtonEventArgs e)
-        {
-            //드래그가 가능할 때, 드래그 합니다.
-            if (canDrag)
-            {
-                this.DragMove();
-            }
         }
 
         private void SelectCulture(string culture)
@@ -308,16 +353,76 @@ namespace CalendarWPF
         /// <param name="day"></param>
         /// <param name="index"></param>
         /// <param name="memo"></param>
-        private void LoadDay(int day, int index, string memo)
+        private DailyMemo LoadDay(int day, int index, string memo)
         {
             DailyMemo newDaysItem = new DailyMemo(this, selectedYear, selectedMonth, day);
             newDaysItem.SetMemo(memo);
             newDaysItem.SetMemoFont();
-            dayItems.Add(newDaysItem);
+            dailyMemos.Add(newDaysItem);
             Grid.SetColumnSpan(newDaysItem, DAY_SPAN);
             Grid.SetRow(newDaysItem, index / DAY_WEEK);
             Grid.SetColumn(newDaysItem, index % DAY_WEEK);
             Calendar_Days.Children.Add(newDaysItem);
+
+            return newDaysItem;
+        }
+        /// <summary>
+        /// 인자로 받은 년, 월에 맞게 달을 불러옵니다.
+        /// </summary>
+        /// <param name="year">the year you want to load</param>
+        /// <param name="month">the month you want to load</param>
+        private void LoadMonth(int year, int month)
+        {
+            DateTime firstDayOfMonth = new DateTime(year, month, 1);
+            int idx = (int)firstDayOfMonth.DayOfWeek;
+            int countDays = numberOfDays[month];
+            Dictionary<DateTime, Memo> loadedMemos = MemoManager.Instance.GetMemos(year, month);
+
+            // 2월의 경우, 윤년이면 1을 더해줍니다.
+            countDays += month == 2 && year % 4 == 0 ? 1 : 0;
+
+            for (int day = 1; day <= countDays; day++)
+            {
+                string memo = "";
+                DateTime currentDate = new DateTime(year, month, day);
+                if (loadedMemos.ContainsKey(currentDate))
+                {
+                    memo = loadedMemos[currentDate].Content.ToString();
+                }
+                DailyMemo newDay = LoadDay(day, idx, memo);
+
+                // 해당 날짜가 오늘이면 하이라이팅한다.
+                if(now.Day == day && now.Month == month && now.Year == year)
+                {
+                    newDay.ShowBorder();
+                }
+                idx++;
+            }
+        }
+
+        private void CleanCalendar()
+        {
+            // Calendar에 존재하는 날짜 관련 컨트롤을 삭제합니다.
+            foreach (DailyMemo days in dailyMemos)
+            {
+                Calendar_Days.Children.Remove(days);
+            }
+            dailyMemos.Clear();
+        }
+        
+        private void Notify_DoubleClick(object sender, EventArgs e)
+        {
+            // Notify를 더블 클릭했을 경우 발동되는 이벤트
+            ShowWindow();
+        }
+
+        private void Window_MouseLeftDown(object sender, MouseButtonEventArgs e)
+        {
+            //드래그가 가능할 때, 드래그 합니다.
+            if (canDrag)
+            {
+                this.DragMove();
+            }
         }
 
         private void Button_ClickPrevMonth(object sender, RoutedEventArgs e)
@@ -349,42 +454,6 @@ namespace CalendarWPF
             LoadMonth(selectedYear, selectedMonth);
             SetAllSetting();
         }
-        /// <summary>
-        /// 인자로 받은 년, 월에 맞게 달을 불러옵니다.
-        /// </summary>
-        /// <param name="year">the year you want to load</param>
-        /// <param name="month">the month you want to load</param>
-        private void LoadMonth(int year, int month)
-        {
-            DateTime firstDayOfMonth = new DateTime(year, month, 1);
-            int idx = (int)firstDayOfMonth.DayOfWeek;
-            int countDays = numberOfDays[month];
-            Dictionary<DateTime, Memo> loadedMemos = MemoManager.Instance.GetMemos(year, month);
-
-            countDays += month == 2 && year % 4 == 0 ? 1 : 0;
-
-            for (int day = 1; day <= countDays; day++)
-            {
-                string memo = "";
-                DateTime currentDate = new DateTime(year, month, day);
-                if (loadedMemos.ContainsKey(currentDate))
-                {
-                    memo = loadedMemos[currentDate].Content.ToString();
-                }
-                LoadDay(day, idx, memo);
-                idx++;
-            }
-        }
-
-        private void CleanCalendar()
-        {
-            // Calendar에 존재하는 날짜 관련 컨트롤을 삭제합니다.
-            foreach (DailyMemo days in dayItems)
-            {
-                Calendar_Days.Children.Remove(days);
-            }
-            dayItems.Clear();
-        }
 
         private void Window_Main_Closed(object sender, EventArgs e)
         {
@@ -407,7 +476,7 @@ namespace CalendarWPF
 
         // 해당 개발은 해야할 것들을 표기한 것이고, 순서는 의미가 없다.
         // 개발 1 : 달력의 Topmost 설정을 따로 주고, 배경화면에 얹어있는 식으로 표현하는 것을 구현
-        // 개발 2 : 위치와 크기 또한 설정 저장
+        // 개발 2 : 해당 날짜 표기
 
         // Detail Develop
         // TODO : 메모 편집 중 다른 곳을 눌렀을 때 저장이 되는 기능

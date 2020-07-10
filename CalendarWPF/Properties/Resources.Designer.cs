@@ -61,57 +61,12 @@ namespace CalendarWPF.Properties {
         }
         
         /// <summary>
-        ///   드래그 허용과(와) 유사한 지역화된 문자열을 찾습니다.
-        /// </summary>
-        public static string dragging {
-            get {
-                return ResourceManager.GetString("dragging", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   이건 에러과(와) 유사한 지역화된 문자열을 찾습니다.
-        /// </summary>
-        public static string Greeting {
-            get {
-                return ResourceManager.GetString("Greeting", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   드래그 금지과(와) 유사한 지역화된 문자열을 찾습니다.
-        /// </summary>
-        public static string noDragging {
-            get {
-                return ResourceManager.GetString("noDragging", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   (아이콘)과(와) 유사한 System.Drawing.Icon 형식의 지역화된 리소스를 찾습니다.
         /// </summary>
         public static System.Drawing.Icon notifyIcon {
             get {
                 object obj = ResourceManager.GetObject("notifyIcon", resourceCulture);
                 return ((System.Drawing.Icon)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   프로그램 종료과(와) 유사한 지역화된 문자열을 찾습니다.
-        /// </summary>
-        public static string ProgramExit {
-            get {
-                return ResourceManager.GetString("ProgramExit", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   프로그램 설정과(와) 유사한 지역화된 문자열을 찾습니다.
-        /// </summary>
-        public static string ProgramSetting {
-            get {
-                return ResourceManager.GetString("ProgramSetting", resourceCulture);
             }
         }
     }

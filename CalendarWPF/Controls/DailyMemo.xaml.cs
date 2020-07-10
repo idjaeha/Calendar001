@@ -26,31 +26,6 @@ namespace CalendarWPF
         private DateTime date;
         private string memo;
         private MainWindow mainWindow;
-
-        public DailyMemo()
-        {
-            InitializeComponent();
-            ChangeShowMode();
-        }
-
-        public DailyMemo(MainWindow mainWindow, int year, int month, int day) : this()
-        {
-            date = new DateTime(year, month, day);
-            TextBlock_Day.Text = day.ToString();
-            this.mainWindow = mainWindow;
-        }
-
-        public void SetMemo(string text)
-        {
-            memo = text;
-            TextBlock_ShowText.Text = memo;
-        }
-
-        public void SetBackground(Brush brush)
-        {
-            Canvas_ShowText.Background = brush;
-        }
-
         private void doubleClick()
         {
             TextBox_EditText.Text = memo;
@@ -90,6 +65,30 @@ namespace CalendarWPF
         {
             Canvas_EditText.Visibility = Visibility.Hidden;
             Canvas_ShowText.Visibility = Visibility.Visible;
+        }
+
+        public DailyMemo()
+        {
+            InitializeComponent();
+            ChangeShowMode();
+        }
+
+        public DailyMemo(MainWindow mainWindow, int year, int month, int day) : this()
+        {
+            date = new DateTime(year, month, day);
+            TextBlock_Day.Text = day.ToString();
+            this.mainWindow = mainWindow;
+        }
+
+        public void SetMemo(string text)
+        {
+            memo = text;
+            TextBlock_ShowText.Text = memo;
+        }
+
+        public void SetBackground(Brush brush)
+        {
+            Canvas_ShowText.Background = brush;
         }
 
         private void TextBox_EditText_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
@@ -132,14 +131,27 @@ namespace CalendarWPF
             
         }
 
-        internal void SetMemoForeground()
+        public void SetMemoForeground()
         {
             TextBlock_ShowText.Foreground = ConvertHelper.CBrush.ConvertFromString(SettingManager.CurrentSetting.MemoForeground) as Brush;
         }
 
-        internal void SetOptionForeground()
+        public void SetOptionForeground()
         {
             TextBlock_Day.Foreground = ConvertHelper.CBrush.ConvertFromString(SettingManager.CurrentSetting.OptionForeground) as Brush;
+        }
+
+        public void ShowBorder()
+        {
+            this.BorderBrush = new SolidColorBrush(Colors.Yellow);
+            this.BorderBrush.Opacity = 1;
+            this.BorderThickness = new Thickness(1);
+        }
+
+        public void HideBorder()
+        {
+            this.BorderBrush.Opacity = 0;
+            this.BorderThickness = new Thickness(0);
         }
     }
 }

@@ -117,23 +117,8 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="dragging" xml:space="preserve">
-    <value>드래그 허용</value>
-  </data>
-  <data name="Greeting" xml:space="preserve">
-    <value>이건 에러</value>
-  </data>
-  <data name="noDragging" xml:space="preserve">
-    <value>드래그 금지</value>
-  </data>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="notifyIcon" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\notifyIcon.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="ProgramExit" xml:space="preserve">
-    <value>프로그램 종료</value>
-  </data>
-  <data name="ProgramSetting" xml:space="preserve">
-    <value>프로그램 설정</value>
   </data>
 </root>
