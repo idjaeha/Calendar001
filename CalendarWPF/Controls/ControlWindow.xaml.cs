@@ -16,6 +16,7 @@ using System.Windows.Markup;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using Microsoft.Win32;
 
 namespace CalendarWPF.Controls
 {
@@ -26,7 +27,9 @@ namespace CalendarWPF.Controls
     {
         private MainWindow mainWindow;
         private TextDecorationCollection textDecorations;
-
+        private RegistryKey runRegKey = Registry.CurrentUser.OpenSubKey("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", true);
+        private readonly static string ProgramName = "MyCalendar001";
+        
         public ControlWindow()
         {
             InitializeComponent();
@@ -58,6 +61,10 @@ namespace CalendarWPF.Controls
             ColorPicker_MemoForeground.SelectedColor = ColorConverter.ConvertFromString(SettingManager.CurrentSetting.MemoForeground) as Color?;
             CheckBox_Bold.IsChecked = SettingManager.CurrentSetting.FontWeight == FontWeights.Normal.ToString() ? false : true;
             CheckBox_Italic.IsChecked = SettingManager.CurrentSetting.FontStyle == FontStyles.Normal.ToString() ? false : true;
+
+            // Start Program에 등록되어있는지 확인합니다.
+            if (runRegKey.GetValue(ProgramName) == null) CheckBox_StartProgram.IsChecked = false;
+            else CheckBox_StartProgram.IsChecked = true;
         }
 
 
@@ -254,6 +261,18 @@ namespace CalendarWPF.Controls
         private void ControlWindow_Main_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             this.DragMove();
+        }
+
+        private void CheckBox_StartProgram_Click(object sender, RoutedEventArgs e)
+        {
+            if (CheckBox_StartProgram.IsChecked == true)
+            {
+                runRegKey.SetValue(ProgramName, Environment.CurrentDirectory + "\\" + AppDomain.CurrentDomain.FriendlyName);
+            }
+            if (CheckBox_StartProgram.IsChecked == false)
+            {
+                runRegKey.DeleteValue(ProgramName, false);
+            }
         }
     }
 }

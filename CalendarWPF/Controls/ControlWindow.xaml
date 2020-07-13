@@ -112,37 +112,42 @@
             <Canvas Margin="0">
                 <xctk:ColorPicker
                     x:Name="ColorPicker_Background"
-                    Canvas.Left="137"
-                    Canvas.Top="10"
+                    Canvas.Left="106"
+                    Canvas.Top="9"
                     Width="124"
                     Height="40"
                     SelectedColorChanged="ColorPicker_background_SelectedColorChanged" />
                 <xctk:ColorPicker
                     x:Name="ColorPicker_OptionForeground"
-                    Canvas.Left="137"
-                    Canvas.Top="55"
+                    Canvas.Left="106"
+                    Canvas.Top="54"
                     Width="124"
                     Height="40"
                     SelectedColorChanged="ColorPicker_OptionForeground_SelectedColorChanged" />
                 <Label
-                    Canvas.Left="33"
+                    Canvas.Left="10"
                     Canvas.Top="16"
                     Content="Background" />
                 <xctk:ColorPicker
                     x:Name="ColorPicker_MemoForeground"
-                    Canvas.Left="137"
-                    Canvas.Top="100"
+                    Canvas.Left="106"
+                    Canvas.Top="99"
                     Width="124"
                     Height="40"
                     SelectedColorChanged="ColorPicker_Foreground_SelectedColorChanged" />
                 <Label
-                    Canvas.Left="33"
-                    Canvas.Top="62"
+                    Canvas.Left="10"
+                    Canvas.Top="61"
                     Content="Option" />
                 <Label
-                    Canvas.Left="33"
-                    Canvas.Top="107"
+                    Canvas.Left="10"
+                    Canvas.Top="106"
                     Content="Font" />
+            </Canvas>
+        </GroupBox>
+        <GroupBox Header="ETC" HorizontalAlignment="Left" Height="100" Margin="10,334,0,0" VerticalAlignment="Top" Width="426">
+            <Canvas Margin="0">
+                <CheckBox x:Name="CheckBox_StartProgram" Content="Regist StartProgram" Canvas.Left="10" Canvas.Top="10" Click="CheckBox_StartProgram_Click"/>
             </Canvas>
         </GroupBox>
     </Grid>
