@@ -52,10 +52,12 @@ namespace CalendarWPF.Controls
         {
             ComboBox_Font.Text = SettingManager.CurrentSetting.FontFamilyName;
             TextBox_FontSize.Text = SettingManager.CurrentSetting.FontSize;
-            TextBlock_Background.Text = SettingManager.CurrentSetting.Background.ToString();
+            ColorPicker_Background.SelectedColor = ColorConverter.ConvertFromString(SettingManager.CurrentSetting.Background) as Color?;
             ColorPicker_Background.SelectedColor = ColorConverter.ConvertFromString(SettingManager.CurrentSetting.Background) as Color?;
             ColorPicker_OptionForeground.SelectedColor = ColorConverter.ConvertFromString(SettingManager.CurrentSetting.OptionForeground) as Color?;
             ColorPicker_MemoForeground.SelectedColor = ColorConverter.ConvertFromString(SettingManager.CurrentSetting.MemoForeground) as Color?;
+            CheckBox_Bold.IsChecked = SettingManager.CurrentSetting.FontWeight == FontWeights.Normal.ToString() ? false : true;
+            CheckBox_Italic.IsChecked = SettingManager.CurrentSetting.FontStyle == FontStyles.Normal.ToString() ? false : true;
         }
 
 
@@ -123,7 +125,6 @@ namespace CalendarWPF.Controls
 
             if (ColorPicker_Background.SelectedColor != null)
             {
-                TextBlock_Background.Text = ColorPicker_Background.SelectedColorText;
                 SettingManager.CurrentSetting.Background = (new SolidColorBrush(ColorPicker_Background.SelectedColor.GetValueOrDefault())).ToString();
             }
 
@@ -248,6 +249,11 @@ namespace CalendarWPF.Controls
         private void Window_Closed(object sender, EventArgs e)
         {
             SaveSetting();
+        }
+
+        private void ControlWindow_Main_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            this.DragMove();
         }
     }
 }

@@ -6,12 +6,17 @@
     xmlns:local="clr-namespace:CalendarWPF.Controls"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+    x:Name="ControlWindow_Main"
     Title="ControlWindow"
     Width="800"
     Height="450"
+    AllowsTransparency="True"
     Background="White"
     Closed="Window_Closed"
     Loaded="Window_Loaded"
+    MouseLeftButtonDown="ControlWindow_Main_MouseLeftButtonDown"
+    Style="{DynamicResource CustomWindowStyle}"
+    WindowStyle="None"
     mc:Ignorable="d">
 
     <Window.Resources>
@@ -30,79 +35,115 @@
     </Window.Resources>
 
     <Grid>
-        <ComboBox
-            x:Name="ComboBox_Font"
-            Width="304"
-            Height="40"
-            Margin="10,10,0,0"
-            HorizontalAlignment="Left"
-            VerticalAlignment="Top"
-            FontSize="16"
-            SelectionChanged="ComboBox_Font_SelectionChanged">
-            <ComboBoxItem />
-        </ComboBox>
         <Button
             x:Name="Button_Save"
             Margin="657,336,32,36"
             Click="Button_Save_Click"
-            Content="Button" />
-        <TextBox
-            x:Name="TextBox_FontSize"
-            Width="75"
-            Height="40"
-            Margin="319,10,0,0"
+            Content="Save" />
+        <GroupBox
+            Width="426"
+            Height="142"
+            Margin="10,10,0,0"
             HorizontalAlignment="Left"
             VerticalAlignment="Top"
-            PreviewTextInput="TextBox_FontSize_PreviewTextInput"
-            Text="12"
-            TextChanged="TextBox_FontSize_TextChanged"
-            TextWrapping="Wrap" />
-        <xctk:ColorPicker
-            x:Name="ColorPicker_MemoForeground"
-            Margin="399,10,283,369"
-            SelectedColorChanged="ColorPicker_Foreground_SelectedColorChanged" />
-        <xctk:ColorPicker
-            x:Name="ColorPicker_Background"
-            Margin="11,131,657,251"
-            SelectedColorChanged="ColorPicker_background_SelectedColorChanged" />
-        <TextBlock
-            x:Name="TextBlock_Background"
-            Height="37"
-            Margin="140,131,0,0"
+            Header="Font">
+            <Canvas Margin="0">
+                <ComboBox
+                    x:Name="ComboBox_Font"
+                    Canvas.Left="10"
+                    Canvas.Top="10"
+                    Width="304"
+                    Height="40"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Top"
+                    FontSize="20"
+                    SelectionChanged="ComboBox_Font_SelectionChanged">
+                    <ComboBoxItem />
+                </ComboBox>
+                <TextBox
+                    x:Name="TextBox_FontSize"
+                    Canvas.Left="319"
+                    Canvas.Top="10"
+                    Width="75"
+                    Height="40"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Top"
+                    FontSize="20"
+                    PreviewTextInput="TextBox_FontSize_PreviewTextInput"
+                    Text="12"
+                    TextChanged="TextBox_FontSize_TextChanged"
+                    TextWrapping="Wrap" />
+                <CheckBox
+                    x:Name="CheckBox_Bold"
+                    Canvas.Left="10"
+                    Canvas.Top="55"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Top"
+                    Checked="CheckBox_Bold_Checked"
+                    Content="굵게"
+                    Unchecked="CheckBox_Bold_Unchecked" />
+                <CheckBox
+                    x:Name="CheckBox_Italic"
+                    Canvas.Left="59"
+                    Canvas.Top="55"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Top"
+                    Checked="CheckBox_Italic_Checked"
+                    Content="기울임"
+                    Unchecked="CheckBox_Italic_Unchecked" />
+                <CheckBox
+                    x:Name="CheckBox_UnderLine"
+                    Canvas.Left="120"
+                    Canvas.Top="55"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Top"
+                    Checked="CheckBox_UnderLine_Checked"
+                    Content="밑줄"
+                    Unchecked="CheckBox_UnderLine_Unchecked" />
+            </Canvas>
+        </GroupBox>
+        <GroupBox
+            Width="426"
+            Height="172"
+            Margin="10,157,0,0"
             HorizontalAlignment="Left"
             VerticalAlignment="Top"
-            FontSize="20"
-            RenderTransformOrigin="0.098,-0.068"
-            Text="TextBlock"
-            TextDecorations="{x:Null}"
-            TextWrapping="Wrap" />
-        <xctk:ColorPicker
-            x:Name="ColorPicker_OptionForeground"
-            Margin="11,173,657,205"
-            SelectedColorChanged="ColorPicker_OptionForeground_SelectedColorChanged" />
-        <CheckBox
-            x:Name="CheckBox_Bold"
-            Margin="523,10,0,0"
-            HorizontalAlignment="Left"
-            VerticalAlignment="Top"
-            Checked="CheckBox_Bold_Checked"
-            Content="굵게"
-            Unchecked="CheckBox_Bold_Unchecked" />
-        <CheckBox
-            x:Name="CheckBox_Italic"
-            Margin="572,10,0,0"
-            HorizontalAlignment="Left"
-            VerticalAlignment="Top"
-            Checked="CheckBox_Italic_Checked"
-            Content="기울임"
-            Unchecked="CheckBox_Italic_Unchecked" />
-        <CheckBox
-            x:Name="CheckBox_UnderLine"
-            Margin="633,10,0,0"
-            HorizontalAlignment="Left"
-            VerticalAlignment="Top"
-            Checked="CheckBox_UnderLine_Checked"
-            Content="밑줄"
-            Unchecked="CheckBox_UnderLine_Unchecked" />
+            Header="Color">
+            <Canvas Margin="0">
+                <xctk:ColorPicker
+                    x:Name="ColorPicker_Background"
+                    Canvas.Left="137"
+                    Canvas.Top="10"
+                    Width="124"
+                    Height="40"
+                    SelectedColorChanged="ColorPicker_background_SelectedColorChanged" />
+                <xctk:ColorPicker
+                    x:Name="ColorPicker_OptionForeground"
+                    Canvas.Left="137"
+                    Canvas.Top="55"
+                    Width="124"
+                    Height="40"
+                    SelectedColorChanged="ColorPicker_OptionForeground_SelectedColorChanged" />
+                <Label
+                    Canvas.Left="33"
+                    Canvas.Top="16"
+                    Content="Background" />
+                <xctk:ColorPicker
+                    x:Name="ColorPicker_MemoForeground"
+                    Canvas.Left="137"
+                    Canvas.Top="100"
+                    Width="124"
+                    Height="40"
+                    SelectedColorChanged="ColorPicker_Foreground_SelectedColorChanged" />
+                <Label
+                    Canvas.Left="33"
+                    Canvas.Top="62"
+                    Content="Option" />
+                <Label
+                    Canvas.Left="33"
+                    Canvas.Top="107"
+                    Content="Font" />
+            </Canvas>
+        </GroupBox>
     </Grid>
 </Window>
