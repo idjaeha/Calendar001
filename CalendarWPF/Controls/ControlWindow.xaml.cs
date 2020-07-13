@@ -135,9 +135,9 @@ namespace CalendarWPF.Controls
             ChangeFont(() =>
             {
                 // 비어있지 않다면 변경한다.
-                if (!(ComboBox_Font.Text == ""))
+                if (ComboBox_Font.SelectedValue != null)
                 {
-                    SettingManager.CurrentSetting.FontFamilyName = ComboBox_Font.Text;
+                    SettingManager.CurrentSetting.FontFamilyName = ((ComboBoxItem)ComboBox_Font.SelectedValue).Content.ToString();
                 }
             });
         }
