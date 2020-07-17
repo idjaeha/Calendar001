@@ -472,6 +472,11 @@ namespace CalendarWPF
             SettingManager.CurrentSetting.Left = this.Left;
         }
 
+        private void Button_Setting_Click(object sender, RoutedEventArgs e)
+        {
+            ShowSetting();
+        }
+
 
 
         // 해당 개발은 해야할 것들을 표기한 것이고, 순서는 의미가 없다.

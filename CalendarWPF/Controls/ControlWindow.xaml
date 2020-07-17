@@ -37,7 +37,7 @@
     <Grid>
         <Button
             x:Name="Button_Save"
-            Margin="657,336,32,36"
+            Margin="679,356,10,16"
             Click="Button_Save_Click"
             Content="Save" />
         <GroupBox
@@ -99,7 +99,8 @@
                     VerticalAlignment="Top"
                     Checked="CheckBox_UnderLine_Checked"
                     Content="밑줄"
-                    Unchecked="CheckBox_UnderLine_Unchecked" />
+                    Unchecked="CheckBox_UnderLine_Unchecked"
+                    Visibility="Hidden" />
             </Canvas>
         </GroupBox>
         <GroupBox
@@ -138,16 +139,27 @@
                 <Label
                     Canvas.Left="10"
                     Canvas.Top="61"
-                    Content="Option" />
+                    Content="Option Font" />
                 <Label
                     Canvas.Left="10"
                     Canvas.Top="106"
-                    Content="Font" />
+                    Content="Memo Font" />
             </Canvas>
         </GroupBox>
-        <GroupBox Header="ETC" HorizontalAlignment="Left" Height="100" Margin="10,334,0,0" VerticalAlignment="Top" Width="426">
+        <GroupBox
+            Width="426"
+            Height="100"
+            Margin="10,334,0,0"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Top"
+            Header="ETC">
             <Canvas Margin="0">
-                <CheckBox x:Name="CheckBox_StartProgram" Content="Regist StartProgram" Canvas.Left="10" Canvas.Top="10" Click="CheckBox_StartProgram_Click"/>
+                <CheckBox
+                    x:Name="CheckBox_StartProgram"
+                    Canvas.Left="10"
+                    Canvas.Top="10"
+                    Click="CheckBox_StartProgram_Click"
+                    Content="Regist StartProgram" />
             </Canvas>
         </GroupBox>
     </Grid>

@@ -13,15 +13,18 @@
     MinHeight="700"
     Background="#00FF0000"
     BorderBrush="#FFF3FF00"
+    Closed="Window_Main_Closed"
     Initialized="Window_Initialized"
     Loaded="Window_Loaded"
+    LocationChanged="Window_Main_LocationChanged"
     MouseLeftButtonDown="Window_MouseLeftDown"
     ResizeMode="NoResize"
     ShowInTaskbar="False"
+    SizeChanged="Window_Main_SizeChanged"
     Style="{DynamicResource CustomWindowStyle}"
     Visibility="Visible"
     WindowStyle="None"
-    mc:Ignorable="d" Closed="Window_Main_Closed" SizeChanged="Window_Main_SizeChanged" LocationChanged="Window_Main_LocationChanged">
+    mc:Ignorable="d">
     <Window.Resources>
         <System:String x:Key="Label_Month">Month</System:String>
         <System:String x:Key="TextBox_MonDay">월</System:String>
@@ -113,6 +116,15 @@
                     FontWeight="Bold"
                     Foreground="{DynamicResource OptionBrush}"
                     Initialized="Label_Month_Initialized" />
+                <Button
+                    x:Name="Button_Setting"
+                    Canvas.Left="{Binding ActualWidth, ConverterParameter=255, Converter={StaticResource MinusConvertor}, ElementName=Window_Main, Mode=OneWay}"
+                    Canvas.Top="10"
+                    Width="75"
+                    Background="{x:Null}"
+                    Click="Button_Setting_Click"
+                    Content="Setting"
+                    Foreground="{DynamicResource OptionBrush}" />
             </Canvas>
         </Canvas>
         <Canvas
