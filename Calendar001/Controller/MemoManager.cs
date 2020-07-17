@@ -7,7 +7,7 @@ using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CalendarWPF.Src
+namespace Calendar001.Src
 {
     /// <summary>
     /// 캘린더가 사용하는 메모들을 관리합니다.

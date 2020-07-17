@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace CalendarWPF.Properties {
+namespace Calendar001.Properties {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]

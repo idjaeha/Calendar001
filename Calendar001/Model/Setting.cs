@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 
-namespace CalendarWPF.Model
+namespace Calendar001.Model
 {
     [Serializable]
     public class Setting

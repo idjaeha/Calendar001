@@ -18,12 +18,12 @@ using System.Diagnostics.Tracing;
 using System.ComponentModel;
 using System.Threading;
 using System.Globalization;
-using CalendarWPF.Src;
-using CalendarWPF.Model;
-using CalendarWPF.Controls;
-using CalendarWPF.Controller;
+using Calendar001.Src;
+using Calendar001.Model;
+using Calendar001.Controls;
+using Calendar001.Controller;
 
-namespace CalendarWPF
+namespace Calendar001
 {
     /// <summary>
     /// MainWindow.xaml에 대한 상호 작용 논리

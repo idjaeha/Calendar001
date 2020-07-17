@@ -1,4 +1,4 @@
-﻿using CalendarWPF.Model;
+﻿using Calendar001.Model;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -10,7 +10,7 @@ using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CalendarWPF.Controller
+namespace Calendar001.Controller
 {
     /// <summary>
     /// Setting 값을 관리할 수 있다.

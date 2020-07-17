@@ -6,8 +6,8 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{41857F1E-8026-48C1-91E8-AA9E7A29160B}</ProjectGuid>
     <OutputType>WinExe</OutputType>
-    <RootNamespace>CalendarWPF</RootNamespace>
-    <AssemblyName>CalendarWPF</AssemblyName>
+    <RootNamespace>Calendar001</RootNamespace>
+    <AssemblyName>Calendar001</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>

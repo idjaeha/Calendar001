@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CalendarWPF.Model
+namespace Calendar001.Model
 {
     public class MenuItemWithID : System.Windows.Forms.MenuItem
     {

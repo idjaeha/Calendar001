@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CalendarWPF.Src
+namespace Calendar001.Src
 {
     [Serializable]
     public class Memo

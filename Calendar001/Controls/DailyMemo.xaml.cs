@@ -1,6 +1,6 @@
-﻿using CalendarWPF.Controller;
-using CalendarWPF.Model;
-using CalendarWPF.Src;
+﻿using Calendar001.Controller;
+using Calendar001.Model;
+using Calendar001.Src;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,7 +16,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace CalendarWPF
+namespace Calendar001
 {
     /// <summary>
     /// DailyMemo.xaml에 대한 상호 작용 논리

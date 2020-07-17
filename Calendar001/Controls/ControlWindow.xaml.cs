@@ -1,5 +1,5 @@
-﻿using CalendarWPF.Controller;
-using CalendarWPF.Model;
+﻿using Calendar001.Controller;
+using Calendar001.Model;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -18,7 +18,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using Microsoft.Win32;
 
-namespace CalendarWPF.Controls
+namespace Calendar001.Controls
 {
     /// <summary>
     /// ControlWindow.xaml에 대한 상호 작용 논리
