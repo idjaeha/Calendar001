@@ -50,6 +50,58 @@ namespace Calendar001
             SetAllSetting();
         }
 
+        internal void SetMemosFont()
+        {
+            foreach (DailyMemo item in dailyMemos)
+            {
+                item.SetMemoFont();
+            }
+        }
+
+        /// <summary>
+        /// 캘린더 내에 존재하는 지정된 요소들의 Background를 변경합니다.
+        /// </summary>
+        internal void SetBackground()
+        {
+            if (SettingManager.CurrentSetting.Background == null)
+            {
+                return;
+            }
+
+            this.Resources["BackgroundColor"] = ConvertHelper.CBrush.ConvertFromString(SettingManager.CurrentSetting.Background);
+            foreach (DailyMemo memo in dailyMemos)
+            {
+                memo.SetBackground(ConvertHelper.CBrush.ConvertFromString(SettingManager.CurrentSetting.Background) as Brush);
+            }
+        }
+
+        internal void SetMemoForeground()
+        {
+            if (SettingManager.CurrentSetting.MemoForeground == null)
+            {
+                return;
+            }
+
+            foreach (DailyMemo item in dailyMemos)
+            {
+                item.SetMemoForeground();
+            }
+        }
+
+        internal void SetOptionForeground()
+        {
+            if (SettingManager.CurrentSetting.OptionForeground == null)
+            {
+                return;
+            }
+
+            this.Resources["OptionBrush"] = ConvertHelper.CBrush.ConvertFromString(SettingManager.CurrentSetting.OptionForeground);
+            foreach (DailyMemo item in dailyMemos)
+            {
+                item.SetOptionForeground();
+            }
+        }
+
         #region Initialized
         private void InitData()
         {
@@ -89,7 +141,7 @@ namespace Calendar001
         {
             Label_Today.Content = $"{now.Year}. {now.Month}. {now.Day}";
         }
-        
+
         private void InitNotify()
         {
             menu = new System.Windows.Forms.ContextMenu();
@@ -97,7 +149,7 @@ namespace Calendar001
             notify.Icon = Properties.Resources.notifyIcon;
             notify.Visible = true;
             notify.ContextMenu = menu;
-            
+
             notify.DoubleClick += Notify_DoubleClick;
 
             AddMenuItem(0, "ProgramExit",
@@ -124,8 +176,18 @@ namespace Calendar001
                     ShowSetting();
                 });
         }
-
         #endregion
+
+        private void AddMenuItem(int index, string ID, EventHandler clickEvent)
+        {
+            MenuItemWithID item = new MenuItemWithID();
+            menuItems.Add(item);
+            menu.MenuItems.Add(item);
+            item.Index = index;
+            item.Text = FindResource(ID).ToString();
+            item.Click += clickEvent;
+            item.ID = ID;
+        }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
@@ -180,71 +242,6 @@ namespace Calendar001
             }
         }
 
-        internal void SetMemosFont()
-        {
-            foreach (DailyMemo item in dailyMemos)
-            {
-                item.SetMemoFont();
-            }
-        }
-
-        /// <summary>
-        /// 캘린더 내에 존재하는 지정된 요소들의 Background를 변경합니다.
-        /// </summary>
-        internal void SetBackground()
-        {
-            if(SettingManager.CurrentSetting.Background == null)
-            {
-                return;
-            }
-
-            this.Resources["BackgroundColor"] = ConvertHelper.CBrush.ConvertFromString(SettingManager.CurrentSetting.Background);
-            foreach(DailyMemo memo in dailyMemos)
-            {
-                memo.SetBackground(ConvertHelper.CBrush.ConvertFromString(SettingManager.CurrentSetting.Background) as Brush);
-            }
-        }
-
-        /// <summary>
-        /// drag 가능한 state에 따라 값을 조절해줍니다.
-        /// </summary>
-        /// <param name="click">클릭 당한 대상</param>
-        /// <param name="eClick">클릭에 대한 인자</param>
-        private void ControlDragging(object click, EventArgs eClick)
-        {
-            if(canDrag)
-            {
-                DisableDragging(click, eClick);
-            }
-            else
-            {
-                EnableDragging(click, eClick);
-            }
-        }
-
-        /// <summary>
-        /// 드래그를 금지합니다.
-        /// </summary>
-        /// <param name="click">클릭 당한 대상</param>
-        /// <param name="eClick">클릭 이벤트 발생 시에 생기는 인자</param>
-        private void DisableDragging(object click, EventArgs eClick)
-        {
-            canDrag = false;
-            this.BorderThickness = new Thickness(0);
-            this.Background.Opacity = 0;
-            this.ResizeMode = ResizeMode.NoResize;
-            ((System.Windows.Forms.MenuItem)click).Text = FindResource("Dragging").ToString();
-        }
-
-        private void EnableDragging(object click, EventArgs eClick)
-        {
-            canDrag = true;
-            this.BorderThickness = new Thickness(2);
-            this.Background.Opacity = 0.5;
-            this.ResizeMode = ResizeMode.CanResize;
-            ((System.Windows.Forms.MenuItem)click).Text = FindResource("noDragging").ToString();
-        }
-
         /// <summary>
         /// 프로그램을 종료합니다.
         /// </summary>
@@ -265,44 +262,6 @@ namespace Calendar001
             dlg.ShowDialog();
         }
 
-        internal void SetMemoForeground()
-        {
-            if (SettingManager.CurrentSetting.MemoForeground == null)
-            {
-                return;
-            }
-
-            foreach (DailyMemo item in dailyMemos)
-            {
-                item.SetMemoForeground();
-            }
-        }
-
-        internal void SetOptionForeground()
-        {
-            if (SettingManager.CurrentSetting.OptionForeground == null)
-            {
-                return;
-            }
-
-            this.Resources["OptionBrush"] = ConvertHelper.CBrush.ConvertFromString(SettingManager.CurrentSetting.OptionForeground);
-            foreach (DailyMemo item in dailyMemos)
-            {
-                item.SetOptionForeground();
-            }
-        }
-
-        private void AddMenuItem(int index, string ID, EventHandler clickEvent)
-        {
-            MenuItemWithID item = new MenuItemWithID();
-            menuItems.Add(item);
-            menu.MenuItems.Add(item);
-            item.Index = index;
-            item.Text = FindResource(ID).ToString();
-            item.Click += clickEvent;
-            item.ID = ID;
-        }
-
         private void ShowWindow()
         {
             // 윈도우를 보여줍니다.
@@ -313,7 +272,7 @@ namespace Calendar001
             this.Topmost = false;
         }
 
-        protected void HideProgram()
+        private void HideProgram()
         {
             // 윈도우를 숨겨줍니다.
             this.Hide();
@@ -392,7 +351,7 @@ namespace Calendar001
                 DailyMemo newDay = LoadDay(day, idx, memo);
 
                 // 해당 날짜가 오늘이면 하이라이팅한다.
-                if(now.Day == day && now.Month == month && now.Year == year)
+                if (now.Day == day && now.Month == month && now.Year == year)
                 {
                     newDay.ShowBorder();
                 }
@@ -409,7 +368,48 @@ namespace Calendar001
             }
             dailyMemos.Clear();
         }
-        
+
+        #region EventHandler
+        /// <summary>
+        /// drag 가능한 state에 따라 값을 조절해줍니다.
+        /// </summary>
+        /// <param name="click">클릭 당한 대상</param>
+        /// <param name="eClick">클릭에 대한 인자</param>
+        private void ControlDragging(object click, EventArgs eClick)
+        {
+            if (canDrag)
+            {
+                DisableDragging(click, eClick);
+            }
+            else
+            {
+                EnableDragging(click, eClick);
+            }
+        }
+
+        /// <summary>
+        /// 드래그를 금지합니다.
+        /// </summary>
+        /// <param name="click">클릭 당한 대상</param>
+        /// <param name="eClick">클릭 이벤트 발생 시에 생기는 인자</param>
+        private void DisableDragging(object click, EventArgs eClick)
+        {
+            canDrag = false;
+            this.BorderThickness = new Thickness(0);
+            this.Background.Opacity = 0;
+            this.ResizeMode = ResizeMode.NoResize;
+            ((System.Windows.Forms.MenuItem)click).Text = FindResource("Dragging").ToString();
+        }
+
+        private void EnableDragging(object click, EventArgs eClick)
+        {
+            canDrag = true;
+            this.BorderThickness = new Thickness(2);
+            this.Background.Opacity = 0.5;
+            this.ResizeMode = ResizeMode.CanResize;
+            ((System.Windows.Forms.MenuItem)click).Text = FindResource("noDragging").ToString();
+        }
+
         private void Notify_DoubleClick(object sender, EventArgs e)
         {
             // Notify를 더블 클릭했을 경우 발동되는 이벤트
@@ -476,15 +476,11 @@ namespace Calendar001
         {
             ShowSetting();
         }
-
+        #endregion
 
 
         // 해당 개발은 해야할 것들을 표기한 것이고, 순서는 의미가 없다.
         // 개발 1 : 달력의 Topmost 설정을 따로 주고, 배경화면에 얹어있는 식으로 표현하는 것을 구현
-        // 개발 2 : 해당 날짜 표기
-
-        // Detail Develop
-        // TODO : 메모 편집 중 다른 곳을 눌렀을 때 저장이 되는 기능
 
     }
 
