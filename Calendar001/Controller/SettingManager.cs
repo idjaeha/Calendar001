@@ -73,6 +73,7 @@ namespace Calendar001.Controller
             }
             catch (SerializationException e)
             {
+                Console.WriteLine(e);
                 currentSetting = CurrentSetting;
             }
             readStream.Close();

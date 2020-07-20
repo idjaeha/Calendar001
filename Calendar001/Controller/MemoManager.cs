@@ -129,6 +129,7 @@ namespace Calendar001.Src
             }
             catch (SerializationException e)
             {
+                Console.WriteLine(e);
                 memos = new Dictionary<DateTime, Memo>();
             }
             readStream.Close();

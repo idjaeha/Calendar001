@@ -26,14 +26,12 @@ using Calendar001.Controller;
 namespace Calendar001
 {
     /// <summary>
-    /// MainWindow.xaml에 대한 상호 작용 논리
+    /// Calendar001 프로그램의 Main 창을 관리합니다.
     /// </summary>
     public partial class MainWindow : Window
     {
-        private NotifyIcon notify;
-        private System.Windows.Forms.ContextMenu menu;
+        private NotifyMenu notify;
         private bool canDrag;
-        private List<MenuItemWithID> menuItems; // 사용되고 있는 menuItem을 저장한 배열
         private List<DailyMemo> dailyMemos; // 현재 보여지고 있는 DailyMemo를 저장한 배열
         private DateTime now;
         private int selectedYear; // 현재 선택된 년
@@ -113,7 +111,7 @@ namespace Calendar001
             selectedMonth = now.Month;
             selectedYear = now.Year;
 
-            menuItems = new List<MenuItemWithID>();
+            notify = new NotifyMenu(this);
             dailyMemos = new List<DailyMemo>();
 
             MemoManager.Instance.LoadDataFromFile();
@@ -142,57 +140,8 @@ namespace Calendar001
             Label_Today.Content = $"{now.Year}. {now.Month}. {now.Day}";
         }
 
-        private void InitNotify()
-        {
-            menu = new System.Windows.Forms.ContextMenu();
-            notify = new NotifyIcon();
-            notify.Icon = Properties.Resources.notifyIcon;
-            notify.Visible = true;
-            notify.ContextMenu = menu;
 
-            notify.DoubleClick += Notify_DoubleClick;
-
-            AddMenuItem(0, "ProgramExit",
-                (object click, EventArgs eClick) =>
-                {
-                    QuitProgram();
-                });
-
-            AddMenuItem(0, "ProgramHiding",
-                (object click, EventArgs eClick) =>
-                {
-                    HideProgram();
-                });
-
-            AddMenuItem(0, "Dragging",
-                (object click, EventArgs eClick) =>
-                {
-                    ControlDragging(click, eClick);
-                });
-
-            AddMenuItem(0, "Setting",
-                (object click, EventArgs eClick) =>
-                {
-                    ShowSetting();
-                });
-        }
         #endregion
-
-        private void AddMenuItem(int index, string ID, EventHandler clickEvent)
-        {
-            MenuItemWithID item = new MenuItemWithID();
-            menuItems.Add(item);
-            menu.MenuItems.Add(item);
-            item.Index = index;
-            item.Text = FindResource(ID).ToString();
-            item.Click += clickEvent;
-            item.ID = ID;
-        }
-
-        private void Window_Loaded(object sender, RoutedEventArgs e)
-        {
-            InitNotify();
-        }
 
         /// <summary>
         /// Setting 값을 토대로 모든 값을 설정합니다.
@@ -242,19 +191,13 @@ namespace Calendar001
             }
         }
 
-        /// <summary>
-        /// 프로그램을 종료합니다.
-        /// </summary>
-        private void QuitProgram()
+        public void QuitProgram()
         {
-            notify.Dispose();
+            notify.Notify.Dispose();
             System.Windows.Application.Current.Shutdown();
         }
 
-        /// <summary>
-        /// Setting 윈도우를 보여줍니다.
-        /// </summary>
-        private void ShowSetting()
+        public void ShowSetting()
         {
             ControlWindow dlg = new ControlWindow(this);
             dlg.Owner = this;
@@ -262,7 +205,7 @@ namespace Calendar001
             dlg.ShowDialog();
         }
 
-        private void ShowWindow()
+        public void ShowWindow()
         {
             // 윈도우를 보여줍니다.
             this.Show();
@@ -272,7 +215,7 @@ namespace Calendar001
             this.Topmost = false;
         }
 
-        private void HideProgram()
+        public void HideProgram()
         {
             // 윈도우를 숨겨줍니다.
             this.Hide();
@@ -375,7 +318,7 @@ namespace Calendar001
         /// </summary>
         /// <param name="click">클릭 당한 대상</param>
         /// <param name="eClick">클릭에 대한 인자</param>
-        private void ControlDragging(object click, EventArgs eClick)
+        public void ControlDragging(object click, EventArgs eClick)
         {
             if (canDrag)
             {
@@ -408,12 +351,6 @@ namespace Calendar001
             this.Background.Opacity = 0.5;
             this.ResizeMode = ResizeMode.CanResize;
             ((System.Windows.Forms.MenuItem)click).Text = FindResource("noDragging").ToString();
-        }
-
-        private void Notify_DoubleClick(object sender, EventArgs e)
-        {
-            // Notify를 더블 클릭했을 경우 발동되는 이벤트
-            ShowWindow();
         }
 
         private void Window_MouseLeftDown(object sender, MouseButtonEventArgs e)
