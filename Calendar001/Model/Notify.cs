@@ -9,26 +9,26 @@ namespace Calendar001.Model
 {
     class NotifyMenu
     {
-        private System.Windows.Forms.ContextMenu notify;
+        private ContextMenu notify;
         private MainWindow mainWindow;
         private NotifyIcon notifyIcon;
-        private List<MenuItemWithID> notifyItems; // 사용되고 있는 menuItem을 저장한 배열
+        private Dictionary<string, MenuItemWithID> notifyItems; // 사용되고 있는 menuItem을 저장한 배열
 
         public NotifyMenu(MainWindow mainWindow)
         {
             this.mainWindow = mainWindow;
-            notifyItems = new List<MenuItemWithID>();
-            notify = new System.Windows.Forms.ContextMenu();
+            notifyItems = new Dictionary<string, MenuItemWithID>();
+            notify = new ContextMenu();
             InitNotify();
         }
 
-        public System.Windows.Forms.ContextMenu Notify{ get { return notify; } }
+        public ContextMenu Notify { get { return notify; } }
 
         private void InitNotify()
         {
             if (notify == null)
             {
-                notify = new System.Windows.Forms.ContextMenu();
+                notify = new ContextMenu();
             }
             notifyIcon = new NotifyIcon();
             notifyIcon.Icon = Properties.Resources.notifyIcon;
@@ -66,7 +66,7 @@ namespace Calendar001.Model
         private void AddMenuItem(int index, string ID, EventHandler clickEvent)
         {
             MenuItemWithID item = new MenuItemWithID();
-            notifyItems.Add(item);
+            notifyItems.Add(ID, item);
             notify.MenuItems.Add(item);
             item.Index = index;
             item.Text = mainWindow.FindResource(ID).ToString();
@@ -78,6 +78,19 @@ namespace Calendar001.Model
         {
             // Notify를 더블 클릭했을 경우 발동되는 이벤트
             mainWindow.ShowWindow();
+        }
+
+        public void ChangeDraggingText(bool canDrag)
+        {
+            if (canDrag)
+            {
+                notifyItems["Dragging"].Text = mainWindow.FindResource("noDragging").ToString();
+            }
+            else
+            {
+                notifyItems["Dragging"].Text = mainWindow.FindResource("Dragging").ToString();
+            }
+
         }
     }
 

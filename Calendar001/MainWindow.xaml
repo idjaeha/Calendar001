@@ -15,7 +15,6 @@
     BorderBrush="#FFF3FF00"
     Closed="Window_Main_Closed"
     Initialized="Window_Initialized"
-    Loaded="Window_Loaded"
     LocationChanged="Window_Main_LocationChanged"
     MouseLeftButtonDown="Window_MouseLeftDown"
     ResizeMode="NoResize"
@@ -125,6 +124,7 @@
                     Click="Button_Setting_Click"
                     Content="Setting"
                     Foreground="{DynamicResource OptionBrush}" />
+                <Button x:Name="Button_Drag" Content="Drag" Canvas.Left="{Binding ActualWidth, ConverterParameter=335, Converter={StaticResource MinusConvertor}, ElementName=Window_Main, Mode=OneWay}" Canvas.Top="10" Width="75" Background="{x:Null}" Foreground="{DynamicResource OptionBrush}" Click="Button_Drag_Click"/>
             </Canvas>
         </Canvas>
         <Canvas

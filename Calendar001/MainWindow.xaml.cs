@@ -37,8 +37,8 @@ namespace Calendar001
         private int selectedYear; // 현재 선택된 년
         private int selectedMonth; // 현재 선택된 월
         private static readonly int[] numberOfDays = new int[13] { 0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };
-        private static readonly int DAY_SPAN = 1;
-        private static readonly int DAY_WEEK = 7;
+        private const int DAY_SPAN = 1;
+        private const int DAY_WEEK = 7;
 
         public MainWindow()
         {
@@ -191,13 +191,13 @@ namespace Calendar001
             }
         }
 
-        public void QuitProgram()
+        internal void QuitProgram()
         {
             notify.Notify.Dispose();
             System.Windows.Application.Current.Shutdown();
         }
 
-        public void ShowSetting()
+        internal void ShowSetting()
         {
             ControlWindow dlg = new ControlWindow(this);
             dlg.Owner = this;
@@ -205,7 +205,7 @@ namespace Calendar001
             dlg.ShowDialog();
         }
 
-        public void ShowWindow()
+        internal void ShowWindow()
         {
             // 윈도우를 보여줍니다.
             this.Show();
@@ -215,7 +215,7 @@ namespace Calendar001
             this.Topmost = false;
         }
 
-        public void HideProgram()
+        internal void HideProgram()
         {
             // 윈도우를 숨겨줍니다.
             this.Hide();
@@ -312,6 +312,26 @@ namespace Calendar001
             dailyMemos.Clear();
         }
 
+        private void MoveMonth(int idx)
+        {
+            selectedMonth += idx;
+            if (selectedMonth > 12)
+            {
+                selectedYear++;
+                selectedMonth = 1;
+            }
+            if (selectedMonth < 1)
+            {
+                selectedYear--;
+                selectedMonth = 12;
+            }
+            Label_Year.Content = $"{selectedYear}";
+            Label_Month.Content = $"{selectedMonth}";
+            CleanCalendar();
+            LoadMonth(selectedYear, selectedMonth);
+            SetAllSetting();
+        }
+
         #region EventHandler
         /// <summary>
         /// drag 가능한 state에 따라 값을 조절해줍니다.
@@ -328,6 +348,7 @@ namespace Calendar001
             {
                 EnableDragging(click, eClick);
             }
+            notify.ChangeDraggingText(canDrag);
         }
 
         /// <summary>
@@ -341,7 +362,6 @@ namespace Calendar001
             this.BorderThickness = new Thickness(0);
             this.Background.Opacity = 0;
             this.ResizeMode = ResizeMode.NoResize;
-            ((System.Windows.Forms.MenuItem)click).Text = FindResource("Dragging").ToString();
         }
 
         private void EnableDragging(object click, EventArgs eClick)
@@ -350,7 +370,6 @@ namespace Calendar001
             this.BorderThickness = new Thickness(2);
             this.Background.Opacity = 0.5;
             this.ResizeMode = ResizeMode.CanResize;
-            ((System.Windows.Forms.MenuItem)click).Text = FindResource("noDragging").ToString();
         }
 
         private void Window_MouseLeftDown(object sender, MouseButtonEventArgs e)
@@ -364,32 +383,12 @@ namespace Calendar001
 
         private void Button_ClickPrevMonth(object sender, RoutedEventArgs e)
         {
-            selectedMonth--;
-            if (selectedMonth < 1)
-            {
-                selectedYear--;
-                selectedMonth = 12;
-            }
-            Label_Year.Content = $"{selectedYear}";
-            Label_Month.Content = $"{selectedMonth}";
-            CleanCalendar();
-            LoadMonth(selectedYear, selectedMonth);
-            SetAllSetting();
+            MoveMonth(-1);
         }
 
         private void Button_ClickNextMonth(object sender, RoutedEventArgs e)
         {
-            selectedMonth++;
-            if (selectedMonth > 12)
-            {
-                selectedYear++;
-                selectedMonth = 1;
-            }
-            Label_Year.Content = $"{selectedYear}";
-            Label_Month.Content = $"{selectedMonth}";
-            CleanCalendar();
-            LoadMonth(selectedYear, selectedMonth);
-            SetAllSetting();
+            MoveMonth(1);
         }
 
         private void Window_Main_Closed(object sender, EventArgs e)
@@ -412,6 +411,11 @@ namespace Calendar001
         private void Button_Setting_Click(object sender, RoutedEventArgs e)
         {
             ShowSetting();
+        }
+
+        private void Button_Drag_Click(object sender, RoutedEventArgs e)
+        {
+            ControlDragging(sender, e);
         }
         #endregion
 
