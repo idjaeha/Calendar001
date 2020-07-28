@@ -62,7 +62,6 @@ namespace Calendar001.Model
                 });
         }
 
-
         private void AddMenuItem(int index, string ID, EventHandler clickEvent)
         {
             MenuItemWithID item = new MenuItemWithID();

@@ -110,6 +110,8 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Controller\ConvertHelper.cs" />
+    <Compile Include="Controller\CultureManager.cs" />
+    <Compile Include="Controller\LoadMemoManager.cs" />
     <Compile Include="Controller\MinusConvertor.cs" />
     <Compile Include="Controller\SettingManager.cs" />
     <Compile Include="Controls\ControlWindow.xaml.cs">

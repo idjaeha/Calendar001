@@ -25,9 +25,11 @@ namespace Calendar001.Model
         [NonSerialized]
         private TextDecorationCollection textDecorations;
 
-        public string FontFamilyName { get
+        public string FontFamilyName
+        {
+            get
             {
-                if(fontFamilyName == null)
+                if (fontFamilyName == null)
                 {
                     fontFamilyName = System.Drawing.SystemFonts.DefaultFont.Name;
                 }
@@ -39,9 +41,11 @@ namespace Calendar001.Model
                 fontFamilyName = value;
             }
         }
-        public string FontSize { get
+        public string FontSize
+        {
+            get
             {
-                if(fontSize == null)
+                if (fontSize == null)
                 {
                     fontSize = "15";
                 }
@@ -52,12 +56,11 @@ namespace Calendar001.Model
                 fontSize = value;
             }
         }
-        
         public string FontStyle
-        { 
+        {
             get
             {
-                if(fontStyle == null)
+                if (fontStyle == null)
                 {
                     fontStyle = System.Windows.FontStyles.Normal.ToString();
                 }
@@ -67,7 +70,7 @@ namespace Calendar001.Model
             {
                 fontStyle = value;
             }
-            }
+        }
         public string FontWeight
         {
             get
@@ -83,7 +86,6 @@ namespace Calendar001.Model
                 fontWeight = value;
             }
         }
-
         public string Background
         {
             get
@@ -129,7 +131,6 @@ namespace Calendar001.Model
                 optionForeGround = value;
             }
         }
-
         public TextDecorationCollection GetTextDecorations()
         {
             return textDecorations;
@@ -138,7 +139,6 @@ namespace Calendar001.Model
         {
             this.textDecorations = textDecorations;
         }
-
         public double Width
         {
             get
@@ -161,7 +161,6 @@ namespace Calendar001.Model
                 height = value;
             }
         }
-
         public double Top
         {
             get
@@ -173,7 +172,6 @@ namespace Calendar001.Model
                 top = value;
             }
         }
-
         public double Left
         {
             get

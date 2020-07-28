@@ -31,12 +31,13 @@ namespace Calendar001
     public partial class MainWindow : Window
     {
         private NotifyMenu notify;
-        private bool canDrag;
         private List<DailyMemo> dailyMemos; // 현재 보여지고 있는 DailyMemo를 저장한 배열
         private DateTime now;
+        private CultureManager cultureManager;
+        private LoadMemoManager loadMemoManager;
+        private bool canDrag;
         private int selectedYear; // 현재 선택된 년
         private int selectedMonth; // 현재 선택된 월
-        private static readonly int[] numberOfDays = new int[13] { 0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };
         private const int DAY_SPAN = 1;
         private const int DAY_WEEK = 7;
 
@@ -44,7 +45,7 @@ namespace Calendar001
         {
             InitData();
             InitializeComponent();
-            LoadMonth(selectedYear, selectedMonth);
+            DrawDays();
             SetAllSetting();
         }
 
@@ -103,7 +104,8 @@ namespace Calendar001
         #region Initialized
         private void InitData()
         {
-            SelectCulture("ko-KR");
+            cultureManager = new CultureManager();
+            cultureManager.SelectCulture("ko-KR");
             canDrag = false;
 
             now = DateTime.Now;
@@ -113,9 +115,10 @@ namespace Calendar001
 
             notify = new NotifyMenu(this);
             dailyMemos = new List<DailyMemo>();
+            loadMemoManager = new LoadMemoManager();
 
             MemoManager.Instance.LoadDataFromFile();
-            SettingManager.LoadCurrentSetting();
+            SettingManager.LoadCurrentSetting();            
         }
 
         private void Window_Initialized(object sender, EventArgs e)
@@ -221,87 +224,6 @@ namespace Calendar001
             this.Hide();
         }
 
-        private void SelectCulture(string culture)
-        {
-            List<ResourceDictionary> dictionaryList = new List<ResourceDictionary>();
-            foreach (ResourceDictionary dictionary in System.Windows.Application.Current.Resources.MergedDictionaries)
-            {
-                dictionaryList.Add(dictionary);
-            }
-            string requestedCulture = string.Format("/Resources/StringResources.{0}.xaml", culture);
-            ResourceDictionary resourceDictionary = dictionaryList.FirstOrDefault(
-                d => d.Source.OriginalString == requestedCulture);
-
-            if (resourceDictionary == null)
-            {
-                requestedCulture = "/Resources/StringResources.ko-kr.xaml";
-                resourceDictionary = dictionaryList.FirstOrDefault(
-                    d => d.Source.OriginalString == requestedCulture);
-            }
-            else
-            {
-                System.Windows.Application.Current.Resources.MergedDictionaries.Remove(resourceDictionary);
-                System.Windows.Application.Current.Resources.MergedDictionaries.Add(resourceDictionary);
-            }
-
-            //지역화 설정
-            Thread.CurrentThread.CurrentCulture = CultureInfo.CreateSpecificCulture(culture);
-            Thread.CurrentThread.CurrentUICulture = new CultureInfo(culture);
-        }
-
-        /// <summary>
-        /// 해당하는 날짜를 불러옵니다.
-        /// </summary>
-        /// <param name="day"></param>
-        /// <param name="index"></param>
-        /// <param name="memo"></param>
-        private DailyMemo LoadDay(int day, int index, string memo)
-        {
-            DailyMemo newDaysItem = new DailyMemo(this, selectedYear, selectedMonth, day);
-            newDaysItem.SetMemo(memo);
-            newDaysItem.SetMemoFont();
-            dailyMemos.Add(newDaysItem);
-            Grid.SetColumnSpan(newDaysItem, DAY_SPAN);
-            Grid.SetRow(newDaysItem, index / DAY_WEEK);
-            Grid.SetColumn(newDaysItem, index % DAY_WEEK);
-            Calendar_Days.Children.Add(newDaysItem);
-
-            return newDaysItem;
-        }
-        /// <summary>
-        /// 인자로 받은 년, 월에 맞게 달을 불러옵니다.
-        /// </summary>
-        /// <param name="year">the year you want to load</param>
-        /// <param name="month">the month you want to load</param>
-        private void LoadMonth(int year, int month)
-        {
-            DateTime firstDayOfMonth = new DateTime(year, month, 1);
-            int idx = (int)firstDayOfMonth.DayOfWeek;
-            int countDays = numberOfDays[month];
-            Dictionary<DateTime, Memo> loadedMemos = MemoManager.Instance.GetMemos(year, month);
-
-            // 2월의 경우, 윤년이면 1을 더해줍니다.
-            countDays += month == 2 && year % 4 == 0 ? 1 : 0;
-
-            for (int day = 1; day <= countDays; day++)
-            {
-                string memo = "";
-                DateTime currentDate = new DateTime(year, month, day);
-                if (loadedMemos.ContainsKey(currentDate))
-                {
-                    memo = loadedMemos[currentDate].Content.ToString();
-                }
-                DailyMemo newDay = LoadDay(day, idx, memo);
-
-                // 해당 날짜가 오늘이면 하이라이팅한다.
-                if (now.Day == day && now.Month == month && now.Year == year)
-                {
-                    newDay.ShowBorder();
-                }
-                idx++;
-            }
-        }
-
         private void CleanCalendar()
         {
             // Calendar에 존재하는 날짜 관련 컨트롤을 삭제합니다.
@@ -328,8 +250,26 @@ namespace Calendar001
             Label_Year.Content = $"{selectedYear}";
             Label_Month.Content = $"{selectedMonth}";
             CleanCalendar();
-            LoadMonth(selectedYear, selectedMonth);
+            // DEL : LoadMonth(selectedYear, selectedMonth);
+            DrawDays();
             SetAllSetting();
+        }
+
+        // 메모를 불러와 배열에 저장하여 그립니다.
+        private void DrawDays()
+        {
+            DateTime firstDayOfMonth = new DateTime(selectedYear, selectedMonth, 1);
+            int idx = (int)firstDayOfMonth.DayOfWeek;
+
+            dailyMemos = loadMemoManager.LoadMonth(new DateTime(selectedYear, selectedMonth, 1));
+            for (int day = 0; day < dailyMemos.Count; day++)
+            {
+                Grid.SetColumnSpan(dailyMemos[day], DAY_SPAN);
+                Grid.SetRow(dailyMemos[day], idx / DAY_WEEK);
+                Grid.SetColumn(dailyMemos[day], idx % DAY_WEEK);
+                Calendar_Days.Children.Add(dailyMemos[day]);
+                idx++;
+            }
         }
 
         #region EventHandler

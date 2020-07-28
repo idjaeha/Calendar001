@@ -25,7 +25,6 @@ namespace Calendar001
     {
         private DateTime date;
         private string memo;
-        private MainWindow mainWindow;
         private void doubleClick()
         {
             TextBox_EditText.Text = memo;
@@ -73,11 +72,10 @@ namespace Calendar001
             ChangeShowMode();
         }
 
-        public DailyMemo(MainWindow mainWindow, int year, int month, int day) : this()
+        public DailyMemo(int year, int month, int day) : this()
         {
             date = new DateTime(year, month, day);
             TextBlock_Day.Text = day.ToString();
-            this.mainWindow = mainWindow;
         }
 
         public void SetMemo(string text)
